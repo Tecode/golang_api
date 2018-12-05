@@ -115,4 +115,13 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["beeapi/controllers:UserController"] = append(beego.GlobalControllerRouter["beeapi/controllers:UserController"],
+        beego.ControllerComments{
+            Method: "ValidToken",
+            Router: `/valid_token`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
 }

@@ -240,6 +240,29 @@
                 }
             }
         },
+        "/user/valid_token": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "description": "验证token",
+                "operationId": "UserController.valid token",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "The token is required",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{struct} {\"name\":\"admin\",\"id\":\"125\"}"
+                    }
+                }
+            }
+        },
         "/user/{uid}": {
             "get": {
                 "tags": [

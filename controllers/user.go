@@ -3,9 +3,9 @@ package controllers
 import (
 	"beeapi/models"
 	"encoding/json"
+	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/gbrlsnchs/jwt"
-	"log"
+	"github.com/dgrijalva/jwt-go"
 	"time"
 )
 
@@ -92,6 +92,12 @@ func (u *UserController) Delete() {
 	u.ServeJSON()
 }
 
+// jwt
+type MyCustomClaims struct {
+	Foo string `json:"foo"`
+	jwt.StandardClaims
+}
+
 // @Title Login
 // @Description Logs user into the system
 // @Param	username		query 	string	true		"The username for login"
@@ -101,36 +107,29 @@ func (u *UserController) Delete() {
 // @router /login [get]
 func (u *UserController) Login() {
 // create json web token
-	now :=time.Now()
-	hs256 := jwt.NewHS256("secret")
-	jot := &jwt.JWT{
-		Issuer:         "gbrlsnchs",
-		Subject:        "someone",
-		Audience:       "gophers",
-		ExpirationTime: now.Add(24 * 30 * 12 * time.Hour).Unix(),
-		NotBefore:      now.Add(30 * time.Minute).Unix(),
-		IssuedAt:       now.Unix(),
-		ID:             "10023",
+	mySigningKey := []byte("7e6c8b94a77412")
+	//now := time.Now()
+	// Create the Claims
+	claims := MyCustomClaims{
+		"admin",
+		jwt.StandardClaims{
+			ExpiresAt:  time.Now().Add(time.Minute * 15).Unix(),
+			Id:        "100030",
+			//IssuedAt:  now.Unix(),
+			Issuer:    "bandzest-auth",
+			//NotBefore: now.Add(30 * time.Minute).Unix(),
+			Subject:   "someone",
+		},
 	}
-	jot.SetAlgorithm(hs256)
-	jot.SetKeyID("kid")
-	payload, err := jwt.Marshal(jot)
-	if err != nil {
-		// handle error
-		log.Printf("token = %s", "jwt.Marshal出错")
-	}
-	token, err := hs256.Sign(payload)
-	if err != nil {
-		// handle error
-		log.Printf("token = %s", "hs256.Sign出错，签名出错")
-	}
-	log.Printf("token = %s", token)
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, _ := token.SignedString(mySigningKey)
 
 	username := u.GetString("username")
 	password := u.GetString("password")
 	//fmt.Println(username, password)
 	if models.Login(username, password) {
-		u.Data["json"] = "login success"
+		u.Data["json"] = tokenString
 	} else {
 		u.Data["json"] = "user not exist"
 	}
@@ -146,3 +145,36 @@ func (u *UserController) Logout() {
 	u.ServeJSON()
 }
 
+// @Title valid token
+// @Description 验证token
+// @Param	token		header 	string	true		"The token is required"
+// @Success 200 {struct} {"name":"admin","id":"125"}
+// @router /valid_token [get]
+func (u *UserController) ValidToken() {
+	token := u.Ctx.Request.Header["Token"]
+	if len(token) == 0 {
+		u.Data["json"] = "token不存在"
+		u.Ctx.Output.SetStatus(404)
+		u.ServeJSON()
+	} else {
+		mySigningKey := []byte("7e6c8b94a77412")
+		// Verifying and validating a JWT
+		token, err := jwt.Parse(token[0], func(token *jwt.Token) (interface{}, error) {
+			// Don't forget to validate the alg is what you expect:
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+			}
+			// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
+			return mySigningKey, nil
+		})
+
+		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+			fmt.Println(claims["foo"])
+		} else {
+			fmt.Println(err, "---")
+		}
+		u.Data["json"] = map[string]string{"name": "admin", "id": "125"}
+		u.Ctx.Output.SetStatus(200)
+		u.ServeJSON()
+	}
+}

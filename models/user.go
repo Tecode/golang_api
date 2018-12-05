@@ -12,7 +12,7 @@ var (
 
 func init() {
 	UserList = make(map[string]*User)
-	u := User{"user_11111", "astaxie", "11111", Profile{"male", 20, "Singapore", "astaxie@gmail.com"}}
+	u := User{"10001", "admin", "admin", Profile{"male", 20, "Singapore", "astaxie@gmail.com"}}
 	UserList["user_11111"] = &u
 }
 
