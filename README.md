@@ -20,7 +20,7 @@ bee run -downdoc=true -gendoc=true
 
 ## Error
 
-> Change file name 'golan_api' to 'beeapi'.
+> Change file name 'golang_api' to 'beeapi'.
 
 ```bash
 main.go:4:2: cannot find package "beeapi/routers" in any of:
