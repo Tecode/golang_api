@@ -113,7 +113,7 @@ func (u *UserController) Login() {
 	claims := MyCustomClaims{
 		"admin",
 		jwt.StandardClaims{
-			ExpiresAt:  time.Now().Add(time.Minute * 15).Unix(),
+			ExpiresAt:  time.Now().Add(time.Minute * 1).Unix(),
 			Id:        "100030",
 			//IssuedAt:  now.Unix(),
 			Issuer:    "bandzest-auth",
