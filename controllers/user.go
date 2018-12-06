@@ -3,9 +3,7 @@ package controllers
 import (
 	"beeapi/models"
 	"encoding/json"
-	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/dgrijalva/jwt-go"
 )
 
 // Operations about Users
@@ -133,22 +131,7 @@ func (u *UserController) ValidToken() {
 		u.Ctx.Output.SetStatus(404)
 		u.ServeJSON()
 	} else {
-		mySigningKey := []byte("7e6c8b94a77412")
-		// Verifying and validating a JWT
-		token, err := jwt.Parse(token[0], func(token *jwt.Token) (interface{}, error) {
-			// Don't forget to validate the alg is what you expect:
-			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
-			}
-			// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
-			return mySigningKey, nil
-		})
 
-		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			fmt.Println(claims["foo"])
-		} else {
-			fmt.Println(err, "---")
-		}
 		u.Data["json"] = map[string]string{"name": "admin", "id": "125"}
 		u.Ctx.Output.SetStatus(200)
 		u.ServeJSON()

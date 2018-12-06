@@ -35,7 +35,8 @@ var TokenValid = func(ctx *context.Context) {
 			})
 
 			if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-				fmt.Println(claims["foo"], "认证成功")
+				fmt.Println(claims, "认证成功")
+				//tokenString := CreateToken(string(claims["name"]), claims["id"])
 				ctx.Output.Cookie("token", "newCookies")
 			} else {
 				ctx.Output.SetStatus(400)
