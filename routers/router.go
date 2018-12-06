@@ -27,4 +27,5 @@ func init() {
 		),
 	)
 	beego.AddNamespace(ns)
+	beego.InsertFilter("*/", beego.BeforeRouter, controllers.TokenValid)
 }
