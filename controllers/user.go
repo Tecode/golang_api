@@ -139,6 +139,7 @@ func (u *UserController) UserInfo() {
 		u.ServeJSON()
 	} else {
 		fmt.Println(name, id)
+		// 不能返回json格式数据
 		u.Data["json"] = map[string]UserInfo{"data":{name:name,id:id}}
 		u.Ctx.Output.SetStatus(200)
 		u.ServeJSON()
