@@ -24,6 +24,6 @@ bee run -downdoc=true -gendoc=true
 
 ```bash
 main.go:4:2: cannot find package "beeapi/routers" in any of:
-	/usr/local/go/src/beeapi/routers (from $GOROOT)
-	/Users/ming/go/src/beeapi/routers (from $GOPATH)
+/usr/local/go/src/beeapi/routers (from $GOROOT)
+/Users/ming/go/src/beeapi/routers (from $GOPATH)
 ```
