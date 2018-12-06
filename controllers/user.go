@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/dgrijalva/jwt-go"
-	"time"
 )
 
 // Operations about Users
@@ -92,11 +91,6 @@ func (u *UserController) Delete() {
 	u.ServeJSON()
 }
 
-// jwt
-type MyCustomClaims struct {
-	Foo string `json:"foo"`
-	jwt.StandardClaims
-}
 
 // @Title Login
 // @Description Logs user into the system
@@ -106,27 +100,9 @@ type MyCustomClaims struct {
 // @Failure 403 user not exist
 // @router /login [get]
 func (u *UserController) Login() {
-// create json web token
-	mySigningKey := []byte("7e6c8b94a77412")
-	//now := time.Now()
-	// Create the Claims
-	claims := MyCustomClaims{
-		"admin",
-		jwt.StandardClaims{
-			ExpiresAt:  time.Now().Add(time.Minute * 1).Unix(),
-			Id:        "100030",
-			//IssuedAt:  now.Unix(),
-			Issuer:    "bandzest-auth",
-			//NotBefore: now.Add(30 * time.Minute).Unix(),
-			Subject:   "someone",
-		},
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, _ := token.SignedString(mySigningKey)
-
 	username := u.GetString("username")
 	password := u.GetString("password")
+	tokenString := CreateToken("admin", 122)
 	//fmt.Println(username, password)
 	if models.Login(username, password) {
 		u.Data["json"] = tokenString
