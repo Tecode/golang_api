@@ -35,9 +35,13 @@ var TokenValid = func(ctx *context.Context) {
 			})
 
 			if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-				fmt.Println(claims, "认证成功")
+				// 修改时间戳，生成新的token
+				claims["exp"] = time.Now().Add(time.Minute * 10).Unix()
+				newToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+				newTokenString, _ := newToken.SignedString(mySigningKey)
+				fmt.Println(newTokenString, "认证成功,新的token")
 				//tokenString := CreateToken(string(claims["name"]), claims["id"])
-				ctx.Output.Cookie("token", "newCookies")
+				ctx.Output.Cookie("token", newTokenString)
 			} else {
 				ctx.Output.SetStatus(400)
 				ctx.Output.JSON(err.Error(), true, false)
@@ -63,7 +67,7 @@ func CreateToken(userName string, id int) string{
 		userName,
 		id,
 		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Minute * 10).Unix(),
+			ExpiresAt: time.Now().Add(time.Minute * 1).Unix(),
 			Id:        "100030",
 			//IssuedAt:  now.Unix(),
 			Issuer: "bandzest-auth",
