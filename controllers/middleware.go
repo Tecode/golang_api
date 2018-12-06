@@ -41,7 +41,7 @@ var TokenValid = func(ctx *context.Context) {
 				newTokenString, _ := newToken.SignedString(mySigningKey)
 				fmt.Println(newTokenString, "认证成功,新的token")
 				//tokenString := CreateToken(string(claims["name"]), claims["id"])
-				ctx.Output.Cookie("token", newTokenString)
+				ctx.SetCookie("token", newTokenString)
 			} else {
 				ctx.Output.SetStatus(400)
 				ctx.Output.JSON(err.Error(), true, false)
@@ -61,7 +61,6 @@ type MyCustomClaims struct {
 func CreateToken(userName string, id int) string{
 	// create json web token
 	mySigningKey := []byte("7e6c8b94a77412")
-	//now := time.Now()
 	// Create the Claims
 	claims := MyCustomClaims{
 		userName,
@@ -79,4 +78,24 @@ func CreateToken(userName string, id int) string{
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, _ := token.SignedString(mySigningKey)
 	return tokenString
+}
+
+// 获取token里面的信息
+func Token(tokenString string) (name string, id float64){
+	mySigningKey := []byte("7e6c8b94a77412")
+	token, err := jwt.Parse(tokenString, func(readToken *jwt.Token) (interface{}, error) {
+		// Don't forget to validate the alg is what you expect:
+		if _, ok := readToken.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", readToken.Header["alg"])
+		}
+		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
+		return mySigningKey, nil
+	})
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		return claims["name"].(string), claims["id"].(float64)
+	} else {
+		fmt.Println(err)
+	}
+	return "", 0
 }

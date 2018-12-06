@@ -240,7 +240,7 @@
                 }
             }
         },
-        "/user/valid_token": {
+        "/user/user_info": {
             "get": {
                 "tags": [
                     "user"

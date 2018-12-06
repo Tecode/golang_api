@@ -16,6 +16,17 @@ go get -u github.com/dgrijalva/jwt-go
 bee run -downdoc=true -gendoc=true
 ```
 
+## Run product
+
+`Linux`
+
+```bash
+runmode = prod
+
+bee pack
+nohup ./beeapi &
+```
+
 > Server on:[ http://127.0.0.1:8080/swagger]( http://127.0.0.1:8080/swagger).
 
 ## Error

@@ -117,8 +117,8 @@ func init() {
 
     beego.GlobalControllerRouter["beeapi/controllers:UserController"] = append(beego.GlobalControllerRouter["beeapi/controllers:UserController"],
         beego.ControllerComments{
-            Method: "ValidToken",
-            Router: `/valid_token`,
+            Method: "UserInfo",
+            Router: `/user_info`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,

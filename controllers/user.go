@@ -3,6 +3,7 @@ package controllers
 import (
 	"beeapi/models"
 	"encoding/json"
+	"fmt"
 	"github.com/astaxie/beego"
 )
 
@@ -119,20 +120,26 @@ func (u *UserController) Logout() {
 	u.ServeJSON()
 }
 
+type UserInfo struct {
+	name string
+	id float64
+}
+
 // @Title valid token
 // @Description 验证token
 // @Param	token		header 	string	true		"The token is required"
 // @Success 200 {struct} {"name":"admin","id":"125"}
-// @router /valid_token [get]
-func (u *UserController) ValidToken() {
+// @router /user_info [get]
+func (u *UserController) UserInfo() {
 	token := u.Ctx.Request.Header["Token"]
+	name, id := Token(token[0])
 	if len(token) == 0 {
 		u.Data["json"] = "token不存在"
 		u.Ctx.Output.SetStatus(404)
 		u.ServeJSON()
 	} else {
-
-		u.Data["json"] = map[string]string{"name": "admin", "id": "125"}
+		fmt.Println(name, id)
+		u.Data["json"] = map[string]UserInfo{"data":{name:name,id:id}}
 		u.Ctx.Output.SetStatus(200)
 		u.ServeJSON()
 	}
