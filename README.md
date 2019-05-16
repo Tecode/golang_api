@@ -1,7 +1,7 @@
 
-# Golang API(Beego)
+# API接口
 
-## Creating the Beego API aplication
+## 安装依赖项
 
 ```bash
 go get -u github.com/beego/bee
@@ -9,14 +9,14 @@ go get -u github.com/astaxie/beego
 go get -u github.com/dgrijalva/jwt-go
 ```
 
-## Run
+## 运行
 
 
 ```bash
 bee run -downdoc=true -gendoc=true
 ```
 
-## Run product
+## 发布
 
 `Linux`
 
@@ -29,9 +29,9 @@ nohup ./beeapi &
 
 > Server on:[ http://127.0.0.1:8080/swagger]( http://127.0.0.1:8080/swagger).
 
-## Error
+## 错误信息
 
-> Change file name 'golang_api' to 'beeapi'.
+> 修改文件名'golang_api' 为 'beeapi'
 
 ```bash
 main.go:4:2: cannot find package "beeapi/routers" in any of:
