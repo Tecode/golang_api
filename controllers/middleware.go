@@ -21,7 +21,10 @@ var TokenValid = func(ctx *context.Context) {
 	if !match {
 		if len(token) == 0 {
 			ctx.Output.SetStatus(404)
-			ctx.Output.JSON("token不存在", true, false)
+			ctx.Output.JSON(
+				map[string]interface{}{"code": 404404, "message": "Token不存在"},
+				true,
+				false)
 		} else {
 			mySigningKey := []byte("7e6c8b94a77412")
 			// Verifying and validating a JWT
@@ -41,6 +44,7 @@ var TokenValid = func(ctx *context.Context) {
 				newTokenString, _ := newToken.SignedString(mySigningKey)
 				fmt.Println(newTokenString, "认证成功,新的token")
 				//tokenString := CreateToken(string(claims["name"]), claims["id"])
+				// 将新的token放在cookie返回
 				ctx.SetCookie("token", newTokenString)
 			} else {
 				ctx.Output.SetStatus(400)

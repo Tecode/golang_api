@@ -120,12 +120,8 @@ func (u *UserController) Logout() {
 }
 
 type UserInfo struct {
-	name string
-	id   float64
-}
-
-type ResponseData struct {
-	data UserInfo
+	Name string  `json:"name"`
+	Id   float64 `json:"userId"`
 }
 
 // @Title valid token
@@ -138,14 +134,17 @@ func (u *UserController) UserInfo() {
 	fmt.Println(token, "------------------")
 	name, id := Token(token[0])
 	if len(token) == 0 {
-		u.Data["json"] = "token不存在"
+		u.Data["json"] = map[string]interface{}{"code": 404404, "message": "token不存在"}
 		u.Ctx.Output.SetStatus(404)
 		u.ServeJSON()
 	} else {
 		fmt.Println(name, id)
 		// 不能返回json格式数据
-		//data := &ResponseData{data: UserInfo{name: name}}
-		u.Data["json"] = map[string]interface{}{"name": name, "userId": id}
+		mystruct := UserInfo{"aming", 54}
+		u.Data["json"] = map[string]interface{}{
+			"name":     name,
+			"listData": &mystruct,
+			"userId":   id}
 		u.Ctx.Output.SetStatus(200)
 		u.ServeJSON()
 	}
