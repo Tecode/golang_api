@@ -35,8 +35,8 @@ var TokenValid = func(ctx *context.Context) {
 			})
 
 			if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-				// 修改时间戳，生成新的token
-				claims["exp"] = time.Now().Add(time.Minute * 10).Unix()
+				// 修改时间戳，生成新的token,30分钟过期
+				claims["exp"] = time.Now().Add(time.Minute * 30).Unix()
 				newToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 				newTokenString, _ := newToken.SignedString(mySigningKey)
 				fmt.Println(newTokenString, "认证成功,新的token")
@@ -53,12 +53,12 @@ var TokenValid = func(ctx *context.Context) {
 // jwt
 type MyCustomClaims struct {
 	Name string `json:"name"`
-	Id int `json:"id"`
+	Id   int    `json:"id"`
 	jwt.StandardClaims
 }
 
-// 生成token
-func CreateToken(userName string, id int) string{
+// 生成token，过期时间为30分钟
+func CreateToken(userName string, id int) string {
 	// create json web token
 	mySigningKey := []byte("7e6c8b94a77412")
 	// Create the Claims
@@ -66,7 +66,7 @@ func CreateToken(userName string, id int) string{
 		userName,
 		id,
 		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Minute * 1).Unix(),
+			ExpiresAt: time.Now().Add(time.Minute * 30).Unix(),
 			Id:        "100030",
 			//IssuedAt:  now.Unix(),
 			Issuer: "bandzest-auth",
@@ -81,7 +81,7 @@ func CreateToken(userName string, id int) string{
 }
 
 // 获取token里面的信息
-func Token(tokenString string) (name string, id float64){
+func Token(tokenString string) (name string, id float64) {
 	mySigningKey := []byte("7e6c8b94a77412")
 	token, err := jwt.Parse(tokenString, func(readToken *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:

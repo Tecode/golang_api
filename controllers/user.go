@@ -144,8 +144,8 @@ func (u *UserController) UserInfo() {
 	} else {
 		fmt.Println(name, id)
 		// 不能返回json格式数据
-		data := &ResponseData{data: UserInfo{name: name}}
-		u.Data["json"] = data
+		//data := &ResponseData{data: UserInfo{name: name}}
+		u.Data["json"] = map[string]interface{}{"name": name, "userId": id}
 		u.Ctx.Output.SetStatus(200)
 		u.ServeJSON()
 	}
