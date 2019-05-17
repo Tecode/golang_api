@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"beeapi/models"
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
+	"golang_api/models"
 )
 
 // 用户相关

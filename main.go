@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "beeapi/routers"
+	_ "golang_api/routers"
 
 	"github.com/astaxie/beego"
 )

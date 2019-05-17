@@ -24,17 +24,10 @@ bee run -downdoc=true -gendoc=true
 runmode = prod
 
 bee pack
-nohup ./beeapi &
+nohup ./golang_api &
 ```
 
 > Server on:[ http://127.0.0.1:8080/swagger]( http://127.0.0.1:8080/swagger).
 
 ## 错误信息
 
-> 修改文件名'golang_api' 为 'beeapi'
-
-```bash
-main.go:4:2: cannot find package "beeapi/routers" in any of:
-/usr/local/go/src/beeapi/routers (from $GOROOT)
-/Users/ming/go/src/beeapi/routers (from $GOPATH)
-```
