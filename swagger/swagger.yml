@@ -191,7 +191,7 @@ paths:
     get:
       tags:
       - user
-      description: Logs user into the system
+      description: 登录获取token username:admin password:123456
       operationId: UserController.Login
       parameters:
       - in: query
@@ -276,4 +276,4 @@ tags:
     Operations about object
 - name: user
   description: |
-    Operations about Users
+    用户相关

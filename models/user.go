@@ -12,7 +12,15 @@ var (
 
 func init() {
 	UserList = make(map[string]*User)
-	u := User{"10001", "admin", "admin", Profile{"male", 20, "Singapore", "astaxie@gmail.com"}}
+	u := User{
+		"10001",
+		"admin",
+		"123456",
+		Profile{
+			"male",
+			20,
+			"ChenDu",
+			"283731869@qq.com"}}
 	UserList["user_11111"] = &u
 }
 
@@ -40,7 +48,7 @@ func GetUser(uid string) (u *User, err error) {
 	if u, ok := UserList[uid]; ok {
 		return u, nil
 	}
-	return nil, errors.New("User not exists")
+	return nil, errors.New("用户不存在")
 }
 
 func GetAllUsers() map[string]*User {
@@ -69,7 +77,7 @@ func UpdateUser(uid string, uu *User) (a *User, err error) {
 		}
 		return u, nil
 	}
-	return nil, errors.New("User Not Exist")
+	return nil, errors.New("用户不存在")
 }
 
 func Login(username, password string) bool {

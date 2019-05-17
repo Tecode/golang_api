@@ -7,7 +7,7 @@ import (
 	"github.com/astaxie/beego"
 )
 
-// Operations about Users
+// 用户相关
 type UserController struct {
 	beego.Controller
 }
@@ -90,9 +90,8 @@ func (u *UserController) Delete() {
 	u.ServeJSON()
 }
 
-
 // @Title Login
-// @Description Logs user into the system
+// @Description 登录获取token username:admin password:123456
 // @Param	username		query 	string	true		"The username for login"
 // @Param	password		query 	string	true		"The password for login"
 // @Success 200 {string} login success
@@ -102,11 +101,11 @@ func (u *UserController) Login() {
 	username := u.GetString("username")
 	password := u.GetString("password")
 	tokenString := CreateToken("admin", 122)
-	//fmt.Println(username, password)
+	fmt.Println(username, password)
 	if models.Login(username, password) {
 		u.Data["json"] = tokenString
 	} else {
-		u.Data["json"] = "user not exist"
+		u.Data["json"] = "用户不存在"
 	}
 	u.ServeJSON()
 }
@@ -122,7 +121,11 @@ func (u *UserController) Logout() {
 
 type UserInfo struct {
 	name string
-	id float64
+	id   float64
+}
+
+type ResponseData struct {
+	data UserInfo
 }
 
 // @Title valid token
@@ -132,6 +135,7 @@ type UserInfo struct {
 // @router /user_info [get]
 func (u *UserController) UserInfo() {
 	token := u.Ctx.Request.Header["Token"]
+	fmt.Println(token, "------------------")
 	name, id := Token(token[0])
 	if len(token) == 0 {
 		u.Data["json"] = "token不存在"
@@ -140,7 +144,8 @@ func (u *UserController) UserInfo() {
 	} else {
 		fmt.Println(name, id)
 		// 不能返回json格式数据
-		u.Data["json"] = map[string]UserInfo{"data":{name:name,id:id}}
+		data := &ResponseData{data: UserInfo{name: name}}
+		u.Data["json"] = data
 		u.Ctx.Output.SetStatus(200)
 		u.ServeJSON()
 	}

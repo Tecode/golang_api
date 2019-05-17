@@ -198,7 +198,7 @@
                 "tags": [
                     "user"
                 ],
-                "description": "Logs user into the system",
+                "description": "登录获取token username:admin password:123456",
                 "operationId": "UserController.Login",
                 "parameters": [
                     {
@@ -415,7 +415,7 @@
         },
         {
             "name": "user",
-            "description": "Operations about Users\n"
+            "description": "用户相关\n"
         }
     ]
 }
