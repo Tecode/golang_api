@@ -8,24 +8,24 @@
 package routers
 
 import (
-	"golang_api/controllers"
-
 	"github.com/astaxie/beego"
+	"golang_api/controllers"
 )
 
 func init() {
 	ns := beego.NewNamespace("/v1",
-		beego.NSNamespace("/object",
-			beego.NSInclude(
-				&controllers.ObjectController{},
-			),
-		),
 		beego.NSNamespace("/user",
 			beego.NSInclude(
 				&controllers.UserController{},
 			),
 		),
+		beego.NSNamespace("/book_info",
+			beego.NSInclude(
+				&controllers.BookController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
+	// 包含token验证，中间件过滤拦截
 	beego.InsertFilter("*/", beego.BeforeRouter, controllers.TokenValid)
 }

@@ -14,13 +14,13 @@ type TokenValidController struct {
 }
 
 // 验证token，token出错就返回错误信息
-var TokenValid = func(ctx *context.Context) {
+var TokenValid func(ctx *context.Context) = func(ctx *context.Context) {
 	token := ctx.Request.Header["Token"]
 	fmt.Println(token, ctx.Request.RequestURI)
 	match, _ := regexp.MatchString("/user/login", ctx.Request.RequestURI)
 	if !match {
 		if len(token) == 0 {
-			ctx.Output.SetStatus(404)
+			ctx.Output.SetStatus(400)
 			ctx.Output.JSON(
 				map[string]interface{}{"code": 404404, "message": "Token不存在"},
 				true,
@@ -62,12 +62,12 @@ type MyCustomClaims struct {
 }
 
 // 生成token，过期时间为30分钟
-func CreateToken(userName string, id int) string {
+func CreateToken(email string, id int) string {
 	// create json web token
 	mySigningKey := []byte("7e6c8b94a77412")
 	// Create the Claims
 	claims := MyCustomClaims{
-		userName,
+		email,
 		id,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Minute * 30).Unix(),
@@ -85,7 +85,7 @@ func CreateToken(userName string, id int) string {
 }
 
 // 获取token里面的信息
-func Token(tokenString string) (name string, id float64) {
+func Token(tokenString string) (email string, id float64) {
 	mySigningKey := []byte("7e6c8b94a77412")
 	token, err := jwt.Parse(tokenString, func(readToken *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:

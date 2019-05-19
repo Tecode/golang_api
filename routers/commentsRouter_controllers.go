@@ -7,6 +7,15 @@ import (
 
 func init() {
 
+	beego.GlobalControllerRouter["golang_api/controllers:BookController"] = append(beego.GlobalControllerRouter["golang_api/controllers:BookController"],
+		beego.ControllerComments{
+			Method:           "Get",
+			Router:           `/recommend`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["golang_api/controllers:ObjectController"] = append(beego.GlobalControllerRouter["golang_api/controllers:ObjectController"],
 		beego.ControllerComments{
 			Method:           "Post",
@@ -65,15 +74,6 @@ func init() {
 		beego.ControllerComments{
 			Method:           "GetAll",
 			Router:           `/`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams:     param.Make(),
-			Filters:          nil,
-			Params:           nil})
-
-	beego.GlobalControllerRouter["golang_api/controllers:UserController"] = append(beego.GlobalControllerRouter["golang_api/controllers:UserController"],
-		beego.ControllerComments{
-			Method:           "Get",
-			Router:           `/:uid`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
@@ -101,7 +101,7 @@ func init() {
 		beego.ControllerComments{
 			Method:           "Login",
 			Router:           `/login`,
-			AllowHTTPMethods: []string{"get"},
+			AllowHTTPMethods: []string{"post"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
 			Params:           nil})

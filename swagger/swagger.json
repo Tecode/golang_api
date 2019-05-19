@@ -15,137 +15,34 @@
     },
     "basePath": "/v1",
     "paths": {
-        "/object/": {
+        "/book_info/recommend": {
             "get": {
                 "tags": [
-                    "object"
+                    "book_info"
                 ],
-                "description": "get all objects",
-                "operationId": "ObjectController.GetAll",
+                "description": "create books",
+                "operationId": "BookController.获取推荐书籍信息",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "The token is required",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.Object"
+                            "$ref": "#/definitions/models.BookInfo"
                         }
                     },
-                    "403": {
-                        "description": ":objectId is empty"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "object"
-                ],
-                "description": "create object",
-                "operationId": "ObjectController.Create",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "The object content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Object"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{string} models.Object.Id"
+                    "400": {
+                        "description": "token验证失败"
                     },
                     "403": {
                         "description": "body is empty"
-                    }
-                }
-            }
-        },
-        "/object/{objectId}": {
-            "get": {
-                "tags": [
-                    "object"
-                ],
-                "description": "find object by objectid",
-                "operationId": "ObjectController.Get",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "objectId",
-                        "description": "the objectid you want to get",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.Object"
-                        }
-                    },
-                    "403": {
-                        "description": ":objectId is empty"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "object"
-                ],
-                "description": "update the object",
-                "operationId": "ObjectController.Update",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "objectId",
-                        "description": "The objectid you want to update",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "The body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Object"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.Object"
-                        }
-                    },
-                    "403": {
-                        "description": ":objectId is empty"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "object"
-                ],
-                "description": "delete the object",
-                "operationId": "ObjectController.Delete",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "objectId",
-                        "description": "The objectId you want to delete",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{string} delete success!"
-                    },
-                    "403": {
-                        "description": "objectId is empty"
                     }
                 }
             }
@@ -179,13 +76,13 @@
                         "description": "body for user content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/models.SiteAppUser"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "{int} models.User.Id"
+                        "description": "{int} models.SiteAppUser.Id"
                     },
                     "403": {
                         "description": "body is empty"
@@ -194,7 +91,7 @@
             }
         },
         "/user/login": {
-            "get": {
+            "post": {
                 "tags": [
                     "user"
                 ],
@@ -202,18 +99,13 @@
                 "operationId": "UserController.Login",
                 "parameters": [
                     {
-                        "in": "query",
-                        "name": "username",
-                        "description": "The username for login",
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for user content",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "password",
-                        "description": "The password for login",
-                        "required": true,
-                        "type": "string"
+                        "schema": {
+                            "$ref": "#/definitions/models.LoginInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -264,33 +156,6 @@
             }
         },
         "/user/{uid}": {
-            "get": {
-                "tags": [
-                    "user"
-                ],
-                "description": "get user by uid",
-                "operationId": "UserController.Get",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "uid",
-                        "description": "The key for staticblock",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.User"
-                        }
-                    },
-                    "403": {
-                        "description": ":uid is empty"
-                    }
-                }
-            },
             "put": {
                 "tags": [
                     "user"
@@ -311,7 +176,7 @@
                         "description": "body for user content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/models.SiteAppUser"
                         }
                     }
                 ],
@@ -319,7 +184,7 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/models.SiteAppUser"
                         }
                     },
                     "403": {
@@ -354,6 +219,58 @@
         }
     },
     "definitions": {
+        "models.BookInfo": {
+            "title": "BookInfo",
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "bookId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "bookImage": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "delete": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "format": "datetime"
+                }
+            }
+        },
+        "models.LoginInfo": {
+            "title": "LoginInfo",
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Object": {
             "title": "Object",
             "type": "object",
@@ -389,6 +306,36 @@
                 }
             }
         },
+        "models.SiteAppUser": {
+            "title": "SiteAppUser",
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "format": "datetime"
+                }
+            }
+        },
         "models.User": {
             "title": "User",
             "type": "object",
@@ -410,12 +357,12 @@
     },
     "tags": [
         {
-            "name": "object",
-            "description": "Operations about object\n"
-        },
-        {
             "name": "user",
             "description": "用户相关\n"
+        },
+        {
+            "name": "book_info",
+            "description": "书籍信息相关\n"
         }
     ]
 }

@@ -14,8 +14,8 @@ type UserController struct {
 
 // @Title CreateUser
 // @Description create users
-// @Param	body		body 	models.User	true		"body for user content"
-// @Success 200 {int} models.User.Id
+// @Param	body		body 	models.SiteAppUser	true		"body for user content"
+// @Success 200 {int} models.SiteAppUser.Id
 // @Failure 403 body is empty
 // @router / [post]
 func (u *UserController) Post() {
@@ -36,30 +36,11 @@ func (u *UserController) GetAll() {
 	u.ServeJSON()
 }
 
-// @Title Get
-// @Description get user by uid
-// @Param	uid		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.User
-// @Failure 403 :uid is empty
-// @router /:uid [get]
-func (u *UserController) Get() {
-	uid := u.GetString(":uid")
-	if uid != "" {
-		user, err := models.GetUser(uid)
-		if err != nil {
-			u.Data["json"] = err.Error()
-		} else {
-			u.Data["json"] = user
-		}
-	}
-	u.ServeJSON()
-}
-
 // @Title Update
 // @Description update the user
 // @Param	uid		path 	string	true		"The uid you want to update"
-// @Param	body		body 	models.User	true		"body for user content"
-// @Success 200 {object} models.User
+// @Param	body		body 	models.SiteAppUser	true		"body for user content"
+// @Success 200 {object} models.SiteAppUser
 // @Failure 403 :uid is not int
 // @router /:uid [put]
 func (u *UserController) Put() {
@@ -92,23 +73,27 @@ func (u *UserController) Delete() {
 
 // @Title Login
 // @Description 登录获取token username:admin password:123456
-// @Param	username		query 	string	true		"The username for login"
-// @Param	password		query 	string	true		"The password for login"
+// @Param	body		body 	models.LoginInfo	true		"body for user content"
 // @Success 200 {string} login success
 // @Failure 403 user not exist
-// @router /login [get]
+// @router /login [post]
 func (u *UserController) Login() {
-	username := u.GetString("username")
-	password := u.GetString("password")
-	// 生成token
-	tokenString := CreateToken("admin", 122)
-	fmt.Println(username, password)
-	if models.Login(username, password) {
+	//valid := validation.Validation{}
+	var loginInfo models.LoginInfo
+	json.Unmarshal(u.Ctx.Input.RequestBody, &loginInfo)
+	email := loginInfo.Email
+	password := loginInfo.Password
+	// 判断用户是否存在
+	fmt.Println(email, password, "账号密码")
+	if ok, userInfo := models.Login(email, password); ok {
+		// 生成token
+		tokenString := CreateToken(email, userInfo.Id)
 		u.Data["json"] = map[string]interface{}{
 			"code":  200200,
 			"token": tokenString}
 	} else {
-		u.Data["json"] = "用户不存在"
+		u.Ctx.Output.SetStatus(404)
+		u.Data["json"] = map[string]interface{}{"code": 404404, "message": "用户不存在"}
 	}
 	u.ServeJSON()
 }
@@ -134,21 +119,18 @@ type UserInfo struct {
 // @router /user_info [get]
 func (u *UserController) UserInfo() {
 	token := u.Ctx.Request.Header["Token"]
-	fmt.Println(token, "------------------")
-	name, id := Token(token[0])
+	_, id := Token(token[0])
 	if len(token) == 0 {
-		u.Data["json"] = map[string]interface{}{"code": 404404, "message": "token不存在"}
 		u.Ctx.Output.SetStatus(404)
+		u.Data["json"] = map[string]interface{}{"code": 404404, "message": "token验证失败"}
 		u.ServeJSON()
 	} else {
-		fmt.Println(name, id)
-		// 不能返回json格式数据
-		mystruct := UserInfo{"aming", 54}
-		u.Data["json"] = map[string]interface{}{
-			"name":     name,
-			"listData": &mystruct,
-			"userId":   id}
-		u.Ctx.Output.SetStatus(200)
-		u.ServeJSON()
+		if ok, userInfo := models.GetUser(id); ok {
+			fmt.Println(userInfo, id, "0==")
+			u.Data["json"] = map[string]interface{}{
+				"data": userInfo}
+			u.Ctx.Output.SetStatus(200)
+			u.ServeJSON()
+		}
 	}
 }

@@ -40,17 +40,31 @@ type Profile struct {
 	Email   string
 }
 
+// 登录信息
+type LoginInfo struct {
+	Email    string `json:"email";valid:"Email; MaxSize(100)"`
+	Password string `json:"password";valid:"Required"`
+}
+
 func AddUser(u User) string {
 	u.Id = "user_" + strconv.FormatInt(time.Now().UnixNano(), 10)
 	UserList[u.Id] = &u
 	return u.Id
 }
 
-func GetUser(uid string) (u *User, err error) {
-	if u, ok := UserList[uid]; ok {
-		return u, nil
+func GetUser(uid float64) (ok bool, userInfo SiteAppUser) {
+	o := orm.NewOrm()
+	user := SiteAppUser{Id: int(uid)}
+	err := o.Read(&user, "Id")
+	if err == orm.ErrNoRows {
+		fmt.Println("查询不到")
+		return false, user
 	}
-	return nil, errors.New("用户不存在")
+	if err == orm.ErrMissPK {
+		fmt.Println("找不到主键")
+		return false, user
+	}
+	return true, user
 }
 
 func GetAllUsers() map[string]*User {
@@ -82,23 +96,19 @@ func UpdateUser(uid string, uu *User) (a *User, err error) {
 	return nil, errors.New("用户不存在")
 }
 
-func Login(username, password string) bool {
+func Login(email, password string) (ok bool, userInfo SiteAppUser) {
 	o := orm.NewOrm()
-	user := SiteAppUser{Id: 1}
-	err := o.Read(&user)
+	user := SiteAppUser{Email: email}
+	err := o.Read(&user, "Email")
 	if err == orm.ErrNoRows {
 		fmt.Println("查询不到")
-	} else if err == orm.ErrMissPK {
+		return false, user
+	}
+	if err == orm.ErrMissPK {
 		fmt.Println("找不到主键")
-	} else {
-		fmt.Println(user.Id, user.Name)
+		return false, user
 	}
-	for _, u := range UserList {
-		if u.Username == username && u.Password == password {
-			return true
-		}
-	}
-	return false
+	return true, user
 }
 
 func DeleteUser(uid string) {
