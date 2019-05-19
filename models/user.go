@@ -2,6 +2,8 @@ package models
 
 import (
 	"errors"
+	"fmt"
+	"github.com/astaxie/beego/orm"
 	"strconv"
 	"time"
 )
@@ -81,6 +83,16 @@ func UpdateUser(uid string, uu *User) (a *User, err error) {
 }
 
 func Login(username, password string) bool {
+	o := orm.NewOrm()
+	user := SiteAppUser{Id: 1}
+	err := o.Read(&user)
+	if err == orm.ErrNoRows {
+		fmt.Println("查询不到")
+	} else if err == orm.ErrMissPK {
+		fmt.Println("找不到主键")
+	} else {
+		fmt.Println(user.Id, user.Name)
+	}
 	for _, u := range UserList {
 		if u.Username == username && u.Password == password {
 			return true

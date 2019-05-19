@@ -100,10 +100,13 @@ func (u *UserController) Delete() {
 func (u *UserController) Login() {
 	username := u.GetString("username")
 	password := u.GetString("password")
+	// 生成token
 	tokenString := CreateToken("admin", 122)
 	fmt.Println(username, password)
 	if models.Login(username, password) {
-		u.Data["json"] = tokenString
+		u.Data["json"] = map[string]interface{}{
+			"code":  200200,
+			"token": tokenString}
 	} else {
 		u.Data["json"] = "用户不存在"
 	}
