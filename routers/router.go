@@ -27,5 +27,5 @@ func init() {
 	)
 	beego.AddNamespace(ns)
 	// 包含token验证，中间件过滤拦截
-	beego.InsertFilter("*/", beego.BeforeRouter, controllers.TokenValid)
+	beego.InsertFilter("*/", beego.BeforeRouter, controllers.Filter)
 }

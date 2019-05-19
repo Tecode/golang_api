@@ -218,6 +218,8 @@ definitions:
         format: int64
       name:
         type: string
+      nickname:
+        type: string
       password:
         type: string
       phone:

@@ -10,6 +10,7 @@ import (
 type SiteAppUser struct {
 	Id        int       `orm:"auto_now_add"json:"id"`                       // id
 	Name      string    `orm:"size(40)"json:"name"`                         // 姓名
+	Nickname  string    `orm:"size(40)"json:"nickname"`                     // 昵称
 	Email     string    `json:"email"`                                      //邮箱账号
 	Phone     string    `json:"phone"`                                      // 手机号码
 	Password  string    `json:"password"`                                   // 密码

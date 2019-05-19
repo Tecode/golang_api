@@ -324,6 +324,9 @@
                 "name": {
                     "type": "string"
                 },
+                "nickname": {
+                    "type": "string"
+                },
                 "password": {
                     "type": "string"
                 },

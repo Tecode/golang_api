@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
 	"github.com/dgrijalva/jwt-go"
+	"golang_api/helpers"
 	"regexp"
 	"time"
 )
@@ -13,10 +14,23 @@ type TokenValidController struct {
 	beego.Controller
 }
 
+// jwt
+type MyCustomClaims struct {
+	Name string `json:"name"`
+	Id   int    `json:"id"`
+	jwt.StandardClaims
+}
+
 // 验证token，token出错就返回错误信息
-var TokenValid func(ctx *context.Context) = func(ctx *context.Context) {
+var Filter = func(ctx *context.Context) {
 	token := ctx.Request.Header["Token"]
-	fmt.Println(token, ctx.Request.RequestURI)
+	// /picture专门处理图片的，裁剪一类
+	picture, _ := regexp.MatchString("/picture", ctx.Request.RequestURI)
+	if picture {
+		helpers.CompressPicture(ctx)
+		return
+	}
+	beego.Info(token, ctx.Request.RequestURI, "----------")
 	match, _ := regexp.MatchString("/user/login", ctx.Request.RequestURI)
 	if !match {
 		if len(token) == 0 {
@@ -52,13 +66,6 @@ var TokenValid func(ctx *context.Context) = func(ctx *context.Context) {
 			}
 		}
 	}
-}
-
-// jwt
-type MyCustomClaims struct {
-	Name string `json:"name"`
-	Id   int    `json:"id"`
-	jwt.StandardClaims
 }
 
 // 生成token，过期时间为30分钟
