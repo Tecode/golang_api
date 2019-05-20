@@ -36,7 +36,7 @@ var Filter = func(ctx *context.Context) {
 		if len(token) == 0 {
 			ctx.Output.SetStatus(400)
 			ctx.Output.JSON(
-				map[string]interface{}{"code": 404404, "message": "Token不存在"},
+				map[string]interface{}{"code": 400404, "message": "Token不存在"},
 				true,
 				false)
 		} else {

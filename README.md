@@ -22,23 +22,22 @@ bee run -downdoc=true -gendoc=true
 ## 版本信息
 
 ```bash
-______
-| ___ \
-| |_/ /  ___   ___
-| ___ \ / _ \ / _ \
-| |_/ /|  __/|  __/
-\____/  \___| \___| v1.10.0
+______                                               ______
+| ___ \                                              | ___ \
+| |_/ /  ___   ___                                   | |_/ /  ___   ___
+| ___ \ / _ \ / _ \                                  | ___ \ / _ \ / _ \
+| |_/ /|  __/|  __/                                  | |_/ /|  __/|  __/
+\____/  \___| \___| v1.10.0                          \____/  \___| \___| v1.10.0
 
-├── Beego     : 1.11.2
-├── GoVersion : go1.11.2
-├── GOOS      : windows
-├── GOARCH    : amd64
-├── NumCPU    : 12
-├── GOPATH    : C:\Users\Administrator\go
-├── GOROOT    : D:/Golang
-├── Compiler  : gc
-└── Date      : Sunday, 19 May 2019
-
+├── Beego     : 1.11.2                               ├── Beego     : 1.11.2
+├── GoVersion : go1.11.2                             ├── GoVersion : go1.10.4
+├── GOOS      : windows                              ├── GOOS      : linux
+├── GOARCH    : amd64                                ├── GOARCH    : amd64
+├── NumCPU    : 12                                   ├── NumCPU    : 6
+├── GOPATH    : C:\Users\Administrator\go            ├── GOPATH    : /home/xm/go/src/golang_api:/home/xm/go
+├── GOROOT    : D:/Golang                            ├── GOROOT    : /usr/lib/go-1.10
+├── Compiler  : gc                                   ├── Compiler  : gc
+└── Date      : Sunday, 19 May 2019                  └── Date      : Monday, 20 May 2019
 ```
 
 ## 发布
