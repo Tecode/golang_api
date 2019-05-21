@@ -3,7 +3,7 @@ package helpers
 import (
 	"bytes"
 	"github.com/astaxie/beego/context"
-	"golang_api/src/github.com/nfnt/resize"
+	"github.com/nfnt/resize"
 	"image/jpeg"
 	"log"
 	"os"
@@ -20,8 +20,7 @@ func CompressPicture(ctx *context.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	m := resize.Resize(50, 50, img, resize.Lanczos3)
-
+	m := resize.Resize(400, 200, img, resize.Bicubic)
 	// write new image to file
 	jpeg.Encode(&buf, m, nil)
 	file.Close()
