@@ -47,6 +47,43 @@
                 }
             }
         },
+        "/public/picture/{img}": {
+            "get": {
+                "tags": [
+                    "public"
+                ],
+                "description": "图片裁剪",
+                "operationId": "PublicController.公共的一些api",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "width",
+                        "description": "宽度",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "query",
+                        "name": "height",
+                        "description": "高度",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "path",
+                        "name": "img",
+                        "description": "6Co6W3DogOqW6TxwDp8Vb.jpg",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取图片成功"
+                    }
+                }
+            }
+        },
         "/user/": {
             "get": {
                 "tags": [
@@ -366,6 +403,10 @@
         {
             "name": "book_info",
             "description": "书籍信息相关\n"
+        },
+        {
+            "name": "public",
+            "description": "公共的一些api\n"
         }
     ]
 }

@@ -5,7 +5,6 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
 	"github.com/dgrijalva/jwt-go"
-	"golang_api/helpers"
 	"regexp"
 	"time"
 )
@@ -23,11 +22,11 @@ type MyCustomClaims struct {
 
 // 验证token，token出错就返回错误信息
 var Filter = func(ctx *context.Context) {
+	beego.Info("路由拦截")
 	token := ctx.Request.Header["Token"]
 	// /picture专门处理图片的，裁剪一类
-	picture, _ := regexp.MatchString("/picture", ctx.Request.RequestURI)
-	if picture {
-		helpers.CompressPicture(ctx)
+	public, _ := regexp.MatchString("/public/", ctx.Request.RequestURI)
+	if public {
 		return
 	}
 	beego.Info(token, ctx.Request.RequestURI, "----------")

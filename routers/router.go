@@ -24,6 +24,11 @@ func init() {
 				&controllers.BookController{},
 			),
 		),
+		beego.NSNamespace("/public",
+			beego.NSInclude(
+				&controllers.PublicController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 	// 包含token验证，中间件过滤拦截
