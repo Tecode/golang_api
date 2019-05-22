@@ -6,7 +6,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/nfnt/resize"
 	"golang_api/helpers"
-	"image/jpeg"
+	"image"
 	"log"
 	"os"
 	"path"
@@ -28,7 +28,7 @@ type PublicController struct {
 func (p *PublicController) Get() {
 	var buffer bytes.Buffer
 	imgPath := p.Ctx.Input.Param(":img")
-
+	var compressImage image.Image
 
 	currentWidth, currentWidthErr := strconv.ParseInt(p.Ctx.Input.Query("width"), 10, 16)
 	currentHeight, currentHeightErr := strconv.ParseInt(p.Ctx.Input.Query("height"), 10, 16)
@@ -38,27 +38,9 @@ func (p *PublicController) Get() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// 根据图片类型转码
-	switch fileSuffix {
-	case ".jpg", ".jpeg":
-		fmt.Println(".jpg, jpeg")
-		break
-	case ".png":
-		fmt.Println(".png")
-		break
-	case ".gif":
-		fmt.Println(".gif")
-		break
-	default:
-		break
-
-	}
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	// decode jpeg into image.Image
-	img, err := jpeg.Decode(file)
+	img, err := helpers.DecodePicture(fileSuffix, file)
 	b := img.Bounds()
 	// 图片原始宽高
 	width := b.Max.X
@@ -71,11 +53,13 @@ func (p *PublicController) Get() {
 		currentHeight = int64(b.Max.Y)
 	}
 	fmt.Println(width, height, int(currentWidth), int(currentHeight), "图片宽高----------")
+	// 判断图片宽高比
 	// 压缩图片
-	m := resize.Resize(200, 0, img, resize.Bicubic)
+
+	compressImage = resize.Resize(uint(currentWidth), 0, img, resize.Bicubic)
 	// 裁剪图片
-	curImage, _ := helpers.CutPicture(m, 0, 0, int(currentWidth), int(currentHeight))
-	jpeg.Encode(&buffer, curImage, nil)
+	curImage, _ := helpers.CutPicture(compressImage, 0, 0, int(currentWidth), int(currentHeight))
+	helpers.EncodePicture(fileSuffix, &buffer, curImage)
 	file.Close()
 	data := buffer.Bytes()
 	p.Ctx.Output.Body(data)

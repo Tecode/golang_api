@@ -2,8 +2,12 @@ package helpers
 
 import (
 	"errors"
-	"fmt"
 	"image"
+	"image/gif"
+	"image/jpeg"
+	"image/png"
+	"io"
+	"os"
 )
 
 // 图片裁剪
@@ -25,21 +29,35 @@ func CutPicture(src image.Image, x, y, width, height int) (image.Image, error) {
 	return subImg, nil
 }
 
-// 图片转码
-
-func EncodePicture(fileSuffix string, file image.Image) {
+// 根据图片类型解码
+func DecodePicture(fileSuffix string, file *os.File) (image.Image, error) {
 	// 根据图片类型转码
 	switch fileSuffix {
 	case ".jpg", ".jpeg":
-		fmt.Println(".jpg, jpeg")
+		return jpeg.Decode(file)
 	case ".png":
-		fmt.Println(".png")
-		break
+		return png.Decode(file)
 	case ".gif":
-		fmt.Println(".gif")
-		break
+		return gif.Decode(file)
 	default:
-		break
+		return nil, errors.New("格式转换错误")
+	}
+}
 
+// 根据图片类型编码
+func EncodePicture(fileSuffix string, buffer io.Writer, curImage image.Image) error {
+	// 根据图片类型转码
+	switch fileSuffix {
+	case ".jpg", ".jpeg":
+		jpeg.Encode(buffer, curImage, nil)
+		return nil
+	case ".png":
+		png.Encode(buffer, curImage)
+		return nil
+	case ".gif":
+		gif.Encode(buffer, curImage, nil)
+		return nil
+	default:
+		return errors.New("格式转换错误")
 	}
 }
