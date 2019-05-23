@@ -27,7 +27,7 @@ type PublicController struct {
 // @router /picture/:img [get]
 func (p *PublicController) Get() {
 	var buffer bytes.Buffer
-	imgPath := p.Ctx.Input.Param(":img")
+	imgPath := p.GetString(":img")
 	var compressImage image.Image
 
 	currentWidth, currentWidthErr := strconv.ParseInt(p.Ctx.Input.Query("width"), 10, 16)

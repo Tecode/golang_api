@@ -11,6 +11,27 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 basePath: /v1
 paths:
+  /book_info/:
+    get:
+      tags:
+      - book_info
+      description: create books
+      operationId: BookController.获取推荐书籍信息
+      parameters:
+      - in: header
+        name: token
+        description: The token is required
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.BookInfo'
+        "400":
+          description: token验证失败
+        "403":
+          description: body is empty
   /book_info/recommend:
     get:
       tags:
@@ -197,6 +218,9 @@ definitions:
       updatedAt:
         type: string
         format: datetime
+      view:
+        type: integer
+        format: int32
   models.LoginInfo:
     title: LoginInfo
     type: object

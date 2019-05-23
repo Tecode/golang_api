@@ -30,6 +30,7 @@ type SiteAppBook struct {
 	Delete      bool      `orm:"default(false)"json:"delete"`                 // 是否下架
 	CreatedAt   time.Time `orm:"auto_now_add;type(datetime)"json:"createdAt"` // 创建时间
 	UpdatedAt   time.Time `orm:"auto_now;type(datetime)"json:"updatedAt"`     // 更新时间
+	View        int32     `json:"view"`        //浏览次数
 }
 
 func init() {
