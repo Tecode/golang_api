@@ -24,7 +24,7 @@ type SiteAppBook struct {
 	Title       string    `orm:"size(60)"json:"title"`                        // 书籍标题
 	Description string    `orm:"size(500)"json:"description"`                 // 书籍的描述
 	Author      string    `json:"author"`                                     // 作者
-	BookImage   string    `json:"book_image"`                                 // 书籍封面
+	BookImage   string    `json:"bookImage"`                                 // 书籍封面
 	Content     string    `orm:"type(text)"json:"content"`                    // 书籍内容
 	Score       uint      `json:"score"`                                      // 评分
 	Delete      bool      `orm:"default(false)"json:"delete"`                 // 是否下架
