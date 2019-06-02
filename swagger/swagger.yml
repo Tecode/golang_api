@@ -11,7 +11,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 basePath: /v1
 paths:
-  /book_info/:
+  /book_info/recommend:
     get:
       tags:
       - book_info
@@ -32,12 +32,12 @@ paths:
           description: token验证失败
         "403":
           description: body is empty
-  /book_info/recommend:
+  /book_info/today:
     get:
       tags:
       - book_info
       description: create books
-      operationId: BookController.获取推荐书籍信息
+      operationId: BookController.首页展示信息
       parameters:
       - in: header
         name: token
@@ -193,34 +193,6 @@ definitions:
   models.BookInfo:
     title: BookInfo
     type: object
-    properties:
-      author:
-        type: string
-      bookId:
-        type: integer
-        format: int64
-      bookImage:
-        type: string
-      content:
-        type: string
-      createdAt:
-        type: string
-        format: datetime
-      delete:
-        type: boolean
-      description:
-        type: string
-      score:
-        type: integer
-        format: int32
-      title:
-        type: string
-      updatedAt:
-        type: string
-        format: datetime
-      view:
-        type: integer
-        format: int32
   models.LoginInfo:
     title: LoginInfo
     type: object

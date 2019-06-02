@@ -22,7 +22,7 @@ type SiteAppUser struct {
 type SiteAppBook struct {
 	Id          int       `orm:"auto_now_add"json:"id"`                       // id
 	Title       string    `orm:"size(60)"json:"title"`                        // 书籍标题
-	Description string    `json:"description"`                                // 书籍的描述
+	Description string    `orm:"size(500)"json:"description"`                 // 书籍的描述
 	Author      string    `json:"author"`                                     // 作者
 	BookImage   string    `json:"book_image"`                                 // 书籍封面
 	Content     string    `orm:"type(text)"json:"content"`                    // 书籍内容
@@ -30,7 +30,8 @@ type SiteAppBook struct {
 	Delete      bool      `orm:"default(false)"json:"delete"`                 // 是否下架
 	CreatedAt   time.Time `orm:"auto_now_add;type(datetime)"json:"createdAt"` // 创建时间
 	UpdatedAt   time.Time `orm:"auto_now;type(datetime)"json:"updatedAt"`     // 更新时间
-	View        int32     `json:"view"`        //浏览次数
+	View        int32     `json:"view"`                                       //浏览次数
+	Recommend   bool      `orm:"default(false)"json:"recommend"`                // 推荐
 }
 
 func init() {

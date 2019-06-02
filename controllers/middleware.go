@@ -29,7 +29,7 @@ var Filter = func(ctx *context.Context) {
 	if public {
 		return
 	}
-	beego.Info(token, ctx.Request.RequestURI, "----------")
+	//beego.Info(token, ctx.Request.RequestURI, "----------")
 	match, _ := regexp.MatchString("/user/login", ctx.Request.RequestURI)
 	if !match {
 		if len(token) == 0 {
