@@ -9,6 +9,24 @@ func init() {
 
     beego.GlobalControllerRouter["golang_api/controllers:BookController"] = append(beego.GlobalControllerRouter["golang_api/controllers:BookController"],
         beego.ControllerComments{
+            Method: "GetNewBook",
+            Router: `/new_book`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["golang_api/controllers:BookController"] = append(beego.GlobalControllerRouter["golang_api/controllers:BookController"],
+        beego.ControllerComments{
+            Method: "GetPopularBook",
+            Router: `/popular_book`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["golang_api/controllers:BookController"] = append(beego.GlobalControllerRouter["golang_api/controllers:BookController"],
+        beego.ControllerComments{
             Method: "GetRecommend",
             Router: `/recommend`,
             AllowHTTPMethods: []string{"get"},

@@ -11,18 +11,96 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 basePath: /v1
 paths:
-  /book_info/recommend:
+  /book_info/new_book:
     get:
       tags:
       - book_info
       description: create books
-      operationId: BookController.获取推荐书籍信息
+      operationId: BookController.获取最新发布的书籍（全部）
       parameters:
       - in: header
         name: token
         description: The token is required
         required: true
         type: string
+      - in: query
+        name: index
+        description: The index is required
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: size
+        description: The size is required
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.BookInfo'
+        "400":
+          description: token验证失败
+        "403":
+          description: body is empty
+  /book_info/popular_book:
+    get:
+      tags:
+      - book_info
+      description: create books
+      operationId: BookController.获取最受欢迎的书籍（全部）
+      parameters:
+      - in: header
+        name: token
+        description: The token is required
+        required: true
+        type: string
+      - in: query
+        name: index
+        description: The index is required
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: size
+        description: The size is required
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.BookInfo'
+        "400":
+          description: token验证失败
+        "403":
+          description: body is empty
+  /book_info/recommend:
+    get:
+      tags:
+      - book_info
+      description: create books
+      operationId: BookController.获取推荐书籍信息（全部）
+      parameters:
+      - in: header
+        name: token
+        description: The token is required
+        required: true
+        type: string
+      - in: query
+        name: index
+        description: The index is required
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: size
+        description: The size is required
+        required: true
+        type: integer
+        format: int64
       responses:
         "200":
           description: ""
