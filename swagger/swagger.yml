@@ -11,6 +11,33 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 basePath: /v1
 paths:
+  /book_info/detail/{book_id}:
+    get:
+      tags:
+      - book_info
+      description: create books
+      operationId: BookController.获取书籍详情
+      parameters:
+      - in: header
+        name: token
+        description: The token is required
+        required: true
+        type: string
+      - in: path
+        name: book_id
+        description: The book_id is required
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.BookInfo'
+        "400":
+          description: token验证失败
+        "403":
+          description: body is empty
   /book_info/new_book:
     get:
       tags:

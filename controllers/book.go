@@ -17,9 +17,9 @@ type BookController struct {
 // @Failure 403 body is empty
 // @Failure 400 token验证失败
 // @router /today [get]
-func (u *BookController) Today() {
-	u.Data["json"] = models.BookInfo()
-	u.ServeJSON()
+func (b *BookController) Today() {
+	b.Data["json"] = models.BookInfo()
+	b.ServeJSON()
 }
 
 // @Title 获取推荐书籍信息（全部）
@@ -31,18 +31,18 @@ func (u *BookController) Today() {
 // @Failure 403 body is empty
 // @Failure 400 token验证失败
 // @router /recommend [get]
-func (u *BookController) GetRecommend() {
-	index, indexError := u.GetInt("index")
-	size, sizeError := u.GetInt("size")
+func (b *BookController) GetRecommend() {
+	index, indexError := b.GetInt("index")
+	size, sizeError := b.GetInt("size")
 	if indexError != nil || sizeError != nil {
-		u.Data["json"] = map[string]string{
+		b.Data["json"] = map[string]string{
 			"data": "分页参数错误"}
-		u.ServeJSON()
+		b.ServeJSON()
 		return
 	}
-	u.Data["json"] = map[string]models.PageData{
+	b.Data["json"] = map[string]models.PageData{
 		"data": models.Recommend(index, size)}
-	u.ServeJSON()
+	b.ServeJSON()
 }
 
 // @Title 获取最新发布的书籍（全部）
@@ -54,18 +54,18 @@ func (u *BookController) GetRecommend() {
 // @Failure 403 body is empty
 // @Failure 400 token验证失败
 // @router /new_book [get]
-func (u *BookController) GetNewBook() {
-	index, indexError := u.GetInt("index")
-	size, sizeError := u.GetInt("size")
+func (b *BookController) GetNewBook() {
+	index, indexError := b.GetInt("index")
+	size, sizeError := b.GetInt("size")
 	if indexError != nil || sizeError != nil {
-		u.Data["json"] = map[string]string{
+		b.Data["json"] = map[string]string{
 			"data": "分页参数错误"}
-		u.ServeJSON()
+		b.ServeJSON()
 		return
 	}
-	u.Data["json"] = map[string]models.PageData{
+	b.Data["json"] = map[string]models.PageData{
 		"data": models.NewBook(index, size)}
-	u.ServeJSON()
+	b.ServeJSON()
 }
 
 // @Title 获取最受欢迎的书籍（全部）
@@ -77,16 +77,39 @@ func (u *BookController) GetNewBook() {
 // @Failure 403 body is empty
 // @Failure 400 token验证失败
 // @router /popular_book [get]
-func (u *BookController) GetPopularBook() {
-	index, indexError := u.GetInt("index")
-	size, sizeError := u.GetInt("size")
+func (b *BookController) GetPopularBook() {
+	index, indexError := b.GetInt("index")
+	size, sizeError := b.GetInt("size")
 	if indexError != nil || sizeError != nil {
-		u.Data["json"] = map[string]string{
+		b.Data["json"] = map[string]string{
 			"data": "分页参数错误"}
-		u.ServeJSON()
+		b.ServeJSON()
 		return
 	}
-	u.Data["json"] = map[string]models.PageData{
+	b.Ctx.Output.SetStatus(400)
+	b.Data["json"] = map[string]models.PageData{
 		"data": models.PopularBook(index, size)}
-	u.ServeJSON()
+	b.ServeJSON()
+}
+
+// @Title 获取书籍详情
+// @Description create books
+// @Param	token		header 	string	true		"The token is required"
+// @Param	book_id		path 	int	true		"The book_id is required"
+// @Success 200 {object} models.BookInfo
+// @Failure 403 body is empty
+// @Failure 400 token验证失败
+// @router /detail/:book_id [get]
+func (b *BookController) GetBookDetail() {
+	bookId, bookIdError := b.GetInt(":book_id")
+	if bookIdError != nil {
+		b.Ctx.Output.SetStatus(400)
+		b.Data["json"] = map[string]string{
+			"data": "请求参数错误"}
+		b.ServeJSON()
+		return
+	}
+	b.Data["json"] = map[string]models.SiteAppBook{
+		"data": models.BookDetail(bookId)}
+	b.ServeJSON()
 }

@@ -107,3 +107,14 @@ func PopularBook(index int, size int) PageData {
 		TotalElements:totalElements,
 		Size:size}
 }
+
+// 书籍详情
+func BookDetail(bookId int) SiteAppBook {
+	o := orm.NewOrm()
+	data := SiteAppBook{Id: int(bookId)}
+	err := o.Read(&data, "Id")
+	if err != nil {
+		beego.Info("查询书籍详情出错")
+	}
+	return data
+}
