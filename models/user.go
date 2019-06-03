@@ -3,8 +3,8 @@ package models
 import (
 	"errors"
 	"fmt"
+	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"strconv"
 	"time"
 )
 
@@ -12,19 +12,7 @@ var (
 	UserList map[string]*User
 )
 
-func init() {
-	UserList = make(map[string]*User)
-	u := User{
-		"10001",
-		"admin",
-		"123456",
-		Profile{
-			"male",
-			20,
-			"ChenDu",
-			"283731869@qq.com"}}
-	UserList["user_11111"] = &u
-}
+func init() {}
 
 type User struct {
 	Id       string
@@ -40,16 +28,38 @@ type Profile struct {
 	Email   string
 }
 
+type Registered struct {
+	Name     string `json:"name"`     // 姓名
+	Email    string `json:"email"`    //邮箱账号
+	Phone    string `json:"phone"`    // 手机号码
+	Password string `json:"password"` // 密码
+}
+
 // 登录信息
 type LoginInfo struct {
 	Email    string `json:"email";valid:"Email; MaxSize(100)"`
 	Password string `json:"password";valid:"Required"`
 }
 
-func AddUser(u User) string {
-	u.Id = "user_" + strconv.FormatInt(time.Now().UnixNano(), 10)
-	UserList[u.Id] = &u
-	return u.Id
+func AddUser(u Registered) (int64, error) {
+	o := orm.NewOrm()
+	// 邮箱是否存在
+	exist := o.QueryTable("site_app_user").Filter("email", u.Email).Exist()
+	if exist {
+		return 0, errors.New("邮箱已存在")
+	}
+	var user SiteAppUser
+	user.Email = u.Email
+	user.Name = u.Name
+	user.Password = u.Password
+	user.CreatedAt = time.Now()
+	user.UpdatedAt = time.Now()
+	id, err := o.Insert(&user)
+	if err != nil {
+		beego.Info(err)
+		return id, err
+	}
+	return id, nil
 }
 
 func GetUser(uid float64) (ok bool, userInfo SiteAppUser) {

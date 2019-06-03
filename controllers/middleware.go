@@ -22,9 +22,14 @@ type MyCustomClaims struct {
 
 // 验证token，token出错就返回错误信息
 var Filter = func(ctx *context.Context) {
+	fmt.Println(ctx.Input.URL() == "/v1/user/", ctx.Input.URL(), "ctx=============================")
 	beego.Info("路由拦截")
 	token := ctx.Request.Header["Token"]
-	// /picture专门处理图片的，裁剪一类
+	// 注册账号（过滤掉）
+	if ctx.Input.Method() == "POST" && ctx.Input.URL() == "/v1/user/" {
+		return
+	}
+	// /picture专门处理图片的，裁剪一类（过滤掉）
 	public, _ := regexp.MatchString("/public/", ctx.Request.RequestURI)
 	if public {
 		return

@@ -275,6 +275,15 @@
                 ],
                 "description": "get all Users",
                 "operationId": "UserController.GetAll",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "The token is required",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -297,7 +306,7 @@
                         "description": "body for user content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.SiteAppUser"
+                            "$ref": "#/definitions/models.Registered"
                         }
                     }
                 ],
@@ -317,7 +326,7 @@
                     "user"
                 ],
                 "description": "登录获取token username:admin password:123456",
-                "operationId": "UserController.Login",
+                "operationId": "UserController.登录",
                 "parameters": [
                     {
                         "in": "body",
@@ -345,7 +354,7 @@
                     "user"
                 ],
                 "description": "Logs out current logged in user session",
-                "operationId": "UserController.logout",
+                "operationId": "UserController.登出",
                 "responses": {
                     "200": {
                         "description": "{string} logout success"
@@ -359,7 +368,7 @@
                     "user"
                 ],
                 "description": "验证token",
-                "operationId": "UserController.valid token",
+                "operationId": "UserController.token验证",
                 "parameters": [
                     {
                         "in": "header",
@@ -487,6 +496,24 @@
                     "type": "string"
                 },
                 "Gender": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Registered": {
+            "title": "Registered",
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
                     "type": "string"
                 }
             }
