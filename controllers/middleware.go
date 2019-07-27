@@ -22,6 +22,8 @@ type MyCustomClaims struct {
 
 // 验证token，token出错就返回错误信息
 var Filter = func(ctx *context.Context) {
+	// 目前暂时不需要token
+	return
 	fmt.Println(ctx.Input.URL() == "/v1/user/", ctx.Input.URL(), "ctx=============================")
 	beego.Info("路由拦截")
 	token := ctx.Request.Header["Token"]
