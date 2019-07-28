@@ -35,6 +35,7 @@ func (b *BookController) GetRecommend() {
 	index, indexError := b.GetInt("index")
 	size, sizeError := b.GetInt("size")
 	if indexError != nil || sizeError != nil {
+		b.Ctx.Output.SetStatus(400)
 		b.Data["json"] = map[string]string{
 			"data": "分页参数错误"}
 		b.ServeJSON()
@@ -58,6 +59,7 @@ func (b *BookController) GetNewBook() {
 	index, indexError := b.GetInt("index")
 	size, sizeError := b.GetInt("size")
 	if indexError != nil || sizeError != nil {
+		b.Ctx.Output.SetStatus(400)
 		b.Data["json"] = map[string]string{
 			"data": "分页参数错误"}
 		b.ServeJSON()
@@ -68,7 +70,7 @@ func (b *BookController) GetNewBook() {
 	b.ServeJSON()
 }
 
-// @Title 获取最受欢迎的书籍（全部）
+// @Title 获取最受欢迎的书籍
 // @Description create books
 // @Param	token		header 	string	true		"The token is required"
 // @Param	index		query 	int	true		"The index is required"
@@ -81,14 +83,38 @@ func (b *BookController) GetPopularBook() {
 	index, indexError := b.GetInt("index")
 	size, sizeError := b.GetInt("size")
 	if indexError != nil || sizeError != nil {
+		b.Ctx.Output.SetStatus(400)
 		b.Data["json"] = map[string]string{
 			"data": "分页参数错误"}
 		b.ServeJSON()
 		return
 	}
-	b.Ctx.Output.SetStatus(400)
 	b.Data["json"] = map[string]models.PageData{
 		"data": models.PopularBook(index, size)}
+	b.ServeJSON()
+}
+
+// @Title 获取热门书籍
+// @Description create books
+// @Param	token		header 	string	true		"The token is required"
+// @Param	index		query 	int	true		"The index is required"
+// @Param	size		query 	int	true		"The size is required"
+// @Success 200 {object} models.BookInfo
+// @Failure 403 body is empty
+// @Failure 400 token验证失败
+// @router /hot_book [get]
+func (b *BookController) GetHotBook() {
+	index, indexError := b.GetInt("index")
+	size, sizeError := b.GetInt("size")
+	if indexError != nil || sizeError != nil {
+		b.Ctx.Output.SetStatus(400)
+		b.Data["json"] = map[string]string{
+			"data": "分页参数错误"}
+		b.ServeJSON()
+		return
+	}
+	b.Data["json"] = map[string]models.PageData{
+		"data": models.HotBook(index, size)}
 	b.ServeJSON()
 }
 

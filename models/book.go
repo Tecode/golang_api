@@ -5,6 +5,12 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
+func splicingString(data []SiteAppBook)  {
+	for index := 0; index < len(data); index++  {
+		data[index].BookImage = beego.AppConfig.String("imageSite") + "6Co6W3DogOqW6TxwDp8Vb.jpg"
+	}
+}
+
 // 今日推荐书籍
 type TodayInfo struct {
 	Recommends   []SiteAppBook `json:"recommendBooks"`
@@ -14,11 +20,11 @@ type TodayInfo struct {
 
 // 分页数据
 type PageData struct {
-	Data []SiteAppBook `json:"data"`
-	Index int `json:"index"`
-	Size int `json:"size"`
-	TotalElements int64 `json:"totalElements"`
-} 
+	Data          []SiteAppBook `json:"data"`
+	Index         int           `json:"index"`
+	Size          int           `json:"size"`
+	TotalElements int64         `json:"totalElements"`
+}
 
 func BookInfo() TodayInfo {
 	var recommends []SiteAppBook
@@ -55,17 +61,19 @@ func Recommend(index int, size int) PageData {
 	book := new(SiteAppBook)
 	qs := o.QueryTable(book)
 	// 分页
-	_, error := qs.Filter("recommend",true).Limit(size, (index-1)*size).All(&data)
+	_, error := qs.Filter("recommend", true).Limit(size, (index-1)*size).All(&data)
 	// 查询总的条数
 	totalElements, _ := qs.Filter("recommend", true).Count()
 	if error != nil {
 		beego.Info("查询全部推荐列表出错")
 	}
+	// 图片加入配置项的地址
+	splicingString(data)
 	return PageData{
-		Data:data,
-		Index:index,
-		TotalElements:totalElements,
-		Size:size}
+		Data:          data,
+		Index:         index,
+		TotalElements: totalElements,
+		Size:          size}
 }
 
 // 新书推荐（全部）
@@ -81,11 +89,13 @@ func NewBook(index int, size int) PageData {
 	if error != nil {
 		beego.Info("查询全部推荐列表出错")
 	}
+	// 图片加入配置项的地址
+	splicingString(data)
 	return PageData{
-		Data:data,
-		Index:index,
-		TotalElements:totalElements,
-		Size:size}
+		Data:          data,
+		Index:         index,
+		TotalElements: totalElements,
+		Size:          size}
 }
 
 // 最受欢迎的书籍（全部）
@@ -101,11 +111,35 @@ func PopularBook(index int, size int) PageData {
 	if error != nil {
 		beego.Info("查询全部推荐列表出错")
 	}
+	// 图片加入配置项的地址
+	splicingString(data)
 	return PageData{
-		Data:data,
-		Index:index,
-		TotalElements:totalElements,
-		Size:size}
+		Data:          data,
+		Index:         index,
+		TotalElements: totalElements,
+		Size:          size}
+}
+
+// 热门书籍
+func HotBook(index int, size int) PageData {
+	var data []SiteAppBook
+	o := orm.NewOrm()
+	book := new(SiteAppBook)
+	qs := o.QueryTable(book)
+	// 分页
+	_, error := qs.OrderBy("-view").Limit(size, (index-1)*size).All(&data)
+	// 查询总的条数
+	totalElements, _ := qs.Count()
+	if error != nil {
+		beego.Info("查询全部推荐列表出错")
+	}
+	// 图片加入配置项的地址
+	splicingString(data)
+	return PageData{
+		Data:          data,
+		Index:         index,
+		TotalElements: totalElements,
+		Size:          size}
 }
 
 // 书籍详情

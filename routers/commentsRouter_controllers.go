@@ -18,6 +18,15 @@ func init() {
 
     beego.GlobalControllerRouter["golang_api/controllers:BookController"] = append(beego.GlobalControllerRouter["golang_api/controllers:BookController"],
         beego.ControllerComments{
+            Method: "GetHotBook",
+            Router: `/hot_book`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["golang_api/controllers:BookController"] = append(beego.GlobalControllerRouter["golang_api/controllers:BookController"],
+        beego.ControllerComments{
             Method: "GetNewBook",
             Router: `/new_book`,
             AllowHTTPMethods: []string{"get"},
