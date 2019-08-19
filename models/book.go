@@ -7,7 +7,7 @@ import (
 
 func splicingString(data []SiteAppBook)  {
 	for index := 0; index < len(data); index++  {
-		data[index].BookImage = beego.AppConfig.String("imageSite") + "6Co6W3DogOqW6TxwDp8Vb.jpg"
+		data[index].BookImage = beego.AppConfig.String("imageSite") + data[index].BookImage
 	}
 }
 
