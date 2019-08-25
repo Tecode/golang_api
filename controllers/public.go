@@ -64,3 +64,15 @@ func (p *PublicController) Get() {
 	data := buffer.Bytes()
 	p.Ctx.Output.Body(data)
 }
+
+
+// @Title 版本信息
+// @Description 版本信息
+// @Success 200 {object} Version
+// @Failure 403 body is empty
+// @Failure 400 token验证失败
+// @router /version [get]
+func (v *PublicController) GetVersion() {
+	v.Data["json"] = map[string]string{"version": "1.0.0"}
+	v.ServeJSON()
+}

@@ -316,6 +316,29 @@
                 }
             }
         },
+        "/public/version": {
+            "get": {
+                "tags": [
+                    "public"
+                ],
+                "description": "版本信息",
+                "operationId": "PublicController.版本信息",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Version"
+                        }
+                    },
+                    "400": {
+                        "description": "token验证失败"
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
+            }
+        },
         "/user/": {
             "get": {
                 "tags": [
@@ -497,6 +520,10 @@
         }
     },
     "definitions": {
+        "Version": {
+            "title": "Version",
+            "type": "object"
+        },
         "models.BookInfo": {
             "title": "BookInfo",
             "type": "object"
