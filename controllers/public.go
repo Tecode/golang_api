@@ -65,7 +65,6 @@ func (p *PublicController) Get() {
 	p.Ctx.Output.Body(data)
 }
 
-
 // @Title 版本信息
 // @Description 版本信息
 // @Success 200 {object} Version
@@ -73,6 +72,11 @@ func (p *PublicController) Get() {
 // @Failure 400 token验证失败
 // @router /version [get]
 func (v *PublicController) GetVersion() {
-	v.Data["json"] = map[string]string{"version": "1.0.0"}
+	v.Data["json"] = map[string]interface{}{
+		"version": "1.0.0",
+		"data": []string{
+			"1、升级搜索页面UI",
+			"2、优化下拉卡顿的问题",
+			"3、iOS 版本支持 iPhone X"}}
 	v.ServeJSON()
 }
