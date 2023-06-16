@@ -10,7 +10,7 @@ import (
 	"os"
 )
 
-// 图片裁剪
+// CutPicture 图片裁剪
 func CutPicture(src image.Image, x, y, width, height int) (image.Image, error) {
 
 	var subImg image.Image
@@ -29,7 +29,7 @@ func CutPicture(src image.Image, x, y, width, height int) (image.Image, error) {
 	return subImg, nil
 }
 
-// 根据图片类型解码
+// DecodePicture 根据图片类型解码
 func DecodePicture(fileSuffix string, file *os.File) (image.Image, error) {
 	// 根据图片类型转码
 	switch fileSuffix {
