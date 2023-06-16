@@ -1,4 +1,4 @@
-// @APIVersion 1.0.0
+// Package routers @APIVersion 1.0.0
 // @Title API Interface
 // @Description beego 实现的API方法
 // @Contact astaxie@gmail.com

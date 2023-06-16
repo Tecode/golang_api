@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "title": "API Interface",
-        "description": "beego 实现的API方法",
+        "description": "beego 实现的API方法\n",
         "version": "1.0.0",
         "termsOfService": "http://beego.me/",
         "contact": {
@@ -20,8 +20,7 @@
                 "tags": [
                     "book_info"
                 ],
-                "description": "create books",
-                "operationId": "BookController.获取书籍详情",
+                "description": "create books\n\u003cbr\u003e",
                 "parameters": [
                     {
                         "in": "header",
@@ -60,8 +59,7 @@
                 "tags": [
                     "book_info"
                 ],
-                "description": "create books",
-                "operationId": "BookController.获取热门书籍",
+                "description": "create books\n\u003cbr\u003e",
                 "parameters": [
                     {
                         "in": "header",
@@ -108,8 +106,7 @@
                 "tags": [
                     "book_info"
                 ],
-                "description": "create books",
-                "operationId": "BookController.获取最新发布的书籍（全部）",
+                "description": "create books\n\u003cbr\u003e",
                 "parameters": [
                     {
                         "in": "header",
@@ -156,8 +153,7 @@
                 "tags": [
                     "book_info"
                 ],
-                "description": "create books",
-                "operationId": "BookController.获取最受欢迎的书籍",
+                "description": "create books\n\u003cbr\u003e",
                 "parameters": [
                     {
                         "in": "header",
@@ -204,8 +200,7 @@
                 "tags": [
                     "book_info"
                 ],
-                "description": "create books",
-                "operationId": "BookController.获取推荐书籍信息（全部）",
+                "description": "create books\n\u003cbr\u003e",
                 "parameters": [
                     {
                         "in": "header",
@@ -252,8 +247,7 @@
                 "tags": [
                     "book_info"
                 ],
-                "description": "create books",
-                "operationId": "BookController.首页展示信息",
+                "description": "create books\n\u003cbr\u003e",
                 "parameters": [
                     {
                         "in": "header",
@@ -284,7 +278,7 @@
                 "tags": [
                     "public"
                 ],
-                "description": "图片裁剪",
+                "description": "图片裁剪\n\u003cbr\u003e",
                 "operationId": "PublicController.公共的一些api",
                 "parameters": [
                     {
@@ -321,7 +315,7 @@
                 "tags": [
                     "public"
                 ],
-                "description": "版本信息",
+                "description": "版本信息\n\u003cbr\u003e",
                 "operationId": "PublicController.版本信息",
                 "responses": {
                     "200": {
@@ -344,7 +338,7 @@
                 "tags": [
                     "user"
                 ],
-                "description": "get all Users",
+                "description": "get all Users\n\u003cbr\u003e",
                 "operationId": "UserController.GetAll",
                 "parameters": [
                     {
@@ -368,7 +362,7 @@
                 "tags": [
                     "user"
                 ],
-                "description": "create users",
+                "description": "create users\n\u003cbr\u003e",
                 "operationId": "UserController.CreateUser",
                 "parameters": [
                     {
@@ -396,7 +390,7 @@
                 "tags": [
                     "user"
                 ],
-                "description": "登录获取token username:admin password:123456",
+                "description": "登录获取token username:admin password:123456\n\u003cbr\u003e",
                 "operationId": "UserController.登录",
                 "parameters": [
                     {
@@ -424,7 +418,7 @@
                 "tags": [
                     "user"
                 ],
-                "description": "Logs out current logged in user session",
+                "description": "Logs out current logged in user session\n\u003cbr\u003e",
                 "operationId": "UserController.登出",
                 "responses": {
                     "200": {
@@ -438,7 +432,7 @@
                 "tags": [
                     "user"
                 ],
-                "description": "验证token",
+                "description": "验证token\n\u003cbr\u003e",
                 "operationId": "UserController.token验证",
                 "parameters": [
                     {
@@ -461,7 +455,7 @@
                 "tags": [
                     "user"
                 ],
-                "description": "update the user",
+                "description": "update the user\n\u003cbr\u003e",
                 "operationId": "UserController.Update",
                 "parameters": [
                     {
@@ -497,7 +491,7 @@
                 "tags": [
                     "user"
                 ],
-                "description": "delete the user",
+                "description": "delete the user\n\u003cbr\u003e",
                 "operationId": "UserController.Delete",
                 "parameters": [
                     {
@@ -580,15 +574,19 @@
             "type": "object",
             "properties": {
                 "email": {
+                    "description": "邮箱账号",
                     "type": "string"
                 },
                 "name": {
+                    "description": "姓名",
                     "type": "string"
                 },
                 "password": {
+                    "description": "密码",
                     "type": "string"
                 },
                 "phone": {
+                    "description": "手机号码",
                     "type": "string"
                 }
             }
@@ -598,29 +596,37 @@
             "type": "object",
             "properties": {
                 "createdAt": {
+                    "description": "注册时间",
                     "type": "string",
                     "format": "datetime"
                 },
                 "email": {
+                    "description": "邮箱账号",
                     "type": "string"
                 },
                 "id": {
+                    "description": "id",
                     "type": "integer",
                     "format": "int64"
                 },
                 "name": {
+                    "description": "姓名",
                     "type": "string"
                 },
                 "nickname": {
+                    "description": "昵称",
                     "type": "string"
                 },
                 "password": {
+                    "description": "密码",
                     "type": "string"
                 },
                 "phone": {
+                    "description": "手机号码",
                     "type": "string"
                 },
                 "updatedAt": {
+                    "description": "更新时间",
                     "type": "string",
                     "format": "datetime"
                 }
@@ -652,7 +658,7 @@
         },
         {
             "name": "book_info",
-            "description": "书籍信息相关\n"
+            "description": "BookController 书籍信息相关\n"
         },
         {
             "name": "public",

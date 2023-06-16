@@ -5,12 +5,12 @@ import (
 	"golang_api/models"
 )
 
-// 书籍信息相关
+// BookController 书籍信息相关
 type BookController struct {
 	beego.Controller
 }
 
-// @Title 首页展示信息
+// Today @Title 首页展示信息
 // @Description create books
 // @Param	token		header 	string	true		"The token is required"
 // @Success 200 {object} models.BookInfo
@@ -22,7 +22,7 @@ func (b *BookController) Today() {
 	b.ServeJSON()
 }
 
-// @Title 获取推荐书籍信息（全部）
+// GetRecommend @Title 获取推荐书籍信息（全部）
 // @Description create books
 // @Param	token		header 	string	true		"The token is required"
 // @Param	index		query 	int	true		"The index is required"
@@ -46,7 +46,7 @@ func (b *BookController) GetRecommend() {
 	b.ServeJSON()
 }
 
-// @Title 获取最新发布的书籍（全部）
+// GetNewBook @Title 获取最新发布的书籍（全部）
 // @Description create books
 // @Param	token		header 	string	true		"The token is required"
 // @Param	index		query 	int	true		"The index is required"
@@ -70,7 +70,7 @@ func (b *BookController) GetNewBook() {
 	b.ServeJSON()
 }
 
-// @Title 获取最受欢迎的书籍
+// GetPopularBook @Title 获取最受欢迎的书籍
 // @Description create books
 // @Param	token		header 	string	true		"The token is required"
 // @Param	index		query 	int	true		"The index is required"
@@ -94,7 +94,7 @@ func (b *BookController) GetPopularBook() {
 	b.ServeJSON()
 }
 
-// @Title 获取热门书籍
+// GetHotBook @Title 获取热门书籍
 // @Description create books
 // @Param	token		header 	string	true		"The token is required"
 // @Param	index		query 	int	true		"The index is required"
@@ -118,7 +118,7 @@ func (b *BookController) GetHotBook() {
 	b.ServeJSON()
 }
 
-// @Title 获取书籍详情
+// GetBookDetail @Title 获取书籍详情
 // @Description create books
 // @Param	token		header 	string	true		"The token is required"
 // @Param	book_id		path 	int	true		"The book_id is required"

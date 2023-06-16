@@ -5,20 +5,20 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
-func splicingString(data []SiteAppBook)  {
-	for index := 0; index < len(data); index++  {
+func splicingString(data []SiteAppBook) {
+	for index := 0; index < len(data); index++ {
 		data[index].BookImage = beego.AppConfig.String("imageSite") + data[index].BookImage
 	}
 }
 
-// 今日推荐书籍
+// TodayInfo 今日推荐书籍
 type TodayInfo struct {
 	Recommends   []SiteAppBook `json:"recommendBooks"`
 	NewBooks     []SiteAppBook `json:"newBooks"`
 	PopularBooks []SiteAppBook `json:"popularBooks"`
 }
 
-// 分页数据
+// PageData 分页数据
 type PageData struct {
 	Data          []SiteAppBook `json:"data"`
 	Index         int           `json:"index"`
@@ -54,7 +54,7 @@ func BookInfo() TodayInfo {
 		PopularBooks: popularBooks}
 }
 
-// 推荐列表（全部）
+// Recommend 推荐列表（全部）
 func Recommend(index int, size int) PageData {
 	var data []SiteAppBook
 	o := orm.NewOrm()

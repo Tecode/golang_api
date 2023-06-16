@@ -13,12 +13,12 @@ import (
 	"strconv"
 )
 
-// 公共的一些api
+// PublicController 公共的一些api
 type PublicController struct {
 	beego.Controller
 }
 
-// @Title 公共的一些api
+// Get @Title 公共的一些api
 // @Description 图片裁剪
 // @Param   width   query   int  false       "宽度"
 // @Param   height   query   int  false       "高度"
@@ -65,18 +65,18 @@ func (p *PublicController) Get() {
 	p.Ctx.Output.Body(data)
 }
 
-// @Title 版本信息
+// GetVersion @Title 版本信息
 // @Description 版本信息
 // @Success 200 {object} Version
 // @Failure 403 body is empty
 // @Failure 400 token验证失败
 // @router /version [get]
-func (v *PublicController) GetVersion() {
-	v.Data["json"] = map[string]interface{}{
+func (p *PublicController) GetVersion() {
+	p.Data["json"] = map[string]interface{}{
 		"version": "1.0.0",
 		"data": []string{
 			"1、升级搜索页面UI",
 			"2、优化下拉卡顿的问题",
 			"3、iOS 版本支持 iPhone X"}}
-	v.ServeJSON()
+	p.ServeJSON()
 }

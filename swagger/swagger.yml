@@ -1,7 +1,8 @@
 swagger: "2.0"
 info:
   title: API Interface
-  description: beego 实现的API方法
+  description: |
+    beego 实现的API方法
   version: 1.0.0
   termsOfService: http://beego.me/
   contact:
@@ -15,8 +16,9 @@ paths:
     get:
       tags:
       - book_info
-      description: create books
-      operationId: BookController.获取书籍详情
+      description: |-
+        create books
+        <br>
       parameters:
       - in: header
         name: token
@@ -42,8 +44,9 @@ paths:
     get:
       tags:
       - book_info
-      description: create books
-      operationId: BookController.获取热门书籍
+      description: |-
+        create books
+        <br>
       parameters:
       - in: header
         name: token
@@ -75,8 +78,9 @@ paths:
     get:
       tags:
       - book_info
-      description: create books
-      operationId: BookController.获取最新发布的书籍（全部）
+      description: |-
+        create books
+        <br>
       parameters:
       - in: header
         name: token
@@ -108,8 +112,9 @@ paths:
     get:
       tags:
       - book_info
-      description: create books
-      operationId: BookController.获取最受欢迎的书籍
+      description: |-
+        create books
+        <br>
       parameters:
       - in: header
         name: token
@@ -141,8 +146,9 @@ paths:
     get:
       tags:
       - book_info
-      description: create books
-      operationId: BookController.获取推荐书籍信息（全部）
+      description: |-
+        create books
+        <br>
       parameters:
       - in: header
         name: token
@@ -174,8 +180,9 @@ paths:
     get:
       tags:
       - book_info
-      description: create books
-      operationId: BookController.首页展示信息
+      description: |-
+        create books
+        <br>
       parameters:
       - in: header
         name: token
@@ -195,7 +202,9 @@ paths:
     get:
       tags:
       - public
-      description: 图片裁剪
+      description: |-
+        图片裁剪
+        <br>
       operationId: PublicController.公共的一些api
       parameters:
       - in: query
@@ -220,7 +229,9 @@ paths:
     get:
       tags:
       - public
-      description: 版本信息
+      description: |-
+        版本信息
+        <br>
       operationId: PublicController.版本信息
       responses:
         "200":
@@ -235,7 +246,9 @@ paths:
     get:
       tags:
       - user
-      description: get all Users
+      description: |-
+        get all Users
+        <br>
       operationId: UserController.GetAll
       parameters:
       - in: header
@@ -251,7 +264,9 @@ paths:
     post:
       tags:
       - user
-      description: create users
+      description: |-
+        create users
+        <br>
       operationId: UserController.CreateUser
       parameters:
       - in: body
@@ -269,7 +284,9 @@ paths:
     put:
       tags:
       - user
-      description: update the user
+      description: |-
+        update the user
+        <br>
       operationId: UserController.Update
       parameters:
       - in: path
@@ -293,7 +310,9 @@ paths:
     delete:
       tags:
       - user
-      description: delete the user
+      description: |-
+        delete the user
+        <br>
       operationId: UserController.Delete
       parameters:
       - in: path
@@ -310,7 +329,9 @@ paths:
     post:
       tags:
       - user
-      description: 登录获取token username:admin password:123456
+      description: |-
+        登录获取token username:admin password:123456
+        <br>
       operationId: UserController.登录
       parameters:
       - in: body
@@ -328,7 +349,9 @@ paths:
     get:
       tags:
       - user
-      description: Logs out current logged in user session
+      description: |-
+        Logs out current logged in user session
+        <br>
       operationId: UserController.登出
       responses:
         "200":
@@ -337,7 +360,9 @@ paths:
     get:
       tags:
       - user
-      description: 验证token
+      description: |-
+        验证token
+        <br>
       operationId: UserController.token验证
       parameters:
       - in: header
@@ -392,34 +417,46 @@ definitions:
     type: object
     properties:
       email:
+        description: 邮箱账号
         type: string
       name:
+        description: 姓名
         type: string
       password:
+        description: 密码
         type: string
       phone:
+        description: 手机号码
         type: string
   models.SiteAppUser:
     title: SiteAppUser
     type: object
     properties:
       createdAt:
+        description: 注册时间
         type: string
         format: datetime
       email:
+        description: 邮箱账号
         type: string
       id:
+        description: id
         type: integer
         format: int64
       name:
+        description: 姓名
         type: string
       nickname:
+        description: 昵称
         type: string
       password:
+        description: 密码
         type: string
       phone:
+        description: 手机号码
         type: string
       updatedAt:
+        description: 更新时间
         type: string
         format: datetime
   models.User:
@@ -440,7 +477,7 @@ tags:
     用户相关
 - name: book_info
   description: |
-    书籍信息相关
+    BookController 书籍信息相关
 - name: public
   description: |
     公共的一些api

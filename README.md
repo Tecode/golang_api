@@ -16,7 +16,10 @@ go get github.com/nfnt/resize
 
 
 ```bash
-bee run -downdoc=true -gendoc=true
+#http://localhost:8900
+#http://localhost:8900/swagger/
+
+bee run
 ```
 
 ## 版本信息

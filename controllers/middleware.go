@@ -13,14 +13,14 @@ type TokenValidController struct {
 	beego.Controller
 }
 
-// jwt
+// MyCustomClaims jwt
 type MyCustomClaims struct {
 	Name string `json:"name"`
 	Id   int    `json:"id"`
 	jwt.StandardClaims
 }
 
-// 验证token，token出错就返回错误信息
+// Filter 验证token，token出错就返回错误信息
 var Filter = func(ctx *context.Context) {
 	// 目前暂时不需要token
 	return
