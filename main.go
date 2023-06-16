@@ -1,9 +1,8 @@
 package main
 
 import (
-	_ "golang_api/routers"
-
-	"github.com/astaxie/beego"
+	beego "github.com/beego/beego/v2/server/web"
+	_ "golang_apiv2/routers"
 )
 
 func main() {
@@ -11,6 +10,5 @@ func main() {
 		beego.BConfig.WebConfig.DirectoryIndex = true
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}
-	beego.SetStaticPath("/resource", "resource")
 	beego.Run()
 }
