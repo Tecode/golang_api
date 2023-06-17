@@ -28,9 +28,17 @@ go version go1.20.5 windows/amd64
 #http://localhost:8080/swagger/
 #http://localhost:8080
 
-go get -u github.com/beego/bee/v2
-
 go get golang_apiv2
 
 bee run
+```
+
+## 快捷命令
+
+```bash
+# 快速创建一个controller
+bee generate controller haouxuan
+
+# 快速创建一个model
+bee generate model modelName -fields="name:string,age:int"
 ```
