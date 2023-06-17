@@ -9,9 +9,11 @@ import (
 func init() {
 	// http://localhost:8080/v1/haoxuan
 	// 登录
-	beego.CtrlPost("/api/login", (*controllers.UserRelatedController).UserLogin)
+	//beego.CtrlPost("/api/login", (*controllers.UserRelatedController).UserLogin)
+	// 注解路由
 	nameSpace := beego.NewNamespace("/api/v1",
-		beego.NSRouter("/haoxuan", &controllers.HaouxuanController{}),
+		beego.NSNamespace("/data", beego.NSInclude(&controllers.UserRelatedController{})),
+		beego.NSNamespace("/user", beego.NSInclude(&controllers.HaouxuanController{})),
 		// 嵌套 namespace
 		//beego.NSNamespace("/admin", beego.NSRouter("/user", uc)),
 	)
@@ -21,6 +23,5 @@ func init() {
 
 	// http://localhost:8080/haoxuan
 	beego.Router("/", &controllers.MainController{})
-	beego.Router("/:haoxuan", &controllers.HaouxuanController{})
 	beego.AddNamespace(nameSpace)
 }

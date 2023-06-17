@@ -44,4 +44,7 @@ bee generate controller haouxuan
 
 # 快速创建一个model
 bee generate model modelName -fields="name:string,age:int"
+
+# 使用了命名路由需要执行这个命令重新生成commentRouter.go文件
+bee generate routers
 ```

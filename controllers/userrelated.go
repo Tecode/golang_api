@@ -12,6 +12,15 @@ type UserRelatedController struct {
 	beego.Controller
 }
 
+// URLMapping ...
+func (c *UserRelatedController) URLMapping() {
+	c.Mapping("Post", c.Post)
+	c.Mapping("GetOne", c.Get)
+	c.Mapping("GetAll", c.GetAll)
+	c.Mapping("Put", c.Put)
+	c.Mapping("Delete", c.Delete)
+}
+
 // Post ...
 // @Title Create
 // @Description create UserRelated
@@ -31,7 +40,11 @@ func (c *UserRelatedController) Post() {
 // @Failure 403 :id is empty
 // @router /:id [get]
 func (c *UserRelatedController) GetOne() {
-
+	c.Data["json"] = map[string]string{"GetOne": c.Ctx.Input.Param(":haoxuan"), "appname": "appName"}
+	err := c.ServeJSON()
+	if err != nil {
+		return
+	}
 }
 
 // GetAll ...
@@ -73,13 +86,12 @@ func (c *UserRelatedController) Delete() {
 
 }
 
-// UserLogin Post ...
-// @用户登录
-// @登录后获取token
-// @Param	body		body 	models.UserRelated	true		"body for UserRelated content"
+// UserLogin ...
+// @Title 用户登录
+// @Description 登录后获取token
 // @Success 201 {object} models.UserRelated
 // @Failure 403 body is empty
-// @router / [post]
+// @router /login [post]
 func (c *UserRelatedController) UserLogin() {
 	token, tokenError := utils.CreateToken()
 	if tokenError != nil {

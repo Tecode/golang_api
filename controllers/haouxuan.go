@@ -9,6 +9,15 @@ type HaouxuanController struct {
 	beego.Controller
 }
 
+// URLMapping ...
+func (c *HaouxuanController) URLMapping() {
+	c.Mapping("Post", c.Post)
+	c.Mapping("GetOne", c.Get)
+	c.Mapping("GetAll", c.GetAll)
+	c.Mapping("Put", c.Put)
+	c.Mapping("Delete", c.Delete)
+}
+
 // Post ...
 // @Title Create
 // @Description create Haouxuan
@@ -26,7 +35,7 @@ func (c *HaouxuanController) Post() {
 // @Param	id		path 	string	true		"The key for staticblock"
 // @Success 200 {object} models.Haouxuan
 // @Failure 403 :id is empty
-// @router /:id [get]
+// @router /info [get]
 func (c *HaouxuanController) Get() {
 	appName, _ := beego.AppConfig.String("appname")
 	c.Data["json"] = map[string]string{"GetOne": c.Ctx.Input.Param(":haoxuan"), "appname": appName}
@@ -47,7 +56,7 @@ func (c *HaouxuanController) Get() {
 // @Param	offset	query	string	false	"Start position of result set. Must be an integer"
 // @Success 200 {object} models.Haouxuan
 // @Failure 403
-// @router / [get]
+// @router /all [get]
 func (c *HaouxuanController) GetAll() {
 	c.Data["json"] = map[string]string{"GetAll": "GetAll"}
 	err := c.ServeJSON()
