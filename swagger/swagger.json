@@ -3,12 +3,12 @@
     "info": {
         "contact": {}
     },
-    "basePath": "/api/v1",
+    "basePath": "/api",
     "paths": {
-        "/data/": {
+        "/v1/": {
             "get": {
                 "tags": [
-                    "data"
+                    "v2"
                 ],
                 "description": "get UserRelated\n\u003cbr\u003e",
                 "operationId": "UserRelatedController.GetAll",
@@ -64,7 +64,7 @@
             },
             "post": {
                 "tags": [
-                    "data"
+                    "v2"
                 ],
                 "description": "create UserRelated\n\u003cbr\u003e",
                 "operationId": "UserRelatedController.Create",
@@ -92,10 +92,10 @@
                 }
             }
         },
-        "/data/login": {
+        "/v1/login": {
             "post": {
                 "tags": [
-                    "data"
+                    "v2"
                 ],
                 "description": "登录后获取token\n\u003cbr\u003e",
                 "operationId": "UserRelatedController.用户登录",
@@ -112,10 +112,10 @@
                 }
             }
         },
-        "/data/{id}": {
+        "/v1/{id}": {
             "get": {
                 "tags": [
-                    "data"
+                    "v2"
                 ],
                 "description": "get UserRelated by id\n\u003cbr\u003e",
                 "operationId": "UserRelatedController.GetOne",
@@ -142,7 +142,7 @@
             },
             "put": {
                 "tags": [
-                    "data"
+                    "v2"
                 ],
                 "description": "update the UserRelated\n\u003cbr\u003e",
                 "operationId": "UserRelatedController.Put",
@@ -178,7 +178,7 @@
             },
             "delete": {
                 "tags": [
-                    "data"
+                    "v2"
                 ],
                 "description": "delete the UserRelated\n\u003cbr\u003e",
                 "operationId": "UserRelatedController.Delete",
@@ -201,44 +201,13 @@
                 }
             }
         },
-        "/user/": {
-            "post": {
-                "tags": [
-                    "user"
-                ],
-                "description": "create Haouxuan\n\u003cbr\u003e",
-                "operationId": "HaouxuanController.Create",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body for Haouxuan content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Haouxuan"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.Haouxuan"
-                        }
-                    },
-                    "403": {
-                        "description": "body is empty"
-                    }
-                }
-            }
-        },
-        "/user/all": {
+        "/v2/": {
             "get": {
                 "tags": [
-                    "user"
+                    "v2"
                 ],
-                "description": "get Haouxuan\n\u003cbr\u003e",
-                "operationId": "HaouxuanController.GetAll",
+                "description": "get UserRelated\n\u003cbr\u003e",
+                "operationId": "UserRelatedController.GetAll",
                 "parameters": [
                     {
                         "in": "query",
@@ -281,22 +250,71 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.Haouxuan"
+                            "$ref": "#/definitions/models.UserRelated"
                         }
                     },
                     "403": {
                         "description": ""
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "v2"
+                ],
+                "description": "create UserRelated\n\u003cbr\u003e",
+                "operationId": "UserRelatedController.Create",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for UserRelated content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserRelated"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserRelated"
+                        }
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
             }
         },
-        "/user/info": {
+        "/v2/login": {
+            "post": {
+                "tags": [
+                    "v2"
+                ],
+                "description": "登录后获取token\n\u003cbr\u003e",
+                "operationId": "UserRelatedController.用户登录",
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserRelated"
+                        }
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
+            }
+        },
+        "/v2/{id}": {
             "get": {
                 "tags": [
-                    "user"
+                    "v2"
                 ],
-                "description": "get Haouxuan by id\n\u003cbr\u003e",
-                "operationId": "HaouxuanController.GetOne",
+                "description": "get UserRelated by id\n\u003cbr\u003e",
+                "operationId": "UserRelatedController.GetOne",
                 "parameters": [
                     {
                         "in": "path",
@@ -310,22 +328,20 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.Haouxuan"
+                            "$ref": "#/definitions/models.UserRelated"
                         }
                     },
                     "403": {
                         "description": ":id is empty"
                     }
                 }
-            }
-        },
-        "/user/{id}": {
+            },
             "put": {
                 "tags": [
-                    "user"
+                    "v2"
                 ],
-                "description": "update the Haouxuan\n\u003cbr\u003e",
-                "operationId": "HaouxuanController.Put",
+                "description": "update the UserRelated\n\u003cbr\u003e",
+                "operationId": "UserRelatedController.Put",
                 "parameters": [
                     {
                         "in": "path",
@@ -337,10 +353,10 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "body for Haouxuan content",
+                        "description": "body for UserRelated content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Haouxuan"
+                            "$ref": "#/definitions/models.UserRelated"
                         }
                     }
                 ],
@@ -348,7 +364,7 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.Haouxuan"
+                            "$ref": "#/definitions/models.UserRelated"
                         }
                     },
                     "403": {
@@ -358,10 +374,10 @@
             },
             "delete": {
                 "tags": [
-                    "user"
+                    "v2"
                 ],
-                "description": "delete the Haouxuan\n\u003cbr\u003e",
-                "operationId": "HaouxuanController.Delete",
+                "description": "delete the UserRelated\n\u003cbr\u003e",
+                "operationId": "UserRelatedController.Delete",
                 "parameters": [
                     {
                         "in": "path",
@@ -406,12 +422,12 @@
     },
     "tags": [
         {
-            "name": "data",
+            "name": "v1",
             "description": "UserRelatedController operations for UserRelated\n"
         },
         {
-            "name": "user",
-            "description": "HaouxuanController operations for Haouxuan\n"
+            "name": "v2",
+            "description": "UserRelatedController operations for UserRelated\n"
         }
     ]
 }

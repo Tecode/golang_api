@@ -11,11 +11,16 @@ func init() {
 	// 登录
 	//beego.CtrlPost("/api/login", (*controllers.UserRelatedController).UserLogin)
 	// 注解路由
-	nameSpace := beego.NewNamespace("/api/v1",
-		beego.NSNamespace("/data", beego.NSInclude(&controllers.UserRelatedController{})),
-		beego.NSNamespace("/user", beego.NSInclude(&controllers.HaouxuanController{})),
-		// 嵌套 namespace
-		//beego.NSNamespace("/admin", beego.NSRouter("/user", uc)),
+	nameSpace := beego.NewNamespace("/api",
+		beego.NSNamespace("/v1",
+			beego.NSInclude(&controllers.UserRelatedController{}),
+			// 嵌套 namespace
+			beego.NSNamespace("/user", beego.NSInclude(&controllers.HaouxuanController{})),
+		),
+		beego.NSNamespace("/v2",
+			beego.NSInclude(&controllers.UserRelatedController{}),
+			beego.NSNamespace("/user", beego.NSInclude(&controllers.HaouxuanController{})),
+		),
 	)
 
 	// 包含token验证，中间件过滤拦截

@@ -1,11 +1,11 @@
 swagger: "2.0"
 info: {}
-basePath: /api/v1
+basePath: /api
 paths:
-  /data/:
+  /v1/:
     get:
       tags:
-      - data
+      - v2
       description: |-
         get UserRelated
         <br>
@@ -45,7 +45,7 @@ paths:
           description: ""
     post:
       tags:
-      - data
+      - v2
       description: |-
         create UserRelated
         <br>
@@ -64,10 +64,10 @@ paths:
             $ref: '#/definitions/models.UserRelated'
         "403":
           description: body is empty
-  /data/{id}:
+  /v1/{id}:
     get:
       tags:
-      - data
+      - v2
       description: |-
         get UserRelated by id
         <br>
@@ -87,7 +87,7 @@ paths:
           description: :id is empty
     put:
       tags:
-      - data
+      - v2
       description: |-
         update the UserRelated
         <br>
@@ -113,7 +113,7 @@ paths:
           description: :id is not int
     delete:
       tags:
-      - data
+      - v2
       description: |-
         delete the UserRelated
         <br>
@@ -129,10 +129,10 @@ paths:
           description: '{string} delete success!'
         "403":
           description: id is empty
-  /data/login:
+  /v1/login:
     post:
       tags:
-      - data
+      - v2
       description: |-
         登录后获取token
         <br>
@@ -144,81 +144,14 @@ paths:
             $ref: '#/definitions/models.UserRelated'
         "403":
           description: body is empty
-  /user/:
-    post:
-      tags:
-      - user
-      description: |-
-        create Haouxuan
-        <br>
-      operationId: HaouxuanController.Create
-      parameters:
-      - in: body
-        name: body
-        description: body for Haouxuan content
-        required: true
-        schema:
-          $ref: '#/definitions/models.Haouxuan'
-      responses:
-        "201":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.Haouxuan'
-        "403":
-          description: body is empty
-  /user/{id}:
-    put:
-      tags:
-      - user
-      description: |-
-        update the Haouxuan
-        <br>
-      operationId: HaouxuanController.Put
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: body for Haouxuan content
-        required: true
-        schema:
-          $ref: '#/definitions/models.Haouxuan'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.Haouxuan'
-        "403":
-          description: :id is not int
-    delete:
-      tags:
-      - user
-      description: |-
-        delete the Haouxuan
-        <br>
-      operationId: HaouxuanController.Delete
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to delete
-        required: true
-        type: string
-      responses:
-        "200":
-          description: '{string} delete success!'
-        "403":
-          description: id is empty
-  /user/all:
+  /v2/:
     get:
       tags:
-      - user
+      - v2
       description: |-
-        get Haouxuan
+        get UserRelated
         <br>
-      operationId: HaouxuanController.GetAll
+      operationId: UserRelatedController.GetAll
       parameters:
       - in: query
         name: query
@@ -249,17 +182,38 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.Haouxuan'
+            $ref: '#/definitions/models.UserRelated'
         "403":
           description: ""
-  /user/info:
+    post:
+      tags:
+      - v2
+      description: |-
+        create UserRelated
+        <br>
+      operationId: UserRelatedController.Create
+      parameters:
+      - in: body
+        name: body
+        description: body for UserRelated content
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserRelated'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.UserRelated'
+        "403":
+          description: body is empty
+  /v2/{id}:
     get:
       tags:
-      - user
+      - v2
       description: |-
-        get Haouxuan by id
+        get UserRelated by id
         <br>
-      operationId: HaouxuanController.GetOne
+      operationId: UserRelatedController.GetOne
       parameters:
       - in: path
         name: id
@@ -270,9 +224,68 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.Haouxuan'
+            $ref: '#/definitions/models.UserRelated'
         "403":
           description: :id is empty
+    put:
+      tags:
+      - v2
+      description: |-
+        update the UserRelated
+        <br>
+      operationId: UserRelatedController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for UserRelated content
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserRelated'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.UserRelated'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+      - v2
+      description: |-
+        delete the UserRelated
+        <br>
+      operationId: UserRelatedController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: id is empty
+  /v2/login:
+    post:
+      tags:
+      - v2
+      description: |-
+        登录后获取token
+        <br>
+      operationId: UserRelatedController.用户登录
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.UserRelated'
+        "403":
+          description: body is empty
 definitions:
   models.Haouxuan:
     title: Haouxuan
@@ -289,9 +302,9 @@ definitions:
         type: integer
         format: int64
 tags:
-- name: data
+- name: v1
   description: |
     UserRelatedController operations for UserRelated
-- name: user
+- name: v2
   description: |
-    HaouxuanController operations for Haouxuan
+    UserRelatedController operations for UserRelated
