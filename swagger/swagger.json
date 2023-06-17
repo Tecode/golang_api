@@ -3,5 +3,28 @@
     "info": {
         "contact": {}
     },
-    "paths": null
+    "basePath": "/api/v1",
+    "paths": null,
+    "definitions": {
+        "models.Haouxuan": {
+            "title": "Haouxuan",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "models.UserRelated": {
+            "title": "UserRelated",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        }
+    }
 }

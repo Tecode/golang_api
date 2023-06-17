@@ -6,3 +6,11 @@ type ResponseData[T interface{}] struct {
 	Data    T      `json:"data"`
 	Message string `json:"message"`
 }
+
+type UserRelated struct {
+	Id int `json:"id"`
+}
+
+type Haouxuan struct {
+	Id int `json:"id"`
+}

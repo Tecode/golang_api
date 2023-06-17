@@ -30,7 +30,10 @@ go version go1.20.5 windows/amd64
 
 go get golang_apiv2
 
-bee run
+# 包含swagger文档
+bee generate docs
+bee run -gendoc=true -downdoc=true
+
 ```
 
 ## 快捷命令
