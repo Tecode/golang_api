@@ -14,3 +14,8 @@ type UserRelated struct {
 type Haouxuan struct {
 	Id int `json:"id"`
 }
+
+type LoginModel struct {
+	Account  string `json:"account"`
+	Password string `json:"password"`
+}

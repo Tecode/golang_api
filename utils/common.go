@@ -87,6 +87,7 @@ func Interceptor(ctx *context.Context) {
 	}
 }
 
+// CreateToken 生成token
 func CreateToken() (string, error) {
 	//	登录操作，发放一个token
 	newToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{

@@ -14,13 +14,9 @@ func init() {
 	nameSpace := beego.NewNamespace("/api",
 		beego.NSNamespace("/v1",
 			beego.NSInclude(&controllers.UserRelatedController{}),
-			// 嵌套 namespace
-			beego.NSNamespace("/user", beego.NSInclude(&controllers.HaouxuanController{})),
+			beego.NSInclude(&controllers.CommonController{}),
 		),
-		//beego.NSNamespace("/v2",
-		//	beego.NSInclude(&controllers.UserRelatedController{}),
-		//	beego.NSNamespace("/user", beego.NSInclude(&controllers.HaouxuanController{})),
-		//),
+		beego.NSNamespace("/v1/user", beego.NSInclude(&controllers.HaouxuanController{})),
 	)
 
 	// 包含token验证，中间件过滤拦截

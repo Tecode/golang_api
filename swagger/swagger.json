@@ -99,6 +99,17 @@
                 ],
                 "description": "登录后获取token\n\u003cbr\u003e",
                 "operationId": "UserRelatedController.用户登录",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for Haouxuan content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.LoginModel"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "",
@@ -108,6 +119,223 @@
                     },
                     "403": {
                         "description": "body is empty"
+                    }
+                }
+            }
+        },
+        "/v1/picture/{img}": {
+            "get": {
+                "tags": [
+                    "v1"
+                ],
+                "description": "图片自定义尺寸\n\u003cbr\u003e",
+                "operationId": "CommonController.ImageResize",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "width",
+                        "description": "宽度",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "query",
+                        "name": "height",
+                        "description": "高度",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "path",
+                        "name": "img",
+                        "description": "6Co6W3DogOqW6TxwDp8Vb.png",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取图片成功"
+                    }
+                }
+            }
+        },
+        "/v1/user/": {
+            "post": {
+                "tags": [
+                    "v1/user"
+                ],
+                "description": "create Haouxuan\n\u003cbr\u003e",
+                "operationId": "HaouxuanController.Create",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for Haouxuan content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Haouxuan"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Haouxuan"
+                        }
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
+            }
+        },
+        "/v1/user/all": {
+            "get": {
+                "tags": [
+                    "v1/user"
+                ],
+                "description": "get Haouxuan\n\u003cbr\u003e",
+                "operationId": "HaouxuanController.GetAll",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "query",
+                        "description": "Filter. e.g. col1:v1,col2:v2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Fields returned. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortby",
+                        "description": "Sorted-by fields. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "order",
+                        "description": "Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Limit the size of result set. Must be an integer",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Start position of result set. Must be an integer",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Haouxuan"
+                        }
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/v1/user/info": {
+            "get": {
+                "tags": [
+                    "v1/user"
+                ],
+                "description": "get Haouxuan by id\n\u003cbr\u003e",
+                "operationId": "HaouxuanController.GetOne",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The key for staticblock",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Haouxuan"
+                        }
+                    },
+                    "403": {
+                        "description": ":id is empty"
+                    }
+                }
+            }
+        },
+        "/v1/user/{id}": {
+            "put": {
+                "tags": [
+                    "v1/user"
+                ],
+                "description": "update the Haouxuan\n\u003cbr\u003e",
+                "operationId": "HaouxuanController.Put",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for Haouxuan content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Haouxuan"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.Haouxuan"
+                        }
+                    },
+                    "403": {
+                        "description": ":id is not int"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "v1/user"
+                ],
+                "description": "delete the Haouxuan\n\u003cbr\u003e",
+                "operationId": "HaouxuanController.Delete",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to delete",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} delete success!"
+                    },
+                    "403": {
+                        "description": "id is empty"
                     }
                 }
             }
@@ -213,6 +441,18 @@
                 }
             }
         },
+        "models.LoginModel": {
+            "title": "LoginModel",
+            "type": "object",
+            "properties": {
+                "account": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "models.UserRelated": {
             "title": "UserRelated",
             "type": "object",
@@ -228,6 +468,14 @@
         {
             "name": "v1",
             "description": "UserRelatedController operations for UserRelated\n"
+        },
+        {
+            "name": "v1",
+            "description": "CommonController operations for Common\n"
+        },
+        {
+            "name": "v1/user",
+            "description": "HaouxuanController operations for Haouxuan\n"
         }
     ]
 }

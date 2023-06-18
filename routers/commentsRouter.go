@@ -7,6 +7,15 @@ import (
 
 func init() {
 
+	beego.GlobalControllerRouter["golang_apiv2/controllers:CommonController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:CommonController"],
+		beego.ControllerComments{
+			Method:           "ImageResize",
+			Router:           `/picture/:img`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["golang_apiv2/controllers:HaouxuanController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:HaouxuanController"],
 		beego.ControllerComments{
 			Method:           "Post",

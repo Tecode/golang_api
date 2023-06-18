@@ -89,6 +89,7 @@ func (c *UserRelatedController) Delete() {
 // UserLogin ...
 // @Title 用户登录
 // @Description 登录后获取token
+// @Param	body		body 	models.LoginModel	true		"body for Haouxuan content"
 // @Success 201 {object} models.UserRelated
 // @Failure 403 body is empty
 // @router /login [post]
@@ -110,10 +111,16 @@ func (c *UserRelatedController) UserLogin() {
 		}
 		return
 	}
+	// 获取body的json数据
+	data := models.LoginModel{}
+	jsonErr := c.BindJSON(&data)
+	if jsonErr != nil {
+		return
+	}
 	err := c.Ctx.Output.JSON(
 		models.ResponseData[map[string]string]{
 			Code:    200200,
-			Data:    map[string]string{"token": token, "userName": "haoxuan"},
+			Data:    map[string]string{"token": token, "userName": data.Account, "password": data.Password},
 			Message: "获取数据成功",
 		},
 		false,
