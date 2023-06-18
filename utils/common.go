@@ -5,7 +5,6 @@ import (
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web/context"
 	"github.com/dgrijalva/jwt-go"
-	"regexp"
 	"time"
 )
 
@@ -16,17 +15,16 @@ var (
 // Interceptor 拦截器
 func Interceptor(ctx *context.Context) {
 	// 目前暂时不需要token
-	return
 	fmt.Println(ctx.Input.URL() == "/v1/user/", ctx.Input.URL(), "ctx=============================")
 	logs.Info("路由拦截")
 	token := ctx.Request.Header["Token"]
 	logs.Info(token, "ctx.Input.URL()")
 	//// 登录、注册账号（过滤掉）
-	filterUrl, _ := regexp.MatchString("login", ctx.Request.RequestURI)
-	logs.Info(filterUrl, "filterUrl")
-	if ctx.Input.Method() == "POST" && filterUrl {
-		return
-	}
+	//filterUrl, _ := regexp.MatchString("/login", ctx.Request.RequestURI)
+	//logs.Info(ctx.Request.RequestURI, filterUrl, "filterUrl")
+	//if ctx.Input.Method() == "POST" && filterUrl {
+	//	return
+	//}
 	// /picture专门处理图片的，裁剪一类（过滤掉）
 	//public, _ := regexp.MatchString("/public/", ctx.Request.RequestURI)
 	//if public {
