@@ -94,6 +94,14 @@ func (c *UserRelatedController) Delete() {
 // @Failure 403 body is empty
 // @router /login [post]
 func (c *UserRelatedController) UserLogin() {
+	userData := models.UserFiled{
+		Name:     "haoxuan",
+		Nickname: "Bob",
+		Email:    "283731869@qq.com",
+		Gender:   1, Phone: "18083018982",
+		Password: "1qaz2wsx",
+	}
+	models.AddUsers(&userData)
 	token, tokenError := utils.CreateToken()
 	if tokenError != nil {
 		c.Ctx.Output.SetStatus(400)
