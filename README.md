@@ -24,6 +24,12 @@ go version go1.20.5 windows/amd64
 ## 安装依赖 & [运行](http://localhost:8080/)
 
 ```bash
+# 全局安装beego工具
+go get -u github.com/beego/bee/v2
+# 注意设置 GO111MODULE="auto"，项目中有go.mod会提示错误
+go env -w GO111MODULE=auto
+
+
 # 安装bee工具 https://beego.gocn.vip/beego/zh/v2.0.x/bee/#bee-%E5%B7%A5%E5%85%B7%E7%9A%84%E5%AE%89%E8%A3%85
 #http://localhost:8080/swagger/
 #http://localhost:8080
