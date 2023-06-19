@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"github.com/beego/beego/v2/core/logs"
+	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/server/web/context"
 	"github.com/dgrijalva/jwt-go"
 	"time"
@@ -100,4 +101,13 @@ func CreateToken() (string, error) {
 	fmt.Println(tokenString, err, "newToken")
 	//	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGFveHVhbiIsIm5iZiI6MTQ0NDQ3ODQwMH0.MG4hdXS5BX_HPgET36Dc6YgOuPjloAiG_M-DFHYT71I
 	return tokenString, err
+}
+
+// GetAppConfigValue 获取appConfig的对应值
+func GetAppConfigValue(key string) string {
+	s, err := beego.AppConfig.String(key)
+	if err != nil {
+		return ""
+	}
+	return s
 }
