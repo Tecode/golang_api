@@ -89,11 +89,11 @@ func Interceptor(ctx *context.Context) {
 }
 
 // CreateToken 生成token
-func CreateToken() (string, error) {
+func CreateToken(userId int64) (string, error) {
 	//	登录操作，发放一个token
 	newToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"userId": "haoxuan",
-		"iss":    "jwt-haoxuan",
+		"userId": userId,
+		"iss":    "jwt-go",
 		"iat":    time.Now().Unix(),
 		"exp":    time.Now().Add(time.Minute * 30).Unix(),
 	})

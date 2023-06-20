@@ -5,6 +5,8 @@ import (
 	beego "github.com/beego/beego/v2/server/web"
 	"golang_apiv2/models"
 	"golang_apiv2/utils"
+	"strconv"
+	"time"
 )
 
 // UserRelatedController operations for UserRelated
@@ -86,14 +88,14 @@ func (c *UserRelatedController) Delete() {
 
 }
 
-// UserLogin ...
-// @Title 用户登录
+// Register ...
+// @Title 用户注册
 // @Description 登录后获取token
-// @Param	body		body 	models.LoginModel	true		"body for Haouxuan content"
+// @Param	body		body 	models.UserFiled	true		"body for UserFiled content"
 // @Success 201 {object} models.UserRelated
 // @Failure 403 body is empty
 // @router /login [post]
-func (c *UserRelatedController) UserLogin() {
+func (c *UserRelatedController) Register() {
 	userData := models.UserFiled{
 		Name:     "haoxuan",
 		Nickname: "Bob",
@@ -101,12 +103,29 @@ func (c *UserRelatedController) UserLogin() {
 		Gender:   1, Phone: "18083018982",
 		Password: "1qaz2wsx",
 	}
-	models.AddUsers(&userData)
-	token, tokenError := utils.CreateToken()
+	// 添加判断是否已经存在
+	userId, addUserError := models.AddUser(&userData)
+	if addUserError != nil {
+		c.Ctx.Output.SetStatus(400)
+		err := c.Ctx.Output.JSON(
+			models.ResponseData{
+				Code:    400400,
+				Data:    nil,
+				Message: addUserError.Error(),
+			},
+			false,
+			false,
+		)
+		if err != nil {
+			return
+		}
+		return
+	}
+	token, tokenError := utils.CreateToken(userId)
 	if tokenError != nil {
 		c.Ctx.Output.SetStatus(400)
 		err := c.Ctx.Output.JSON(
-			models.ResponseData[map[string]string]{
+			models.ResponseData{
 				Code:    400400,
 				Data:    nil,
 				Message: tokenError.Error(),
@@ -126,9 +145,78 @@ func (c *UserRelatedController) UserLogin() {
 		return
 	}
 	err := c.Ctx.Output.JSON(
-		models.ResponseData[map[string]string]{
+		models.ResponseData{
 			Code:    200200,
 			Data:    map[string]string{"token": token, "userName": data.Account, "password": data.Password},
+			Message: "获取数据成功",
+		},
+		false,
+		false,
+	)
+	if err != nil {
+		logs.Error(err)
+		return
+	}
+}
+
+// UserLogin ...
+// @Title 用户登录
+// @Description 登录后获取token
+// @Param	body		body 	models.LoginModel	true		"body for Haouxuan content"
+// @Success 201 {object} models.UserRelated
+// @Failure 403 body is empty
+// @router /login [post]
+func (c *UserRelatedController) UserLogin() {
+	// 获取body的json数据
+	requestBody := models.LoginModel{}
+	jsonErr := c.BindJSON(&requestBody)
+	if jsonErr != nil {
+		return
+	}
+	// 添加判断是否已经存在
+	userData, searchUserError := models.GetUsersByAccount(requestBody.Account, requestBody.Password)
+	if searchUserError != nil {
+		c.Ctx.Output.SetStatus(400)
+		err := c.Ctx.Output.JSON(
+			models.ResponseData{
+				Code:    400400,
+				Data:    nil,
+				Message: "账号或密码错误！",
+			},
+			false,
+			false,
+		)
+		if err != nil {
+			return
+		}
+		return
+	}
+	token, tokenError := utils.CreateToken(userData.Id)
+	if tokenError != nil {
+		c.Ctx.Output.SetStatus(400)
+		err := c.Ctx.Output.JSON(
+			models.ResponseData{
+				Code:    400400,
+				Data:    nil,
+				Message: tokenError.Error(),
+			},
+			false,
+			false,
+		)
+		if err != nil {
+			logs.Error(err.Error())
+		}
+		return
+	}
+	err := c.Ctx.Output.JSON(
+		models.ResponseData{
+			Code: 200200,
+			Data: map[string]string{
+				"token":      token,
+				"createTime": strconv.FormatInt(time.Now().UnixMilli(), 10),
+				//"userName": userData.Name,
+				//"id":       strconv.FormatInt(userData.Id, 10),
+			},
 			Message: "获取数据成功",
 		},
 		false,

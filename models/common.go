@@ -10,10 +10,10 @@ import (
 )
 
 // ResponseData 返回的数据统一格式
-type ResponseData[T interface{}] struct {
-	Code    int64  `json:"code"`
-	Data    T      `json:"data"`
-	Message string `json:"message"`
+type ResponseData struct {
+	Code    int64       `json:"code"`
+	Data    interface{} `json:"data"`
+	Message string      `json:"message"`
 }
 
 type UserRelated struct {
@@ -30,7 +30,7 @@ type LoginModel struct {
 }
 
 func init() {
-	// 设置数据库的基本信息,web_site_db数据库名称
+	// 设置数据库的基本信息,golang_apiv2数据库名称
 	// SiteAppUser->site_app_user
 	dataSource := fmt.Sprintf(
 		"%s:%s@tcp(%s)/%s?charset=utf8",

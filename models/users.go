@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"fmt"
+	"github.com/beego/beego/v2/core/logs"
 	"reflect"
 	"strings"
 	"time"
@@ -27,11 +28,11 @@ type Users struct {
 	UserFiled
 }
 
-// AddUsers insert a new Users into database and returns
+// AddUser insert a new Users into database and returns
 // last inserted I'd on success.
-func AddUsers(m *UserFiled) (id int64, err error) {
+func AddUser(m *UserFiled) (id int64, err error) {
 	o := orm.NewOrm()
-	exist := o.QueryTable("users").Filter("email", m.Email).Exist()
+	exist := o.QueryTable(new(Users)).Filter("email", m.Email).Exist()
 	if exist {
 		return 0, errors.New("邮箱已存在")
 	}
@@ -45,14 +46,15 @@ func AddUsers(m *UserFiled) (id int64, err error) {
 	return
 }
 
-// GetUsersById retrieves Users by Id. Returns error if
+// GetUsersByAccount retrieves Users by Id. Returns error if
 // I'd doesn't exist
-func GetUsersById(id int64) (v *Users, err error) {
+func GetUsersByAccount(email string, password string) (v *Users, err error) {
 	o := orm.NewOrm()
-	v = &Users{Id: id}
-	if err = o.QueryTable(new(Users)).Filter("Id", id).RelatedSel().One(v); err == nil {
+	v = &Users{}
+	if err = o.QueryTable(new(Users)).Filter("email", email).Filter("password", password).One(v); err == nil {
 		return v, nil
 	}
+	logs.Error(err.Error())
 	return nil, err
 }
 
