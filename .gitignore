@@ -4,3 +4,4 @@ lastupdate.tmp
 golang_api.exe
 golang_api.exe~
 pkg/
+conf/app.conf

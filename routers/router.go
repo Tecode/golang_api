@@ -26,5 +26,6 @@ func init() {
 
 	// http://localhost:8080/haoxuan
 	beego.Router("/", &controllers.MainController{})
+	beego.Get("/.well-known/pki-validation/1BA546375A5C77B851DB153B5516819B.txt", controllers.CertificateText)
 	beego.AddNamespace(nameSpace)
 }
