@@ -2,6 +2,22 @@
 
 要运行项目不要配置`GOPATH`,需要`GO`版本大于`1.16`，这样才支持使用`go mod` 管理依赖
 
+## 新增配置文件conf/app.conf
+
+```text
+appname = golang_apiv2
+httpport = 8080
+runmode = prod
+CopyRequestBody = true
+
+# 是否需要创建数据表
+createtable = false
+mysqlurl = localhost:3306
+mysqlaccount = root
+mysqlpassword = 123456
+msqldatabase = golang_apiv2
+```
+
 ```bash
 | ___ \
 | |_/ /  ___   ___
