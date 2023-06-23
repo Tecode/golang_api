@@ -55,6 +55,16 @@ bee generate model modelName -fields="name:string,age:int"
 bee generate routers
 ```
 
+## 部署
+
+```shell
+bee version
+bee pack
+tar -zxvf golang_apiv2.tar.gz
+nohup ./golang_apiv2 &
+rm -rf golang_apiv2.tar.gz
+```
+
 ## Go Env 配置
 
 ```cgo
