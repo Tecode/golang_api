@@ -28,8 +28,11 @@ func init() {
 	// 模板引擎页面
 	beego.Router("/", &controllers.MainController{})
 	beego.CtrlGet("/contact", (*controllers.MainController).Contact)
+	beego.CtrlGet("/about", (*controllers.MainController).Contact)
 	beego.CtrlGet("/news", (*controllers.MainController).News)
 	beego.CtrlGet("/news-detail", (*controllers.MainController).NewsDetail)
+	beego.CtrlGet("/service", (*controllers.MainController).Services)
+	beego.CtrlGet("/service-detail", (*controllers.MainController).ServicesDetail)
 	beego.Get("/.well-known/pki-validation/1BA546375A5C77B851DB153B5516819B.txt", controllers.CertificateText)
 	beego.AddNamespace(nameSpace)
 }

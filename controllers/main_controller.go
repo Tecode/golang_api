@@ -10,7 +10,7 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
-	c.Data["Website"] = "beego.vip"
+	c.Data["Active"] = "product"
 	c.Data["Email"] = "astaxie@gmail.com"
 	c.TplName = "index.html"
 }
@@ -22,15 +22,35 @@ func CertificateText(ctx *context.Context) {
 
 // Contact 联系我们
 func (c *MainController) Contact() {
+	c.Data["Active"] = "contact"
 	c.TplName = "contact.html"
 }
 
 // News 新闻资讯
 func (c *MainController) News() {
+	c.Data["Active"] = "news"
 	c.TplName = "news.html"
 }
 
 // NewsDetail 新闻资讯详情
 func (c *MainController) NewsDetail() {
+	c.Data["Active"] = "news"
 	c.TplName = "news-detail.html"
+}
+
+// Services 服务
+func (c *MainController) Services() {
+	c.Data["Active"] = "services"
+	c.TplName = "services.html"
+}
+
+// ServicesDetail 服务详情
+func (c *MainController) ServicesDetail() {
+	c.Data["Active"] = "services"
+	c.TplName = "service-detail.html"
+}
+
+// About 关于我们
+func (c *MainController) About() {
+	c.TplName = "about.html"
 }
