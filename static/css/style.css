@@ -125,20 +125,20 @@
 /*=======  Fonts =======*/
 @font-face {
 	font-family: "CircularStdBold";
-  src: url("../font/CircularStdBold.eot");
-  src: url("../font/CircularStdBold.eot") format("embedded-opentype"), url("../font/CircularStdBold.woff2") format("woff2"), url("../font/CircularStdBold.woff") format("woff"), url("../font/CircularStdBold.ttf") format("truetype"), url("https://demo.webtend.net/html/landio/assets/fonts/circularstd/CircularStdBold.svg") format("svg");
+  src: url("https://cdn.soscoon.com/font/CircularStdBold.eot");
+  src: url("https://cdn.soscoon.com/font/CircularStdBold.eot") format("embedded-opentype"), url("https://cdn.soscoon.com/font/CircularStdBold.woff2") format("woff2"), url("https://cdn.soscoon.com/font/CircularStdBold.woff") format("woff"), url("https://cdn.soscoon.com/font/CircularStdBold.ttf") format("truetype"), url("https://demo.webtend.net/html/landio/assets/fonts/circularstd/CircularStdBold.svg") format("svg");
 }
 
 @font-face {
 	font-family: "CircularStdMedium";
-  src: url("../font/CircularStdMedium.eot");
-  src: url("../font/CircularStdMedium.eot") format("embedded-opentype"), url("../font/CircularStdMedium.woff2") format("woff2"), url("../font/CircularStdMedium.woff") format("woff"), url("../font/CircularStdMedium.ttf") format("truetype"), url("https://demo.webtend.net/html/landio/assets/fonts/circularstd/CircularStdMedium.svg") format("svg");
+  src: url("https://cdn.soscoon.com/font/CircularStdMedium.eot");
+  src: url("https://cdn.soscoon.com/font/CircularStdMedium.eot") format("embedded-opentype"), url("https://cdn.soscoon.com/font/CircularStdMedium.woff2") format("woff2"), url("https://cdn.soscoon.com/font/CircularStdMedium.woff") format("woff"), url("https://cdn.soscoon.com/font/CircularStdMedium.ttf") format("truetype"), url("https://demo.webtend.net/html/landio/assets/fonts/circularstd/CircularStdMedium.svg") format("svg");
 }
 
 @font-face {
 	font-family: "CircularStdBook";
-  src: url("../font/CircularStdBook.eot");
-  src: url("../font/CircularStdBook.eot") format("embedded-opentype"), url("../font/CircularStdBook.woff2") format("woff2"), url("../font/CircularStdBook.woff") format("woff"), url("../font/CircularStdBook.ttf") format("truetype"), url("https://demo.webtend.net/html/landio/assets/fonts/circularstd/CircularStdBook.svg") format("svg");
+  src: url("https://cdn.soscoon.com/font/CircularStdBook.eot");
+  src: url("https://cdn.soscoon.com/font/CircularStdBook.eot") format("embedded-opentype"), url("https://cdn.soscoon.com/font/CircularStdBook.woff2") format("woff2"), url("https://cdn.soscoon.com/font/CircularStdBook.woff") format("woff"), url("https://cdn.soscoon.com/font/CircularStdBook.ttf") format("truetype"), url("https://demo.webtend.net/html/landio/assets/fonts/circularstd/CircularStdBook.svg") format("svg");
 }
 
 /*======= Common =======*/

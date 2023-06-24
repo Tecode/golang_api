@@ -1,9 +1,9 @@
 @font-face {
     font-family: "flaticon";
-    src: url("../font/flaticon.ttf") format("truetype"),
-        url("../font/flaticon.woff") format("woff"),
-        url("../font/flaticon.woff2") format("woff2"),
-        url("../font/flaticon.eot") format("embedded-opentype"),
+    src: url("https://cdn.soscoon.com/font/flaticon.ttf") format("truetype"),
+        url("https://cdn.soscoon.com/font/flaticon.woff") format("woff"),
+        url("https://cdn.soscoon.com/font/flaticon.woff2") format("woff2"),
+        url("https://cdn.soscoon.com/font/flaticon.eot") format("embedded-opentype"),
         url("https://demo.webtend.net/html/landio/assets/fonts/flaticon/font/flaticon.svg?5c255c376c4b47674142d2106371c66a") format("svg");
 }
 
