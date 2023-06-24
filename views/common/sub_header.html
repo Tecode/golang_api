@@ -1,14 +1,29 @@
 <!--====== Start Header ======-->
-<header class="template-header navbar-left logo-center absolute-header nav-white-color nav-border-bottom sticky-header">
-    <div class="container-fluid container-1470">
+<header class="template-header navbar-center sticky-header">
+    <div class="container-fluid container-1430">
         <div class="header-inner">
             <div class="header-left">
+                <div class="branding-and-language-selection">
+                    <div class="brand-logo">
+                        <a href="index.html">
+                            <img src="static/picture/logo-1.png" alt="logo">
+                        </a>
+                    </div>
+                    <div class="language-selection d-none d-md-block">
+                        <select name="language">
+                            <option value="en">English</option>
+                            <option value="bn">Bangla</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="header-center">
                 <nav class="nav-menu d-none d-xl-block">
                     <ul>
                         <li class="active">
                             <a href="/">Products & Services</a>
                             <!--                            <ul class="sub-menu">-->
-                            <!--                                <li><a href="index.html">Homepage Sass</a></li>-->
+                            <!--                                <li><a href="/">Homepage Sass</a></li>-->
                             <!--                                <li><a href="index-2.html">Homepage SEO</a></li>-->
                             <!--                                <li><a href="index-3.html">Homepage App</a></li>-->
                             <!--                                <li><a href="index-4.html">Homepage Chatbot</a></li>-->
@@ -47,51 +62,29 @@
                         <!--                            </ul>-->
                         <!--                        </li>-->
                         <li>
-                            <a href="/news">News</a>
-<!--                            <ul class="sub-menu">-->
-<!--                                <li><a href="blog-standard.html">Blog Standard</a></li>-->
-<!--                                <li><a href="blog-details.html">Blog Details</a></li>-->
-<!--                            </ul>-->
+                            <a href="blog-standard.html">Blog</a>
+                            <ul class="sub-menu">
+                                <li><a href="blog-standard.html">Blog Standard</a></li>
+                                <li><a href="blog-details.html">Blog Details</a></li>
+                            </ul>
                         </li>
                         <li>
-                            <a href="/contact">Contact</a>
+                            <a href="/contac">Contact</a>
                         </li>
                     </ul>
                 </nav>
             </div>
-            <div class="header-center">
-                <div class="brand-logo">
-                    <a href="/">
-                        <img src="static/picture/logo-white.png" alt="logo" class="main-logo">
-                        <img src="static/picture/logo-1.png" alt="logo" class="sticky-logo">
-                    </a>
-                </div>
-            </div>
             <div class="header-right">
                 <ul class="header-extra">
                     <li class="d-none d-sm-block">
-                        <div class="language-selection bg-transparent">
-                            <select name="language">
-                                <option value="en">English</option>
-                                <option value="bn">Bangla</option>
-                            </select>
-                        </div>
-                    </li>
-                    <li class="d-none d-lg-block">
-                        <a href="services.html" class="template-btn shadow-none">
-                            Get Started <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </li>
-                    <li class="d-none d-sm-block">
-                        <a href="#" data-toggle="modal" data-target="#search-modal" class="search-btn">
+                        <a href="#" data-toggle="modal" data-target="#search-modal"
+                           class="search-btn search-border-right">
                             <i class="fas fa-search"></i>
                         </a>
                     </li>
-                    <li class="d-none d-xl-block">
-                        <a href="#" class="off-canvas-btn">
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                    <li class="d-none d-lg-block">
+                        <a href="services.html" class="template-btn">
+                            Get Started <i class="fas fa-arrow-right"></i>
                         </a>
                     </li>
                     <li class="d-xl-none">
@@ -111,31 +104,31 @@
         <div class="panel-overlay"></div>
         <div class="panel-inner">
             <div class="mobile-logo">
-                <a href="index.html">
+                <a href="/">
                     <img src="static/picture/logo-1.png" alt="Landio">
                 </a>
             </div>
             <nav class="mobile-menu">
                 <ul>
                     <li>
-                        <a href="/">Products & Services</a>
-<!--                        <ul class="sub-menu">-->
-<!--                            <li><a href="/">Homepage Sass</a></li>-->
-<!--                            <li><a href="index-2.html">Homepage SEO</a></li>-->
-<!--                            <li><a href="index-3.html">Homepage App</a></li>-->
-<!--                            <li><a href="index-4.html">Homepage Chatbot</a></li>-->
-<!--                            <li><a href="">Homepage Consultant</a></li>-->
-<!--                            <li><a href="index-6.html">Homepage Fintech</a></li>-->
-<!--                            <li><a href="index-7.html">Homepage Software</a></li>-->
-<!--                            <li><a href="index-8.html">Homepage E-Wallet</a></li>-->
-<!--                            <li><a href="index-9.html">Homepage Webinar</a></li>-->
-<!--                        </ul>-->
+                        <a href="/">Demos</a>
+                        <ul class="sub-menu">
+                            <li><a href="/">Homepage Sass</a></li>
+                            <li><a href="index-2.html">Homepage SEO</a></li>
+                            <li><a href="index-3.html">Homepage App</a></li>
+                            <li><a href="index-4.html">Homepage Chatbot</a></li>
+                            <li><a href="index-5.html">Homepage Consultant</a></li>
+                            <li><a href="index-6.html">Homepage Fintech</a></li>
+                            <li><a href="index-7.html">Homepage Software</a></li>
+                            <li><a href="index-8.html">Homepage E-Wallet</a></li>
+                            <li><a href="index-9.html">Homepage Webinar</a></li>
+                        </ul>
                     </li>
                     <li>
-                        <a href="services.html">Solutions</a>
+                        <a href="services.html">Services</a>
                         <ul class="sub-menu">
-                            <li><a href="services.html">Our Solutions</a></li>
-                            <li><a href="service-details.html">Solution Details</a></li>
+                            <li><a href="services.html">Our Services</a></li>
+                            <li><a href="service-details.html">Service Details</a></li>
                         </ul>
                     </li>
                     <li>
@@ -165,8 +158,8 @@
                             <li><a href="blog-details.html">Blog Details</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="/contact">Contact</a>
+                    <li class="active">
+                        <a href="">Contact</a>
                     </li>
                 </ul>
             </nav>
@@ -176,46 +169,5 @@
         </div>
     </div>
     <!-- End Mobile Slide Menu -->
-
-    <!-- Start Off Canvas -->
-    <div class="off-canvas-wrapper">
-        <div class="canvas-overlay"></div>
-        <div class="canvas-inner">
-            <div class="canvas-logo">
-                <img src="static/picture/logo-1.png" alt="Canvas Logo">
-            </div>
-            <div class="about-us">
-                <h5 class="canvas-widget-title">About Us</h5>
-                <p>
-                    Sed perspiciatis unde omnis iste natus error voluptatem accusantium doloremque laudantium totam rem
-                    aperams eaque ipsa quae abillo inventore veritatis
-                </p>
-            </div>
-            <div class="contact-us">
-                <h5 class="canvas-widget-title">Contact Us</h5>
-                <ul>
-                    <li>
-                        <i class="far fa-map-marker-alt"></i>
-                        354 Oakridge, Camden NJ 08102 - USA
-                    </li>
-                    <li>
-                        <i class="far fa-envelope-open"></i>
-                        <a href="email-protection.html#285b5d5858475a5c684449464c4147064b4745"><span
-                                class="__cf_email__" data-cfemail="fd8e888d8d928f89bd919c93999492d39e9290">[email&#160;protected]</span></a>
-                        <a href="javascript:;" target="_blank">www.landio.net</a>
-                    </li>
-                    <li>
-                        <i class="far fa-phone"></i>
-                        <span><a href="tel:+01234567899">+012 (345) 678 99</a></span>
-                        <span><a href="tel:+8563214">+8563214</a></span>
-                    </li>
-                </ul>
-            </div>
-            <a href="#" class="canvas-close">
-                <i class="fal fa-times"></i>
-            </a>
-        </div>
-    </div>
-    <!-- End Off Canvas -->
 </header>
 <!--====== End Header ======-->

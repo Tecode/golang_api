@@ -127,18 +127,21 @@
 	font-family: "CircularStdBold";
   src: url("https://cdn.soscoon.com/font/CircularStdBold.eot");
   src: url("https://cdn.soscoon.com/font/CircularStdBold.eot") format("embedded-opentype"), url("https://cdn.soscoon.com/font/CircularStdBold.woff2") format("woff2"), url("https://cdn.soscoon.com/font/CircularStdBold.woff") format("woff"), url("https://cdn.soscoon.com/font/CircularStdBold.ttf") format("truetype"), url("https://demo.webtend.net/html/landio/assets/fonts/circularstd/CircularStdBold.svg") format("svg");
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "CircularStdMedium";
   src: url("https://cdn.soscoon.com/font/CircularStdMedium.eot");
   src: url("https://cdn.soscoon.com/font/CircularStdMedium.eot") format("embedded-opentype"), url("https://cdn.soscoon.com/font/CircularStdMedium.woff2") format("woff2"), url("https://cdn.soscoon.com/font/CircularStdMedium.woff") format("woff"), url("https://cdn.soscoon.com/font/CircularStdMedium.ttf") format("truetype"), url("https://demo.webtend.net/html/landio/assets/fonts/circularstd/CircularStdMedium.svg") format("svg");
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "CircularStdBook";
   src: url("https://cdn.soscoon.com/font/CircularStdBook.eot");
   src: url("https://cdn.soscoon.com/font/CircularStdBook.eot") format("embedded-opentype"), url("https://cdn.soscoon.com/font/CircularStdBook.woff2") format("woff2"), url("https://cdn.soscoon.com/font/CircularStdBook.woff") format("woff"), url("https://cdn.soscoon.com/font/CircularStdBook.ttf") format("truetype"), url("https://demo.webtend.net/html/landio/assets/fonts/circularstd/CircularStdBook.svg") format("svg");
+	font-display: swap;
 }
 
 /*======= Common =======*/

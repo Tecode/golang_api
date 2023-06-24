@@ -5,6 +5,7 @@
         url("https://cdn.soscoon.com/font/flaticon.woff2") format("woff2"),
         url("https://cdn.soscoon.com/font/flaticon.eot") format("embedded-opentype"),
         url("https://demo.webtend.net/html/landio/assets/fonts/flaticon/font/flaticon.svg?5c255c376c4b47674142d2106371c66a") format("svg");
+    font-display: swap;
 }
 
 i[class^="flaticon-"],
