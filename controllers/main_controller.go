@@ -54,3 +54,13 @@ func (c *MainController) ServicesDetail() {
 func (c *MainController) About() {
 	c.TplName = "about.html"
 }
+
+// SignIn 登录
+func (c *MainController) SignIn() {
+	c.TplName = "sign-in.html"
+}
+
+// SignUp 登录
+func (c *MainController) SignUp() {
+	c.TplName = "sign-up.html"
+}
