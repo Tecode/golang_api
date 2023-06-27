@@ -81,6 +81,33 @@ nohup ./golang_apiv2 &
 rm -rf golang_apiv2.tar.gz
 ```
 
+### 自动化脚本
+```shell
+#!/bin/bash
+
+export BUILD_ID=dontKillMe
+export PATH=$PATH:/usr/local/go/bin
+# 获取程序的进程ID（PID）
+PID=$(pgrep golang_apiv2)
+
+if [ -n "$PID" ]; then
+  # 存在进程ID，说明程序正在运行
+  echo "程序正在运行，进程ID为: $PID"
+  
+  # 终止程序
+  kill $PID
+  
+  echo "程序已终止"
+else
+  echo "程序未在后台运行"
+fi
+
+/usr/local/go/bin/bee pack
+tar -zxvf golang_apiv2.tar.gz
+nohup ./golang_apiv2 &
+sleep 10
+```
+
 ## Go Env 配置
 
 ```cgo
