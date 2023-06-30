@@ -160,6 +160,37 @@
                 }
             }
         },
+        "/v1/register": {
+            "post": {
+                "tags": [
+                    "v1"
+                ],
+                "description": "登录后获取token\n\u003cbr\u003e",
+                "operationId": "UserRelatedController.用户注册",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for UserFiled content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserFiled"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserRelated"
+                        }
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
+            }
+        },
         "/v1/user/": {
             "post": {
                 "tags": [
@@ -431,6 +462,10 @@
         }
     },
     "definitions": {
+        "models.ErrorController": {
+            "title": "ErrorController",
+            "type": "object"
+        },
         "models.Haouxuan": {
             "title": "Haouxuan",
             "type": "object",

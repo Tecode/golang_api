@@ -16,6 +16,12 @@ mysqlurl = localhost:3306
 mysqlaccount = root
 mysqlpassword = 123456
 msqldatabase = golang_apiv2
+
+# 发送邮件的邮箱配置
+emailhost = smtp.qq.com #邮件发送的地址
+emailport = 587 #端口号
+emailaccount= 邮箱账号
+emailpassword = 邮箱密码（开启POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务后的授权码）
 ```
 
 ```bash
@@ -55,7 +61,14 @@ go get golang_apiv2
 # 包含swagger文档
 bee generate docs
 bee run -gendoc=true -downdoc=true
+```
 
+## 使用到的第三方插件
+
+```sh
+go get gopkg.in/gomail.v2
+go get github.com/patrickmn/go-cache
+go get github.com/beego/beego/v2/core/validation
 ```
 
 ## 快捷命令

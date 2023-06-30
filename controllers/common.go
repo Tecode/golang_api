@@ -69,13 +69,13 @@ func (c *CommonController) ImageResize() {
 	if pictureErr != nil {
 		return
 	}
-	fileErr := file.Close()
-	if fileErr != nil {
-		logs.Error(fileErr.Error())
-	}
+	defer func() {
+		if err := file.Close(); err != nil {
+			fmt.Println("无法关闭文件:", err)
+		}
+	}()
 	data := buffer.Bytes()
-	bodyErr := c.Ctx.Output.Body(data)
-	if bodyErr != nil {
+	if bodyErr := c.Ctx.Output.Body(data); bodyErr != nil {
 		return
 	}
 }
