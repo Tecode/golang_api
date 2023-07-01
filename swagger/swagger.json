@@ -61,35 +61,6 @@
                         "description": ""
                     }
                 }
-            },
-            "post": {
-                "tags": [
-                    "v1"
-                ],
-                "description": "create UserRelated\n\u003cbr\u003e",
-                "operationId": "UserRelatedController.Create",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body for UserRelated content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.UserRelated"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.UserRelated"
-                        }
-                    },
-                    "403": {
-                        "description": "body is empty"
-                    }
-                }
             }
         },
         "/v1/login": {
@@ -456,6 +427,37 @@
                     },
                     "403": {
                         "description": "id is empty"
+                    }
+                }
+            }
+        },
+        "/v1send-code/": {
+            "post": {
+                "tags": [
+                    "v1"
+                ],
+                "description": "create UserRelated\n\u003cbr\u003e",
+                "operationId": "UserRelatedController.发送邮箱验证码",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for UserRelated content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserRelated"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserRelated"
+                        }
+                    },
+                    "403": {
+                        "description": "body is empty"
                     }
                 }
             }

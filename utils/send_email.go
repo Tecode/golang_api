@@ -23,13 +23,14 @@ func SendEmail() {
 		fmt.Println(foo)
 		return
 	}
-	content, _ := os.ReadFile("resource/docs/email_template.html")
+	content, _ := os.ReadFile("resource/docs/captcha_template.html")
 	c.Set("283731869@qq.com", GenerateCode(), cache.DefaultExpiration)
+	emailContent := fmt.Sprintf(string(content), "姓名", "aming1009", "132545")
 	m := gomail.NewMessage()
 	m.SetHeader("From", "283731869@qq.com")
 	m.SetHeader("To", "283731869@qq.com")
 	m.SetHeader("Subject", "Hello!")
-	m.SetBody("text/html", string(content))
+	m.SetBody("text/html", emailContent)
 
 	port, err := strconv.ParseInt(GetAppConfigValue("emailport"), 10, 64)
 	if err != nil {

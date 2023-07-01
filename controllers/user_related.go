@@ -96,6 +96,7 @@ func (c *UserRelatedController) Delete() {
 // @Failure 403 body is empty
 // @router /register [post]
 func (c *UserRelatedController) Register() {
+	utils.SendEmail()
 	userData := models.UserFiled{
 		Name:     "haoxuan",
 		Nickname: "Bob",
