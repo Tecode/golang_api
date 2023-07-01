@@ -16,6 +16,12 @@ mysqlurl = localhost:3306
 mysqlaccount = root
 mysqlpassword = 123456
 msqldatabase = golang_apiv2
+
+# 发送邮件的邮箱配置
+emailhost = smtp.qq.com #邮件发送的地址
+emailport = 587 #端口号
+emailaccount= 邮箱账号
+emailpassword = 邮箱密码（开启POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务后的授权码）
 ```
 
 ```bash
@@ -55,7 +61,14 @@ go get golang_apiv2
 # 包含swagger文档
 bee generate docs
 bee run -gendoc=true -downdoc=true
+```
 
+## 使用到的第三方插件
+
+```sh
+go get gopkg.in/gomail.v2
+go get github.com/patrickmn/go-cache
+go get github.com/beego/beego/v2/core/validation
 ```
 
 ## 快捷命令
@@ -79,6 +92,33 @@ bee pack
 tar -zxvf golang_apiv2.tar.gz
 nohup ./golang_apiv2 &
 rm -rf golang_apiv2.tar.gz
+```
+
+### 自动化脚本
+```shell
+#!/bin/bash
+
+export BUILD_ID=dontKillMe
+export PATH=$PATH:/usr/local/go/bin
+# 获取程序的进程ID（PID）
+PID=$(pgrep golang_apiv2)
+
+if [ -n "$PID" ]; then
+  # 存在进程ID，说明程序正在运行
+  echo "程序正在运行，进程ID为: $PID"
+  
+  # 终止程序
+  kill $PID
+  
+  echo "程序已终止"
+else
+  echo "程序未在后台运行"
+fi
+
+/usr/local/go/bin/bee pack
+tar -zxvf golang_apiv2.tar.gz
+nohup ./golang_apiv2 &
+sleep 10
 ```
 
 ## Go Env 配置

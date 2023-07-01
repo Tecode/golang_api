@@ -23,15 +23,15 @@ func (c *UserRelatedController) URLMapping() {
 	c.Mapping("Delete", c.Delete)
 }
 
-// Post ...
-// @Title Create
+// SendEmailCode ...
+// @Title 发送邮箱验证码
 // @Description create UserRelated
 // @Param	body		body 	models.UserRelated	true		"body for UserRelated content"
 // @Success 201 {object} models.UserRelated
 // @Failure 403 body is empty
-// @router / [post]
-func (c *UserRelatedController) Post() {
-
+// @router send-code/ [post]
+func (c *UserRelatedController) SendEmailCode() {
+	utils.SendEmail()
 }
 
 // GetOne ...
@@ -94,7 +94,7 @@ func (c *UserRelatedController) Delete() {
 // @Param	body		body 	models.UserFiled	true		"body for UserFiled content"
 // @Success 201 {object} models.UserRelated
 // @Failure 403 body is empty
-// @router /login [post]
+// @router /register [post]
 func (c *UserRelatedController) Register() {
 	userData := models.UserFiled{
 		Name:     "haoxuan",
