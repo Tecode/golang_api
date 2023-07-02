@@ -17,25 +17,27 @@ func init() {
 	c = cache.New(5*time.Minute, 10*time.Minute)
 }
 
-func SendEmail() {
-	foo, found := c.Get("283731869@qq.com")
+func SendEmail(email string) error {
+	foo, found := c.Get(email)
 	if found {
 		fmt.Println(foo)
-		return
+		return fmt.Errorf("邮箱已发送，5分钟内有效")
 	}
 	content, _ := os.ReadFile("resource/docs/captcha_template.html")
-	c.Set("283731869@qq.com", GenerateCode(), cache.DefaultExpiration)
-	emailContent := fmt.Sprintf(string(content), "姓名", "aming1009", "132545")
+	// 邮箱验证码
+	emailCode := GenerateCode()
+	c.Set("283731869@qq.com", emailCode, cache.DefaultExpiration)
+	emailContent := fmt.Sprintf(string(content), "您好", email, emailCode)
 	m := gomail.NewMessage()
 	m.SetHeader("From", "283731869@qq.com")
-	m.SetHeader("To", "283731869@qq.com")
-	m.SetHeader("Subject", "Hello!")
+	m.SetHeader("To", email)
+	m.SetHeader("Subject", "登录/注册邮箱验证码")
 	m.SetBody("text/html", emailContent)
 
 	port, err := strconv.ParseInt(GetAppConfigValue("emailport"), 10, 64)
 	if err != nil {
 		logs.Error(err.Error())
-		return
+		return err
 	}
 
 	dialer := gomail.NewDialer(
@@ -47,7 +49,9 @@ func SendEmail() {
 
 	if err := dialer.DialAndSend(m); err != nil {
 		logs.Error(err.Error())
+		return err
 	}
+	return nil
 }
 
 // GenerateCode 生成随机验证码

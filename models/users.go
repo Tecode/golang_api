@@ -28,6 +28,11 @@ type Users struct {
 	UserFiled
 }
 
+// SendCode 发送验证码
+type SendCode struct {
+	Email string `json:"email"`
+}
+
 // AddUser insert a new Users into database and returns
 // last inserted I'd on success.
 func AddUser(m *UserFiled) (id int64, err error) {

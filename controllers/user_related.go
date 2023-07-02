@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/core/validation"
 	beego "github.com/beego/beego/v2/server/web"
 	"golang_apiv2/models"
 	"golang_apiv2/utils"
@@ -26,12 +27,61 @@ func (c *UserRelatedController) URLMapping() {
 // SendEmailCode ...
 // @Title 发送邮箱验证码
 // @Description create UserRelated
-// @Param	body		body 	models.UserRelated	true		"body for UserRelated content"
-// @Success 201 {object} models.UserRelated
+// @Param	body		body 	models.SendCode	true		"body for UserRelated content"
+// @Success 201 {object} {code: 200}
 // @Failure 403 body is empty
-// @router send-code/ [post]
+// @router /send-code [post]
 func (c *UserRelatedController) SendEmailCode() {
-	utils.SendEmail()
+	// 获取body的json数据
+	requestBody := models.SendCode{}
+	if jsonErr := c.BindJSON(&requestBody); jsonErr != nil {
+		logs.Error(jsonErr.Error())
+	}
+	valid := validation.Validation{}
+	valid.Email(requestBody.Email, "email")
+	if valid.HasErrors() {
+		c.Ctx.Output.SetStatus(400)
+		if err := c.Ctx.Output.JSON(
+			models.ResponseData{
+				Code:    400400,
+				Data:    valid.Errors[0],
+				Message: "邮箱不符合校验规则",
+			},
+			false,
+			false,
+		); err != nil {
+			logs.Error(err.Error())
+		}
+		return
+	}
+	// 发送邮件
+	emailError := utils.SendEmail(requestBody.Email)
+	if emailError != nil {
+		c.Ctx.Output.SetStatus(500)
+		if err := c.Ctx.Output.JSON(
+			models.ResponseData{
+				Code:    500500,
+				Data:    "邮件发送失败",
+				Message: emailError.Error(),
+			},
+			false,
+			false,
+		); err != nil {
+			logs.Error(err.Error())
+		}
+		return
+	}
+	if err := c.Ctx.Output.JSON(
+		models.ResponseData{
+			Code:    200200,
+			Data:    nil,
+			Message: "邮件发送成功，5分钟内有效",
+		},
+		false,
+		false,
+	); err != nil {
+		logs.Error(err.Error())
+	}
 }
 
 // GetOne ...
@@ -96,7 +146,6 @@ func (c *UserRelatedController) Delete() {
 // @Failure 403 body is empty
 // @router /register [post]
 func (c *UserRelatedController) Register() {
-	utils.SendEmail()
 	userData := models.UserFiled{
 		Name:     "haoxuan",
 		Nickname: "Bob",
@@ -209,7 +258,7 @@ func (c *UserRelatedController) UserLogin() {
 		}
 		return
 	}
-	err := c.Ctx.Output.JSON(
+	if err := c.Ctx.Output.JSON(
 		models.ResponseData{
 			Code: 200200,
 			Data: map[string]string{
@@ -222,8 +271,7 @@ func (c *UserRelatedController) UserLogin() {
 		},
 		false,
 		false,
-	)
-	if err != nil {
+	); err != nil {
 		logs.Error(err)
 		return
 	}

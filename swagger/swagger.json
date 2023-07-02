@@ -162,6 +162,37 @@
                 }
             }
         },
+        "/v1/send-code": {
+            "post": {
+                "tags": [
+                    "v1"
+                ],
+                "description": "create UserRelated\n\u003cbr\u003e",
+                "operationId": "UserRelatedController.发送邮箱验证码",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for UserRelated content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SendCode"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "200}",
+                        "schema": {
+                            "$ref": "#/definitions/{code:"
+                        }
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
+            }
+        },
         "/v1/user/": {
             "post": {
                 "tags": [
@@ -430,37 +461,6 @@
                     }
                 }
             }
-        },
-        "/v1send-code/": {
-            "post": {
-                "tags": [
-                    "v1"
-                ],
-                "description": "create UserRelated\n\u003cbr\u003e",
-                "operationId": "UserRelatedController.发送邮箱验证码",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body for UserRelated content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.UserRelated"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.UserRelated"
-                        }
-                    },
-                    "403": {
-                        "description": "body is empty"
-                    }
-                }
-            }
         }
     },
     "definitions": {
@@ -486,6 +486,15 @@
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SendCode": {
+            "title": "SendCode",
+            "type": "object",
+            "properties": {
+                "email": {
                     "type": "string"
                 }
             }
@@ -530,6 +539,10 @@
                     "format": "int64"
                 }
             }
+        },
+        "{code:": {
+            "title": "{code:",
+            "type": "object"
         }
     },
     "tags": [
