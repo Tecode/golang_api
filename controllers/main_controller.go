@@ -57,6 +57,7 @@ func (c *MainController) About() {
 
 // SignIn 登录
 func (c *MainController) SignIn() {
+	c.Ctx.Output.Cookie("token", "token validate")
 	c.TplName = "sign-in.html"
 }
 

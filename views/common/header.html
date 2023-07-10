@@ -61,12 +61,14 @@
                             <!--                                <li><a href="blog-details.html">Blog Details</a></li>-->
                             <!--                            </ul>-->
                         </li>
-                        {{if eq .Active "contact"}}
-                        <li class="active">
-                            {{else}}
                         <li>
-                            {{end}}
-                            <a href="/contact">Contact</a>
+                            <a href="/service">Others</a>
+                            <ul class="sub-menu">
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="/sign-in">Login</a></li>
+                                <li><a href="/sign-up">SignUp</a></li>
+                                <li><a href="/logout">LogOut</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </nav>
