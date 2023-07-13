@@ -69,6 +69,7 @@ bee run -gendoc=true -downdoc=true
 go get gopkg.in/gomail.v2
 go get github.com/patrickmn/go-cache
 go get github.com/beego/beego/v2/core/validation
+go get github.com/gorilla/websocket
 ```
 
 ## 快捷命令
