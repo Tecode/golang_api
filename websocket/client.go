@@ -6,7 +6,6 @@ package websocket
 
 import (
 	"bytes"
-	"flag"
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/gorilla/websocket"
 	"log"
@@ -31,7 +30,6 @@ const (
 var (
 	newline = []byte{'\n'}
 	space   = []byte{' '}
-	addr    = flag.String("addr", ":8088", "http service address")
 )
 
 var upGrader = websocket.Upgrader{
@@ -81,6 +79,7 @@ func (c *Client) readPump() {
 	})
 	for {
 		_, message, err := c.conn.ReadMessage()
+		logs.Info(string(message))
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Printf("error: %v", err)
@@ -153,8 +152,8 @@ func (c *Client) writePump() {
 	}
 }
 
-// serveWebsocket handles websocket requests from the peer.
-func serveWebsocket(hub *Hub, w http.ResponseWriter, r *http.Request) {
+// ServeWebsocket handles websocket requests from the peer.
+func ServeWebsocket(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	conn, err := upGrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
@@ -167,18 +166,4 @@ func serveWebsocket(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// new goroutines.
 	go client.writePump()
 	go client.readPump()
-}
-
-func Run() {
-	flag.Parse()
-	hub := newHub()
-	go hub.run()
-	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		serveWebsocket(hub, w, r)
-	})
-	logs.Info(&addr)
-	err := http.ListenAndServe(*addr, nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
 }
