@@ -79,7 +79,7 @@ func (c *Client) readPump() {
 	})
 	for {
 		_, message, err := c.conn.ReadMessage()
-		logs.Info(string(message))
+		//logs.Info(string(message))
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Printf("error: %v", err)
@@ -122,7 +122,7 @@ func (c *Client) writePump() {
 			if err != nil {
 				return
 			}
-			logs.Info(string(message))
+			//logs.Info(string(message))
 			if _, err := w.Write(message); err != nil {
 				return
 			}
