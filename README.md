@@ -23,6 +23,73 @@ emailport = 587 #端口号
 emailaccount= 邮箱账号
 emailpassword = 邮箱密码（开启POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务后的授权码）
 ```
+## Nginx配置
+
+```sh
+server {
+  listen [::]:443 ssl ipv6only=on http2;
+  listen       443 ssl http2;
+  server_name  soscoon.com www.soscoon.com;
+
+  ssl_certificate       /home/xm/certificate/soscoon.com_nginx/soscoon.com_bundle.pem;
+  ssl_certificate_key   /home/xm/certificate/soscoon.com_nginx/soscoon.com.key;
+
+
+  # ssl验证相关配置
+  ssl_session_timeout  5m;    #缓存有效期
+  ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;    
+  #加密算法
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;    #安全链接可选的加密协议
+  ssl_prefer_server_ciphers on;   #使用服务器端的首选算法
+
+  #开启gzip
+  gzip  on;
+  #低于1kb的资源不压缩
+  gzip_min_length 1k;
+  #压缩级别1-9，越大压缩率越高，同时消耗cpu资源也越多，建议设置在5左右。
+  gzip_comp_level 5;
+  #需要压缩哪些响应类型的资源，多个空格隔开。不建议压缩图片.
+  gzip_types text/plain application/javascript application/x-javascript text/javascript text/xml text/css;
+  #配置禁用gzip条件，支持正则。此处表示ie6及以下不启用gzip（因为ie低版本不支持）
+  gzip_disable "MSIE [1-6]\.";
+  #是否添加“Vary: Accept-Encoding”响应头
+  gzip_vary on;
+
+  charset utf-8;
+    #access_log  /var/log/nginx/admin-nginx-access.log  main;
+    access_log off;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location /ws {
+        proxy_pass http://localhost:8080/ws;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+    }
+
+    location / {
+        proxy_buffers 8 1024k;
+        proxy_buffer_size 1024k;
+        proxy_pass      http://localhost:8080;
+    }
+
+    # redirect server error pages to the static page /50x.html
+    #
+    #error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    #
+    #location ~ \.php$ {
+    #    proxy_pass   http://127.0.0.1;
+    #}
+}
+
+```
 
 ```bash
 | ___ \
@@ -115,10 +182,12 @@ if [ -n "$PID" ]; then
 else
   echo "程序未在后台运行"
 fi
-
+# 从这里开始记录错误，如果解压或者运行失败会捕获到做自动化程序会自动终止
+# set +e 表示不记录错误
+set -e
 /usr/local/go/bin/bee pack
 tar -zxvf golang_apiv2.tar.gz
-nohup ./golang_apiv2 &
+nohup ./golang_apiv2 > /home/xm/logs/golang_api2.txt 2>&1 &
 sleep 10
 ```
 
