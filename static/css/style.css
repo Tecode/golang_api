@@ -1570,6 +1570,10 @@ textarea {
 	margin-right: 100px;
 }
 
+.brand-logo img {
+	width: 140px;
+}
+
 .template-header.logo-center .header-left,
 .template-header.logo-center .header-right {
 	max-width: 42%;

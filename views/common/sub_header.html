@@ -6,7 +6,7 @@
                 <div class="branding-and-language-selection">
                     <div class="brand-logo">
                         <a href="/">
-                            <img src="static/picture/logo-1.png" alt="logo">
+                            <img src="static/picture/logo-blue.svg" alt="logo">
                         </a>
                     </div>
                     <div class="language-selection d-none d-md-block">
@@ -76,12 +76,14 @@
                             <!--                                <li><a href="blog-details.html">Blog Details</a></li>-->
                             <!--                            </ul>-->
                         </li>
-                        {{if eq .Active "contact"}}
-                        <li class="active">
-                            {{else}}
                         <li>
-                            {{end}}
-                            <a href="/contact">Contact</a>
+                            <a href="/service">Others</a>
+                            <ul class="sub-menu">
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="/sign-in">Login</a></li>
+                                <li><a href="/sign-up">SignUp</a></li>
+                                <li><a href="/logout">LogOut</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </nav>
@@ -117,7 +119,7 @@
         <div class="panel-inner">
             <div class="mobile-logo">
                 <a href="/">
-                    <img src="static/picture/logo-1.png" alt="Landio">
+                    <img src="static/picture/logo-blue.svg" alt="Landio">
                 </a>
             </div>
             <nav class="mobile-menu">
@@ -171,7 +173,13 @@
                         <!--                        </ul>-->
                     </li>
                     <li>
-                        <a href="/contact">Contact</a>
+                        <a href="/service">Others</a>
+                        <ul class="sub-menu">
+                            <li><a href="/contact">Contact</a></li>
+                            <li><a href="/sign-in">Login</a></li>
+                            <li><a href="/sign-up">SignUp</a></li>
+                            <li><a href="/logout">LogOut</a></li>
+                        </ul>
                     </li>
                 </ul>
             </nav>
