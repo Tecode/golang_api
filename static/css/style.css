@@ -2051,6 +2051,10 @@ textarea {
 	margin-bottom: 40px;
 }
 
+.canvas-logo img, .copyright-logo img {
+	width: 160px;
+}
+
 .off-canvas-wrapper .contact-us li {
 	position: relative;
 	padding-left: 60px;
