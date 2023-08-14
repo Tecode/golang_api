@@ -55,6 +55,12 @@ func (c *MainController) About() {
 	c.TplName = "about.html"
 }
 
+// Chats 在线聊天
+func (c *MainController) Chats() {
+	c.Data["Active"] = "chats"
+	c.TplName = "chats.html"
+}
+
 // SignIn 登录
 func (c *MainController) SignIn() {
 	c.Ctx.SetCookie("token", "Hour测试cookie set token", 30)

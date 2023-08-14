@@ -33,6 +33,7 @@ func init() {
 	beego.CtrlGet("/news-detail", (*controllers.MainController).NewsDetail)
 	beego.CtrlGet("/service", (*controllers.MainController).Services)
 	beego.CtrlGet("/service-detail", (*controllers.MainController).ServicesDetail)
+	beego.CtrlGet("/chats", (*controllers.MainController).Chats)
 	beego.CtrlGet("/sign-in", (*controllers.MainController).SignIn)
 	beego.CtrlGet("/sign-up", (*controllers.MainController).SignUp)
 	beego.Router("/ws", &controllers.WebSocketController{})
