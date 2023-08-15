@@ -4,6 +4,7 @@ import (
 	beego "github.com/beego/beego/v2/server/web"
 	"golang_apiv2/controllers"
 	_ "golang_apiv2/routers"
+	"golang_apiv2/utils"
 )
 
 func main() {
@@ -14,5 +15,8 @@ func main() {
 	}
 	beego.SetStaticPath("/resource", "resource")
 	beego.ErrorController(&controllers.ErrorControllerController{})
+	// 现在IP的请求速率
+	//beego.InsertFilter("*", beego.BeforeStatic, utils.RequestInterceptor)
+	beego.InsertFilter("*", beego.BeforeRouter, utils.RequestInterceptor)
 	beego.Run()
 }

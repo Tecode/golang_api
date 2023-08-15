@@ -11,7 +11,12 @@ import (
 
 var (
 	signingKey = []byte("7e6c8b94a77412")
+	tracker    *IPTracker
 )
+
+func init() {
+	tracker = NewIPTracker()
+}
 
 // Interceptor 拦截器
 func Interceptor(ctx *context.Context) {
@@ -110,4 +115,19 @@ func GetAppConfigValue(key string) string {
 		return ""
 	}
 	return s
+}
+
+// RequestInterceptor 全局拦截器
+func RequestInterceptor(ctx *context.Context) {
+	if !tracker.TrackIP(ctx.Input.IP()) {
+		ctx.Output.SetStatus(500)
+		jsonErr := ctx.Output.JSON(
+			map[string]interface{}{"code": 500500, "message": "Visits are too frequent"},
+			false,
+			true,
+		)
+		if jsonErr != nil {
+			logs.Error(jsonErr.Error())
+		}
+	}
 }
