@@ -55,12 +55,12 @@ func (c *UserRelatedController) SendEmailCode() {
 		return
 	}
 	// 发送邮件
-	emailError := utils.SendEmail(requestBody.Email)
+	emailError := utils.SendCaptchaCode(requestBody.Email, c.Ctx.Input.IP())
 	if emailError != nil {
-		c.Ctx.Output.SetStatus(500)
+		c.Ctx.Output.SetStatus(200)
 		if err := c.Ctx.Output.JSON(
 			models.ResponseData{
-				Code:    500500,
+				Code:    200500,
 				Data:    "邮件发送失败",
 				Message: emailError.Error(),
 			},

@@ -144,6 +144,8 @@ go get gopkg.in/gomail.v2
 go get github.com/patrickmn/go-cache
 go get github.com/beego/beego/v2/core/validation
 go get github.com/gorilla/websocket
+# 获取农历
+go get github.com/ying32/govcl/samples/lunar
 ```
 
 ## 快捷命令

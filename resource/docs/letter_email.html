@@ -1,28 +1,27 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>Dear,洁洁 元气满满的一天开始啦，要开心噢（づ￣ 3￣)づ'</title>
+    <title>Dear,{{.Name}} 元气满满的一天开始啦，要开心噢（づ￣ 3￣)づ'</title>
 </head>
-{{.}}
 <body>
 <div style="width: 375px;
         height: 667px; margin: 0 auto;
         background-repeat: no-repeat;
         background-size: cover;
-        background-image: url('{url}');">
+        background-image: url('{{.Url}}');">
     <div style="padding: 10% 10% 0 10%; ">
         <div style="color: white;
                 border:6px white solid;
                 background-repeat: no-repeat;
                 background-size: cover;
-                height: 100%; background-image: url('{url}'); ">
+                height: 100%; background-image: url('{{.Url}}'); ">
             <div style="min-height: 240px">
-                <p style="margin: 0;padding: 10px;font-size: 20px;font-weight: 500;">{to}</p>
+                <p style="margin: 0;padding: 10px;font-size: 20px;font-weight: 500;">{{.To}}</p>
                 <p style="margin: 0;padding:  0 10px; font-size: 14px;">新的一天开始啦，要开心噢（づ￣ 3￣)づ</p>
             </div>
-            <div style="font-size: 36px; padding-left: 10px; font-weight: bold;">{today_date}</div>
-            <p style="padding: 2px 0 2px 10px;margin: 0;">{week}</p>
-            <p style="padding: 0 0 20px 10px;margin: 0;">农历{l_date}</p>
+            <div style="font-size: 36px; padding-left: 10px; font-weight: bold;">{{.TodayDate}}</div>
+            <p style="padding: 2px 0 2px 10px;margin: 0;">{{.Week}}</p>
+            <p style="padding: 0 0 20px 10px;margin: 0;">农历{{.Lunar}}</p>
         </div>
     </div>
     <div style="font-size: 14px;
@@ -32,7 +31,7 @@
              background-color: white;
              color: #16181A;">
         <p style="margin: 0; font-size: 40px; line-height: 4px;">“</p>
-        <p style="padding: 0 6px 0 10px; margin: 0">{content}</p>
+        <p style="padding: 0 6px 0 10px; margin: 0">{{.Content}}</p>
         <p style="margin: 0; font-size: 40px; text-align: right;line-height: 40px;">”</p>
     </div>
 </div>

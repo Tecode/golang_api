@@ -6,7 +6,6 @@ import (
 	"github.com/patrickmn/go-cache"
 	"gopkg.in/gomail.v2"
 	"math/rand"
-	"os"
 	"strconv"
 	"time"
 )
@@ -17,21 +16,29 @@ func init() {
 	c = cache.New(5*time.Minute, 10*time.Minute)
 }
 
-func SendEmail(email string) error {
-	foo, found := c.Get(email)
+// SendCaptchaCode 发送邮箱验证码
+func SendCaptchaCode(email string, ip string) error {
+	foo, found := GetCode(email)
 	if found {
-		fmt.Println(foo)
-		return fmt.Errorf("邮箱已发送，5分钟内有效")
+		logs.Info("Email", foo)
+		return fmt.Errorf("邮件已发送，5分钟内有效")
 	}
-	content, _ := os.ReadFile("resource/docs/captcha_template.html")
 	// 邮箱验证码
 	emailCode := GenerateCode()
-	c.Set("283731869@qq.com", emailCode, cache.DefaultExpiration)
-	emailContent := fmt.Sprintf(string(content), "您好", email, emailCode)
+	c.Set(email, emailCode, cache.DefaultExpiration)
+	emailContent := RenderCaptcha(email, emailCode, ip)
+	if err := SendEmail(email, "登录/注册邮箱验证码", emailContent); err != nil {
+		return err
+	}
+	return nil
+}
+
+// SendEmail 发送邮件
+func SendEmail(email string, emailHeader string, emailContent string) error {
 	m := gomail.NewMessage()
 	m.SetHeader("From", "283731869@qq.com")
 	m.SetHeader("To", email)
-	m.SetHeader("Subject", "登录/注册邮箱验证码")
+	m.SetHeader("Subject", emailHeader)
 	m.SetBody("text/html", emailContent)
 
 	port, err := strconv.ParseInt(GetAppConfigValue("emailport"), 10, 64)

@@ -6,6 +6,7 @@ import (
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/server/web/context"
 	"github.com/dgrijalva/jwt-go"
+	"math/rand"
 	"time"
 )
 
@@ -130,4 +131,11 @@ func RequestInterceptor(ctx *context.Context) {
 			logs.Error(jsonErr.Error())
 		}
 	}
+}
+
+// RandomNumber 取随机数
+func RandomNumber(count int) int {
+	rand.New(rand.NewSource(time.Now().UnixNano()))
+	randomNum := rand.Intn(count)
+	return randomNum
 }

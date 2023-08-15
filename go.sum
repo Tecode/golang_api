@@ -1,3 +1,5 @@
+github.com/6tail/lunar-go v1.3.3 h1:iKSfNS5udnAjyWiALk1/M5WlNY6EB8dFa/+IOLbcjqg=
+github.com/6tail/lunar-go v1.3.3/go.mod h1:mMvCby9aWTSmsZjnv+5EOW7taJFV4RsjNcQLRl/3whY=
 github.com/beego/beego/v2 v2.1.0 h1:Lk0FtQGvDQCx5V5yEu4XwDsIgt+QOlNjt5emUa3/ZmA=
 github.com/beego/beego/v2 v2.1.0/go.mod h1:6h36ISpaxNrrpJ27siTpXBG8d/Icjzsc7pU1bWpp0EE=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
