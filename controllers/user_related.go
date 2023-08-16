@@ -150,7 +150,8 @@ func (c *UserRelatedController) Register() {
 		Name:     "haoxuan",
 		Nickname: "Bob",
 		Email:    "283731869@qq.com",
-		Gender:   1, Phone: "18083018982",
+		Gender:   1,
+		Phone:    "18083018982",
 		Password: "1qaz2wsx",
 	}
 	// 添加判断是否已经存在
@@ -223,6 +224,28 @@ func (c *UserRelatedController) UserLogin() {
 	if jsonErr != nil {
 		return
 	}
+	// 校验数据是否正确
+	valid := validation.Validation{}
+	//自定义错误信息
+	//valid.SetError("Password", "c")
+	pass, _ := valid.Valid(&requestBody)
+	// 有错误
+	if !pass {
+		c.Ctx.Output.SetStatus(400)
+		err := c.Ctx.Output.JSON(
+			models.ResponseData{
+				Code:    400400,
+				Data:    nil,
+				Message: valid.Errors[0].Message,
+			},
+			false,
+			false,
+		)
+		if err != nil {
+			return
+		}
+		return
+	}
 	// 添加判断是否已经存在
 	userData, searchUserError := models.GetUsersByAccount(requestBody.Account, requestBody.Password)
 	if searchUserError != nil {
@@ -258,6 +281,8 @@ func (c *UserRelatedController) UserLogin() {
 		}
 		return
 	}
+	// cookie保存一个token
+	c.Ctx.SetCookie("token", token, 60*30)
 	if err := c.Ctx.Output.JSON(
 		models.ResponseData{
 			Code: 200200,

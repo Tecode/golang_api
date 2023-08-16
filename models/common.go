@@ -25,8 +25,8 @@ type Haouxuan struct {
 }
 
 type LoginModel struct {
-	Account  string `json:"account"`
-	Password string `json:"password"`
+	Account  string `valid:"Email";json:"account"`
+	Password string `valid:"Required";json:"password"`
 }
 
 func init() {

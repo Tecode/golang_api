@@ -12,22 +12,22 @@
         <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10">
                 <div class="sign-in-up-wrapper">
-                    <form action="#">
+                    <form>
                         <div class="form-groups">
                             <h4 class="form-title">Log In To Your Account</h4>
                             <div class="field-group">
                                 <div class="icon">
                                     <i class="far fa-user"></i>
                                 </div>
-                                <input type="text" placeholder="Username">
+                                <input id="account" type="text" placeholder="Username">
                             </div>
                             <div class="field-group">
                                 <div class="icon">
                                     <i class="far fa-lock"></i>
                                 </div>
-                                <input type="password" placeholder="Password">
+                                <input id="password" type="password" placeholder="Password">
                             </div>
-                            <div class="field-group">
+                            <div id="login-in" class="field-group">
                                 <button type="submit">Log In</button>
                             </div>
                         </div>
@@ -42,37 +42,32 @@
     </div>
 </section>
 <!--====== Sign In End ======-->
-<!--====== Jquery ======-->
-<script defer="defer" data-cfasync="false" src="static/js/email-decode.min.js"></script>
-<!--Jquery-->
-<script defer="defer" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<!--====== Bootstrap ======-->
-<script defer="defer" src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
-<!--====== Slick slider ======-->
-<script defer="defer" src="static/js/slick.min.js"></script>
-<!--====== Magnific ======-->
-<script defer="defer"
-        src="https://cdn.bootcdn.net/ajax/libs/magnific-popup.js/1.0.0/jquery.magnific-popup.min.js"></script>
-<!--====== Isotope Js ======-->
-<script defer="defer" src="static/js/isotope.pkgd.min.js"></script>
-<!--====== Inview ======-->
-<script defer="defer" src="static/js/jquery.inview.min.js"></script>
-<!--====== Nice Select ======-->
-<script defer="defer"
-        src="https://cdn.bootcdn.net/ajax/libs/jquery-nice-select/1.0/js/jquery.nice-select.min.js"></script>
-<!--====== Wow ======-->
-<script defer="defer" src="static/js/wow.min.js"></script>
-<!--====== Main JS ======-->
-<script defer="defer" src="static/js/main.js"></script>
-<!--百度统计-->
-<script>
-    var _hmt = _hmt || [];
-    (function () {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?a58069133c5f09969ad319a3ac1ec2d1";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
+{{template "common/script.tpl" .}}
+<script type="application/javascript">
+    $(function () {
+        var loading = false
+        $("#login-in").on("click", function () {
+            var account = $("#account").val()
+            var password = $("#password").val()
+            if (loading || !account || !password) return
+            loading = true
+            $.ajax({
+                url: "/api/v1/login",
+                type: "POST",
+                data: JSON.stringify({account: account, password: password}),
+                dateType: "json",
+                error: function () {
+
+                },
+                success: function () {
+
+                },
+                complete: function () {
+                    loading = false
+                }
+            })
+        })
+    })
 </script>
 </body>
 
