@@ -482,10 +482,10 @@
             "title": "LoginModel",
             "type": "object",
             "properties": {
-                "account": {
+                "Account": {
                     "type": "string"
                 },
-                "password": {
+                "Password": {
                     "type": "string"
                 }
             }

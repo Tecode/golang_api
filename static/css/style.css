@@ -10022,3 +10022,18 @@ textarea {
 .coming-soon-page .template-header .off-canvas-btn span {
 	background-color: var(--color-primary);
 }
+
+/*Toast 弹窗*/
+#toast {
+	display: none;
+	position: fixed;
+	z-index: 9999;
+	top: 10%;
+	left: 50%;
+	width: 385px;
+	transform: translate(-50%, -50%);
+	padding: 8px 20px;
+	background-color: white;
+	color: #333333;
+	box-shadow: 6px 4px 20px rgba(0, 0, 0, 0.2);
+}

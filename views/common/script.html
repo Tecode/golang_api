@@ -1,3 +1,5 @@
+<!--弹出层部分-->
+<div id="toast"></div>
 <!--====== Jquery ======-->
 <script data-cfasync="false" src="static/js/email-decode.min.js"></script>
 <!--Jquery-->
@@ -21,11 +23,17 @@
 <!--百度统计-->
 <script>
     var _hmt = _hmt || [];
-    (function() {
+    (function () {
         var hm = document.createElement("script");
         hm.src = "https://hm.baidu.com/hm.js?a58069133c5f09969ad319a3ac1ec2d1";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
     })();
+</script>
+<script>
+    $.toast = function (text) {
+        $('#toast').text(text)
+        $('#toast').fadeIn(500).delay(2000).fadeOut(500);
+    }
 </script>
 <!--百度统计-->

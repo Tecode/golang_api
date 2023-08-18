@@ -42,14 +42,18 @@
     </div>
 </section>
 <!--====== Sign In End ======-->
-{{template "common/script.tpl" .}}
+{{template "common/script.html" .}}
 <script type="application/javascript">
     $(function () {
         var loading = false
         $("#login-in").on("click", function () {
+            $.toast("Account or Password can`t empty")
+
             var account = $("#account").val()
             var password = $("#password").val()
-            if (loading || !account || !password) return
+            if (loading || !account || !password) {
+                return false
+            }
             loading = true
             $.ajax({
                 url: "/api/v1/login",
