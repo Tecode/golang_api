@@ -33,20 +33,26 @@ type SendCode struct {
 	Email string `json:"email"`
 }
 
+// RegisterUser 注册账号
+type RegisterUser struct {
+	Email    string `orm:"size(128)"json:"email"`
+	Password string `orm:"size(128)"json:"password"`
+	Code     string `orm:"size(128)"json:"code"`
+	Name     string `orm:"size(128)"json:"name"`
+}
+
 // AddUser insert a new Users into database and returns
 // last inserted I'd on success.
-func AddUser(m *UserFiled) (id int64, err error) {
+func AddUser(r *RegisterUser) (id int64, err error) {
 	o := orm.NewOrm()
-	exist := o.QueryTable(new(Users)).Filter("email", m.Email).Exist()
+	exist := o.QueryTable(new(Users)).Filter("email", r.Email).Exist()
 	if exist {
 		return 0, errors.New("邮箱已存在")
 	}
 	var data Users
-	data.Nickname = m.Nickname
-	data.Phone = m.Phone
-	data.Gender = m.Gender
-	data.Password = m.Password
-	data.Email = m.Email
+	data.Email = r.Email
+	data.Nickname = r.Name
+	data.Password = r.Password
 	id, err = o.Insert(&data)
 	return
 }

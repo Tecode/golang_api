@@ -145,7 +145,7 @@
                         "description": "body for UserFiled content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UserFiled"
+                            "$ref": "#/definitions/models.RegisterUser"
                         }
                     }
                 ],
@@ -490,42 +490,29 @@
                 }
             }
         },
+        "models.RegisterUser": {
+            "title": "RegisterUser",
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "models.SendCode": {
             "title": "SendCode",
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.UserFiled": {
-            "title": "UserFiled",
-            "type": "object",
-            "properties": {
-                "email": {
-                    "description": "邮箱账号",
-                    "type": "string"
-                },
-                "gender": {
-                    "description": "性别",
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "name": {
-                    "description": "姓名",
-                    "type": "string"
-                },
-                "nickname": {
-                    "description": "昵称",
-                    "type": "string"
-                },
-                "password": {
-                    "description": "密码",
-                    "type": "string"
-                },
-                "phone": {
-                    "description": "手机号码",
                     "type": "string"
                 }
             }

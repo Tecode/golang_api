@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"fmt"
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
@@ -107,6 +108,27 @@ func CreateToken(userId int64) (string, error) {
 	fmt.Println(tokenString, err, "newToken")
 	//	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaGFveHVhbiIsIm5iZiI6MTQ0NDQ3ODQwMH0.MG4hdXS5BX_HPgET36Dc6YgOuPjloAiG_M-DFHYT71I
 	return tokenString, err
+}
+
+func TokenToUserId(jwtToken string) (int, error) {
+	if len(jwtToken) < 1 {
+		return 0, errors.New("token is invalid")
+	}
+	token, tokenError := jwt.Parse(jwtToken, func(token *jwt.Token) (interface{}, error) {
+		// Don't forget to validate the alg is what you expect:
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
+		return signingKey, nil
+	})
+	// token有效就解析
+	if tokenError != nil && token.Valid {
+		claims, isOk := token.Claims.(jwt.MapClaims)
+		fmt.Println(claims["userId"], isOk, "claims")
+		return 0, nil
+	}
+	return 0, errors.New("token is invalid")
 }
 
 // GetAppConfigValue 获取appConfig的对应值

@@ -13,7 +13,7 @@
         <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10">
                 <div class="sign-in-up-wrapper">
-                    <form action="#">
+                    <form>
                         <div class="form-groups">
                             <h4 class="form-title">Create Your Account</h4>
                             <div class="field-group">
@@ -22,11 +22,18 @@
                                 </div>
                                 <input type="text" placeholder="Username">
                             </div>
-                            <div class="field-group">
+                            <div class="field-group login-email-box">
                                 <div class="icon">
                                     <i class="far fa-envelope"></i>
                                 </div>
                                 <input type="email" placeholder="Email Address">
+                                <button class="send-code-button">Send Code</button>
+                            </div>
+                            <div class="field-group">
+                                <div class="icon">
+                                    <i class="far fa-rss"></i>
+                                </div>
+                                <input type="text" placeholder="Email verification code">
                             </div>
                             <div class="field-group">
                                 <div class="icon">
@@ -41,7 +48,7 @@
                                 <input type="password" placeholder="Confirm Password">
                             </div>
                             <div class="field-group">
-                                <button type="submit">Create Account</button>
+                                <button id="register" type="submit">Create Account</button>
                             </div>
                         </div>
                         <div class="form-note">
@@ -56,6 +63,34 @@
 <!--====== Sign In End ======-->
 <!--脚本文件-->
 {{template "common/script.html" .}}
+<script>
+    $(function () {
+        $(".send-code-button").click(function () {
+            const emailRegExp = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
+            var email = $("input[type='email']").val()
+            if (!emailRegExp.test(email)) {
+                $.toast("The mailbox format is incorrect")
+                return false
+            }
+            $.ajax({
+                url: "/api/v1/send-code",
+                type: "POST",
+                data: JSON.stringify({email: email}),
+                dateType: "json",
+                error: function () {
+                    $.toast("The verification code has been sent fail")
+                },
+                success: function () {
+                    $.toast("The verification code has been sent")
+                }
+            })
+            return false
+        })
+        $("#register").click(function () {
+            return false
+        })
+    })
+</script>
 <!--脚本文件-->
 </body>
 

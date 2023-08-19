@@ -47,11 +47,11 @@
     $(function () {
         var loading = false
         $("#login-in").on("click", function () {
-            $.toast("Account or Password can`t empty")
 
             var account = $("#account").val()
             var password = $("#password").val()
             if (loading || !account || !password) {
+                $.toast("Account or Password can`t empty!")
                 return false
             }
             loading = true
@@ -60,16 +60,18 @@
                 type: "POST",
                 data: JSON.stringify({account: account, password: password}),
                 dateType: "json",
-                error: function () {
-
+                error: function (error) {
+                    $.toast(error.responseJSON.message)
                 },
-                success: function () {
-
+                success: function (data) {
+                    localStorage.setItem("token", data.data.token)
+                    location.href = "/"
                 },
                 complete: function () {
                     loading = false
                 }
             })
+            return false
         })
     })
 </script>

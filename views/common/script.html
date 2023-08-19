@@ -1,5 +1,5 @@
 <!--弹出层部分-->
-<div id="toast"></div>
+<div id="toast">Hello World!</div>
 <!--====== Jquery ======-->
 <script data-cfasync="false" src="static/js/email-decode.min.js"></script>
 <!--Jquery-->
@@ -30,6 +30,7 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
+<!--扩展jQuery方法-->
 <script>
     $.toast = function (text) {
         $('#toast').text(text)

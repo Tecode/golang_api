@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/server/web/context"
+	"golang_apiv2/utils"
 )
 
 type MainController struct {
@@ -10,6 +12,11 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
+	id, err := utils.TokenToUserId(c.Ctx.GetCookie("token"))
+	if err != nil {
+		logs.Error(err)
+	}
+	logs.Info(id)
 	c.Data["Active"] = "product"
 	c.Data["Email"] = "astaxie@gmail.com"
 	c.TplName = "index.html"

@@ -141,73 +141,71 @@ func (c *UserRelatedController) Delete() {
 // Register ...
 // @Title 用户注册
 // @Description 登录后获取token
-// @Param	body		body 	models.UserFiled	true		"body for UserFiled content"
+// @Param	body		body 	models.RegisterUser	true		"body for UserFiled content"
 // @Success 201 {object} models.UserRelated
 // @Failure 403 body is empty
 // @router /register [post]
 func (c *UserRelatedController) Register() {
-	userData := models.UserFiled{
-		Name:     "haoxuan",
-		Nickname: "Bob",
-		Email:    "283731869@qq.com",
-		Gender:   1,
-		Phone:    "18083018982",
-		Password: "1qaz2wsx",
+	// 获取body的json数据
+	userData := models.RegisterUser{}
+	if jsonErr := c.BindJSON(&userData); jsonErr != nil {
+		return
 	}
 	// 添加判断是否已经存在
-	userId, addUserError := models.AddUser(&userData)
-	if addUserError != nil {
-		c.Ctx.Output.SetStatus(400)
-		err := c.Ctx.Output.JSON(
-			models.ResponseData{
-				Code:    400400,
-				Data:    nil,
-				Message: addUserError.Error(),
-			},
-			false,
-			false,
-		)
-		if err != nil {
-			return
-		}
-		return
-	}
-	token, tokenError := utils.CreateToken(userId)
-	if tokenError != nil {
-		c.Ctx.Output.SetStatus(400)
-		err := c.Ctx.Output.JSON(
-			models.ResponseData{
-				Code:    400400,
-				Data:    nil,
-				Message: tokenError.Error(),
-			},
-			false,
-			false,
-		)
-		if err != nil {
-			logs.Error(err.Error())
-		}
-		return
-	}
-	// 获取body的json数据
-	data := models.LoginModel{}
-	jsonErr := c.BindJSON(&data)
-	if jsonErr != nil {
-		return
-	}
-	err := c.Ctx.Output.JSON(
-		models.ResponseData{
-			Code:    200200,
-			Data:    map[string]string{"token": token, "userName": data.Account, "password": data.Password},
-			Message: "获取数据成功",
-		},
-		false,
-		false,
-	)
-	if err != nil {
-		logs.Error(err)
-		return
-	}
+	//userId, addUserError := models.AddUser(&userData)
+	//if addUserError != nil {
+	//	c.Ctx.Output.SetStatus(400)
+	//	err := c.Ctx.Output.JSON(
+	//		models.ResponseData{
+	//			Code:    400400,
+	//			Data:    nil,
+	//			Message: addUserError.Error(),
+	//		},
+	//		false,
+	//		false,
+	//	)
+	//	if err != nil {
+	//		return
+	//	}
+	//	return
+	//}
+	logs.Info(userData.Code)
+	//token, tokenError := utils.CreateToken(userId)
+	//if tokenError != nil {
+	//	c.Ctx.Output.SetStatus(400)
+	//	err := c.Ctx.Output.JSON(
+	//		models.ResponseData{
+	//			Code:    400400,
+	//			Data:    nil,
+	//			Message: tokenError.Error(),
+	//		},
+	//		false,
+	//		false,
+	//	)
+	//	if err != nil {
+	//		logs.Error(err.Error())
+	//	}
+	//	return
+	//}
+	//// 获取body的json数据
+	//data := models.LoginModel{}
+	//jsonErr := c.BindJSON(&data)
+	//if jsonErr != nil {
+	//	return
+	//}
+	//err := c.Ctx.Output.JSON(
+	//	models.ResponseData{
+	//		Code:    200200,
+	//		Data:    map[string]string{"token": token, "userName": data.Account, "password": data.Password},
+	//		Message: "获取数据成功",
+	//	},
+	//	false,
+	//	false,
+	//)
+	//if err != nil {
+	//	logs.Error(err)
+	//	return
+	//}
 }
 
 // UserLogin ...

@@ -10037,3 +10037,14 @@ textarea {
 	color: #333333;
 	box-shadow: 6px 4px 20px rgba(0, 0, 0, 0.2);
 }
+.sign-in-up-wrapper .login-email-box {
+	position: relative;
+}
+
+.sign-in-up-wrapper .login-email-box .send-code-button {
+	position: absolute;
+	right: 20px;
+	top: 14px;
+	width: 110px;
+	height: 32px;
+}

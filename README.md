@@ -2,6 +2,11 @@
 
 要运行项目不要配置`GOPATH`,需要`GO`版本大于`1.16`，这样才支持使用`go mod` 管理依赖
 
+## 解决不能debug问题 WARNING: undefined behavior - version of Delve is too old for Go version 1.20.5 (maximum supported version 1.18)
+```text
+go get -u github.com/go-delve/delve/cmd/dlv
+```
+
 ## 新增配置文件conf/app.conf
 
 ```text
