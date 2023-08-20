@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/server/web/context"
@@ -75,7 +76,14 @@ func (c *MainController) SignIn() {
 	c.TplName = "sign-in.html"
 }
 
-// SignUp 登录
+// SignUp 注册
 func (c *MainController) SignUp() {
 	c.TplName = "sign-up.html"
+}
+
+// ForgotPassword 忘记密码
+func (c *MainController) ForgotPassword() {
+	c.Data["Type"] = c.Ctx.Input.Query("type")
+	fmt.Println(c.Ctx.Input.Query("type"))
+	c.TplName = "forgot-password.html"
 }

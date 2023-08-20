@@ -36,6 +36,7 @@ func init() {
 	beego.CtrlGet("/chats", (*controllers.MainController).Chats)
 	beego.CtrlGet("/sign-in", (*controllers.MainController).SignIn)
 	beego.CtrlGet("/sign-up", (*controllers.MainController).SignUp)
+	beego.CtrlGet("/forgot-password", (*controllers.MainController).ForgotPassword)
 	beego.Router("/ws", &controllers.WebSocketController{})
 	beego.Get("/.well-known/pki-validation/1BA546375A5C77B851DB153B5516819B.txt", controllers.CertificateText)
 	beego.AddNamespace(nameSpace)
