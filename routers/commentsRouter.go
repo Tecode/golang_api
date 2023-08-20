@@ -99,15 +99,6 @@ func init() {
 
 	beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"],
 		beego.ControllerComments{
-			Method:           "GetAll",
-			Router:           `/`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams:     param.Make(),
-			Filters:          nil,
-			Params:           nil})
-
-	beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"],
-		beego.ControllerComments{
 			Method:           "GetOne",
 			Router:           `/:id`,
 			AllowHTTPMethods: []string{"get"},
@@ -154,7 +145,7 @@ func init() {
 	beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"],
 		beego.ControllerComments{
 			Method:           "SendEmailCode",
-			Router:           `send-code/`,
+			Router:           `/send-code`,
 			AllowHTTPMethods: []string{"post"},
 			MethodParams:     param.Make(),
 			Filters:          nil,

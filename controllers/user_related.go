@@ -19,7 +19,6 @@ type UserRelatedController struct {
 func (c *UserRelatedController) URLMapping() {
 	c.Mapping("Post", c.Post)
 	c.Mapping("GetOne", c.Get)
-	c.Mapping("GetAll", c.GetAll)
 	c.Mapping("Put", c.Put)
 	c.Mapping("Delete", c.Delete)
 }
@@ -27,7 +26,7 @@ func (c *UserRelatedController) URLMapping() {
 // SendEmailCode ...
 // @Title 发送邮箱验证码
 // @Description create UserRelated
-// @Param	body		body 	models.SendCode	true		"body for UserRelated content"
+// @Param	body	 	models.SendCode	true		"body for UserRelated content"
 // @Success 201 {object} {code: 200}
 // @Failure 403 body is empty
 // @router /send-code [post]
@@ -40,48 +39,24 @@ func (c *UserRelatedController) SendEmailCode() {
 	valid := validation.Validation{}
 	valid.Email(requestBody.Email, "email")
 	if valid.HasErrors() {
-		c.Ctx.Output.SetStatus(400)
-		if err := c.Ctx.Output.JSON(
-			models.ResponseData{
-				Code:    400400,
-				Data:    valid.Errors[0],
-				Message: "邮箱不符合校验规则",
-			},
-			false,
-			false,
-		); err != nil {
-			logs.Error(err.Error())
-		}
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, valid.Errors[0].Message)
 		return
 	}
+
+	// 查询邮箱是否已经被注册
+	if account, err := models.GetUsersByAccount(requestBody.Email); err == nil && account != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "The email address is already registered")
+		return
+	}
+
 	// 发送邮件
 	emailError := utils.SendCaptchaCode(requestBody.Email, c.Ctx.Input.IP())
 	if emailError != nil {
-		c.Ctx.Output.SetStatus(200)
-		if err := c.Ctx.Output.JSON(
-			models.ResponseData{
-				Code:    200500,
-				Data:    "邮件发送失败",
-				Message: emailError.Error(),
-			},
-			false,
-			false,
-		); err != nil {
-			logs.Error(err.Error())
-		}
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, emailError.Error())
 		return
 	}
-	if err := c.Ctx.Output.JSON(
-		models.ResponseData{
-			Code:    200200,
-			Data:    nil,
-			Message: "邮件发送成功，5分钟内有效",
-		},
-		false,
-		false,
-	); err != nil {
-		logs.Error(err.Error())
-	}
+	utils.RequestOutInput(c.Ctx, 200, 200200, nil, "邮件发送成功，5分钟内有效")
+
 }
 
 // GetOne ...
@@ -99,27 +74,11 @@ func (c *UserRelatedController) GetOne() {
 	}
 }
 
-// GetAll ...
-// @Title GetAll
-// @Description get UserRelated
-// @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
-// @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
-// @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
-// @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
-// @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
-// @Param	offset	query	string	false	"Start position of result set. Must be an integer"
-// @Success 200 {object} models.UserRelated
-// @Failure 403
-// @router / [get]
-func (c *UserRelatedController) GetAll() {
-
-}
-
 // Put ...
 // @Title Put
 // @Description update the UserRelated
 // @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.UserRelated	true		"body for UserRelated content"
+// @Param	body	 	models.UserRelated	true		"body for UserRelated content"
 // @Success 200 {object} models.UserRelated
 // @Failure 403 :id is not int
 // @router /:id [put]
@@ -149,27 +108,37 @@ func (c *UserRelatedController) Register() {
 	// 获取body的json数据
 	userData := models.RegisterUser{}
 	if jsonErr := c.BindJSON(&userData); jsonErr != nil {
+		utils.RequestOutInput(c.Ctx, 500, 500500, nil, jsonErr.Error())
+		logs.Error(jsonErr)
+		return
+	}
+	valid := validation.Validation{}
+	pass, _ := valid.Valid(&userData)
+	if !pass {
+		for _, err := range valid.Errors {
+			utils.RequestOutInput(c.Ctx, 400, 400400, nil, err.Error())
+			break
+		}
+		return
+	}
+	cacheCode, ok := utils.GetCode(userData.Email)
+	if !ok || (ok && cacheCode.(string) != userData.Code) {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "The email verification code is incorrect")
 		return
 	}
 	// 添加判断是否已经存在
-	//userId, addUserError := models.AddUser(&userData)
-	//if addUserError != nil {
-	//	c.Ctx.Output.SetStatus(400)
-	//	err := c.Ctx.Output.JSON(
-	//		models.ResponseData{
-	//			Code:    400400,
-	//			Data:    nil,
-	//			Message: addUserError.Error(),
-	//		},
-	//		false,
-	//		false,
-	//	)
-	//	if err != nil {
-	//		return
-	//	}
-	//	return
-	//}
-	logs.Info(userData.Code)
+	userId, addUserError := models.AddUser(&userData)
+	if addUserError != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, addUserError.Error())
+		return
+	}
+	utils.RequestOutInput(c.Ctx, 400, 400400,
+		map[string]any{
+			"userId":     userId,
+			"createTime": strconv.FormatInt(time.Now().UnixMilli(), 10),
+			//"userName": userData.Name,
+			//"id":       strconv.FormatInt(userData.Id, 10),
+		}, "Register successes")
 	//token, tokenError := utils.CreateToken(userId)
 	//if tokenError != nil {
 	//	c.Ctx.Output.SetStatus(400)
@@ -211,7 +180,7 @@ func (c *UserRelatedController) Register() {
 // UserLogin ...
 // @Title 用户登录
 // @Description 登录后获取token
-// @Param	body		body 	models.LoginModel	true		"body for Haouxuan content"
+// @Param	body 	models.LoginModel	true		"body for Haouxuan content"
 // @Success 201 {object} models.UserRelated
 // @Failure 403 body is empty
 // @router /login [post]
@@ -229,73 +198,27 @@ func (c *UserRelatedController) UserLogin() {
 	pass, _ := valid.Valid(&requestBody)
 	// 有错误
 	if !pass {
-		c.Ctx.Output.SetStatus(400)
-		err := c.Ctx.Output.JSON(
-			models.ResponseData{
-				Code:    400400,
-				Data:    nil,
-				Message: valid.Errors[0].Message,
-			},
-			false,
-			false,
-		)
-		if err != nil {
-			return
-		}
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, valid.Errors[0].Message)
 		return
 	}
 	// 添加判断是否已经存在
-	userData, searchUserError := models.GetUsersByAccount(requestBody.Account, requestBody.Password)
+	userData, searchUserError := models.LoginAccount(requestBody.Account, requestBody.Password)
 	if searchUserError != nil {
-		c.Ctx.Output.SetStatus(400)
-		err := c.Ctx.Output.JSON(
-			models.ResponseData{
-				Code:    400400,
-				Data:    nil,
-				Message: "账号或密码错误！",
-			},
-			false,
-			false,
-		)
-		if err != nil {
-			return
-		}
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "Account or password error")
 		return
 	}
 	token, tokenError := utils.CreateToken(userData.Id)
 	if tokenError != nil {
-		c.Ctx.Output.SetStatus(400)
-		err := c.Ctx.Output.JSON(
-			models.ResponseData{
-				Code:    400400,
-				Data:    nil,
-				Message: tokenError.Error(),
-			},
-			false,
-			false,
-		)
-		if err != nil {
-			logs.Error(err.Error())
-		}
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, tokenError.Error())
 		return
 	}
 	// cookie保存一个token
 	c.Ctx.SetCookie("token", token, 60*30)
-	if err := c.Ctx.Output.JSON(
-		models.ResponseData{
-			Code: 200200,
-			Data: map[string]string{
-				"token":      token,
-				"createTime": strconv.FormatInt(time.Now().UnixMilli(), 10),
-				//"userName": userData.Name,
-				//"id":       strconv.FormatInt(userData.Id, 10),
-			},
-			Message: "获取数据成功",
-		},
-		false,
-		false,
-	); err != nil {
-		logs.Error(err)
-		return
-	}
+	utils.RequestOutInput(c.Ctx, 200, 200200,
+		map[string]string{
+			"token":      token,
+			"createTime": strconv.FormatInt(time.Now().UnixMilli(), 10),
+			//"userName": userData.Name,
+			//"id":       strconv.FormatInt(userData.Id, 10),
+		}, "success")
 }

@@ -20,32 +20,32 @@
                                 <div class="icon">
                                     <i class="far fa-user"></i>
                                 </div>
-                                <input type="text" placeholder="Username">
+                                <input id="username" type="text" placeholder="Username">
                             </div>
                             <div class="field-group login-email-box">
                                 <div class="icon">
                                     <i class="far fa-envelope"></i>
                                 </div>
-                                <input type="email" placeholder="Email Address">
+                                <input id="email" type="email" placeholder="Email Address">
                                 <button class="send-code-button">Send Code</button>
                             </div>
                             <div class="field-group">
                                 <div class="icon">
                                     <i class="far fa-rss"></i>
                                 </div>
-                                <input type="text" placeholder="Email verification code">
+                                <input id="code" type="text" placeholder="Email verification code">
                             </div>
                             <div class="field-group">
                                 <div class="icon">
                                     <i class="far fa-lock"></i>
                                 </div>
-                                <input type="password" placeholder="Password">
+                                <input id="password" type="password" placeholder="Password">
                             </div>
                             <div class="field-group">
                                 <div class="icon">
                                     <i class="far fa-lock"></i>
                                 </div>
-                                <input type="password" placeholder="Confirm Password">
+                                <input id="confirmPassword" type="password" placeholder="Confirm Password">
                             </div>
                             <div class="field-group">
                                 <button id="register" type="submit">Create Account</button>
@@ -66,27 +66,81 @@
 <script>
     $(function () {
         $(".send-code-button").click(function () {
+            var loading = false
             const emailRegExp = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
             var email = $("input[type='email']").val()
             if (!emailRegExp.test(email)) {
                 $.toast("The mailbox format is incorrect")
                 return false
             }
+            if (loading) {
+                return false
+            }
+            loading = true
             $.ajax({
                 url: "/api/v1/send-code",
                 type: "POST",
                 data: JSON.stringify({email: email}),
                 dateType: "json",
-                error: function () {
-                    $.toast("The verification code has been sent fail")
+                error: function (error) {
+                    $.toast(error.responseJSON.message || "The verification code has been sent fail")
                 },
                 success: function () {
                     $.toast("The verification code has been sent")
+                },
+                complete: function () {
+                    loading = false
                 }
             })
             return false
         })
         $("#register").click(function () {
+            var username = $("#username").val()
+            var email = $("input[type='email']").val()
+            var code = $("#code").val()
+            var password = $("#password").val()
+            var confirmPassword = $("#confirmPassword").val()
+            if (!username) {
+                $.toast("The user name cannot be empty")
+                return false
+            }
+            if (!email) {
+                $.toast("The email cannot be empty")
+                return false
+            }
+            if (!code) {
+                $.toast("The code cannot be empty")
+                return false
+            }
+            if (!password) {
+                $.toast("The password cannot be empty")
+                return false
+            }
+            if (password !== confirmPassword) {
+                $.toast("The password and confirm password are not the same")
+                return false
+            }
+            var loading = false
+            if (loading) {
+                return false
+            }
+            loading = true
+            $.ajax({
+                url: "/api/v1/register",
+                type: "POST",
+                data: JSON.stringify({name: username, email: email, code: code, password: password}),
+                dateType: "json",
+                success: function () {
+                    $.toast("The verification code has been sent")
+                },
+                error: function (error) {
+                    $.toast(error.responseJSON.message || "The verification code has been sent fail")
+
+                },
+                complete: function () {
+                    loading = false
+                }
+            })
             return false
         })
     })

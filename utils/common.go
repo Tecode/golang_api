@@ -16,6 +16,13 @@ var (
 	tracker    *IPTracker
 )
 
+// ResponseData 返回的数据统一格式
+type ResponseData struct {
+	Code    int64       `json:"code"`
+	Data    interface{} `json:"data"`
+	Message string      `json:"message"`
+}
+
 func init() {
 	tracker = NewIPTracker()
 }
@@ -160,4 +167,19 @@ func RandomNumber(count int) int {
 	rand.New(rand.NewSource(time.Now().UnixNano()))
 	randomNum := rand.Intn(count)
 	return randomNum
+}
+
+// RequestOutInput 返回响应的数据
+func RequestOutInput(ctx *context.Context, status int, code int64, data any, message string) {
+	ctx.Output.SetStatus(status)
+	err := ctx.Output.JSON(
+		ResponseData{
+			Code:    code,
+			Data:    data,
+			Message: message,
+		},
+		false,
+		false,
+	)
+	logs.Error(err)
 }

@@ -10,11 +10,11 @@ import (
 )
 
 // ResponseData 返回的数据统一格式
-type ResponseData struct {
-	Code    int64       `json:"code"`
-	Data    interface{} `json:"data"`
-	Message string      `json:"message"`
-}
+//type ResponseData struct {
+//	Code    int64       `json:"code"`
+//	Data    interface{} `json:"data"`
+//	Message string      `json:"message"`
+//}
 
 type UserRelated struct {
 	Id int `json:"id"`

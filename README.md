@@ -4,7 +4,8 @@
 
 ## 解决不能debug问题 WARNING: undefined behavior - version of Delve is too old for Go version 1.20.5 (maximum supported version 1.18)
 ```text
-go get -u github.com/go-delve/delve/cmd/dlv
+go env -w GO111MODULE=on
+go install github.com/go-delve/delve/cmd/dlv@latest
 ```
 
 ## 新增配置文件conf/app.conf
