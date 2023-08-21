@@ -6,3 +6,5 @@ golang_api.exe~
 pkg/
 conf/app.conf
 logs/
+golang_apiv2.exe
+golang_apiv2.exe~
