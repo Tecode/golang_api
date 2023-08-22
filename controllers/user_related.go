@@ -222,3 +222,61 @@ func (c *UserRelatedController) UserLogin() {
 			//"id":       strconv.FormatInt(userData.Id, 10),
 		}, "success")
 }
+
+// RecordAccount 记录邮箱账号
+// @Title 发送邮箱验证码
+// @Description create UserRelated
+// @Param	body	 	models.SendCode	true		"body for UserRelated content"
+// @Success 201 {object} {code: 200}
+// @Failure 403 body is empty
+// @router /record-account [post]
+func (c *UserRelatedController) RecordAccount() {
+	// 获取body的json数据
+	requestBody := models.SendCode{}
+	if jsonErr := c.BindJSON(&requestBody); jsonErr != nil {
+		logs.Error(jsonErr.Error())
+	}
+	valid := validation.Validation{}
+	valid.Email(requestBody.Email, "email")
+	if valid.HasErrors() {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, valid.Errors[0].Message)
+		return
+	}
+
+	// 查询邮箱是否已经被注册
+	if account, err := models.GetUsersByAccount(requestBody.Email); err == nil && account != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "The email address is not registered")
+		return
+	}
+
+	// 发送邮件
+	emailError := utils.SendCaptchaCode(requestBody.Email, c.Ctx.Input.IP())
+	if emailError != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, emailError.Error())
+		return
+	}
+	utils.RequestOutInput(c.Ctx, 200, 200200, nil, "The Email has been sent,please go to mailbox to check the email.")
+}
+
+// ResetPassword 重置密码
+// @Title 发送邮箱验证码
+// @Description create UserRelated
+// @Param	body	 	models.SendCode	true		"body for UserRelated content"
+// @Success 201 {object} {code: 200}
+// @Failure 403 body is empty
+// @router /record-account [post]
+func (c *UserRelatedController) ResetPassword() {
+	// 获取body的json数据
+	requestBody := models.ResetPasswordType{}
+	if jsonErr := c.BindJSON(&requestBody); jsonErr != nil {
+		logs.Error(jsonErr.Error())
+	}
+	valid := validation.Validation{}
+	valid.Email(requestBody.Password, "password")
+	valid.Email(requestBody.ConfirmPassword, "confirm_password")
+	valid.Email(requestBody.RecordToken, "record_token")
+	if valid.HasErrors() {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, valid.Errors[0].Message)
+		return
+	}
+}

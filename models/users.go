@@ -33,6 +33,13 @@ type SendCode struct {
 	Email string `json:"email"`
 }
 
+// ResetPasswordType 重置密码数据格式
+type ResetPasswordType struct {
+	Password        string `json:"password" valid:"Required"`
+	ConfirmPassword string `json:"confirm_password" valid:"Required"`
+	RecordToken     string `json:"record_token" valid:"Required"`
+}
+
 // RegisterUser 注册账号
 type RegisterUser struct {
 	Email    string `orm:"size(128)" json:"email" valid:"Email"`
