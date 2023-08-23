@@ -135,8 +135,26 @@ func init() {
 
 	beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"],
 		beego.ControllerComments{
+			Method:           "RecordAccount",
+			Router:           `/record-account`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"],
+		beego.ControllerComments{
 			Method:           "Register",
 			Router:           `/register`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"],
+		beego.ControllerComments{
+			Method:           "ResetPassword",
+			Router:           `/reset-password`,
 			AllowHTTPMethods: []string{"post"},
 			MethodParams:     param.Make(),
 			Filters:          nil,

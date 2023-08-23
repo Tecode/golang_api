@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/core/validation"
 	beego "github.com/beego/beego/v2/server/web"
@@ -26,7 +28,7 @@ func (c *UserRelatedController) URLMapping() {
 // SendEmailCode ...
 // @Title 发送邮箱验证码
 // @Description create UserRelated
-// @Param	body	 	models.SendCode	true		"body for UserRelated content"
+// @Param	body	body 	models.SendCode	true		"body for UserRelated content"
 // @Success 201 {object} {code: 200}
 // @Failure 403 body is empty
 // @router /send-code [post]
@@ -180,7 +182,7 @@ func (c *UserRelatedController) Register() {
 // UserLogin ...
 // @Title 用户登录
 // @Description 登录后获取token
-// @Param	body 	models.LoginModel	true		"body for Haouxuan content"
+// @Param	body		body	models.LoginModel	true		"body for Haouxuan content"
 // @Success 201 {object} models.UserRelated
 // @Failure 403 body is empty
 // @router /login [post]
@@ -226,7 +228,7 @@ func (c *UserRelatedController) UserLogin() {
 // RecordAccount 记录邮箱账号
 // @Title 发送邮箱验证码
 // @Description create UserRelated
-// @Param	body	 	models.SendCode	true		"body for UserRelated content"
+// @Param	body    body	models.SendCode	true		"body for UserRelated content"
 // @Success 201 {object} {code: 200}
 // @Failure 403 body is empty
 // @router /record-account [post]
@@ -244,13 +246,18 @@ func (c *UserRelatedController) RecordAccount() {
 	}
 
 	// 查询邮箱是否已经被注册
-	if account, err := models.GetUsersByAccount(requestBody.Email); err == nil && account != nil {
+	if account, _ := models.GetUsersByAccount(requestBody.Email); account == nil {
 		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "The email address is not registered")
 		return
 	}
-
+	hash := md5.New()
+	token := hex.EncodeToString(hash.Sum([]byte(utils.GenerateRandomString(8))))
+	content, err := utils.RenderTemplate[string]("resource/docs/reset_password.html", &token)
+	if err != nil {
+		logs.Error(err)
+	}
 	// 发送邮件
-	emailError := utils.SendCaptchaCode(requestBody.Email, c.Ctx.Input.IP())
+	emailError := utils.SendEmail(requestBody.Email, "重置密码", content)
 	if emailError != nil {
 		utils.RequestOutInput(c.Ctx, 400, 400400, nil, emailError.Error())
 		return
@@ -261,10 +268,10 @@ func (c *UserRelatedController) RecordAccount() {
 // ResetPassword 重置密码
 // @Title 发送邮箱验证码
 // @Description create UserRelated
-// @Param	body	 	models.SendCode	true		"body for UserRelated content"
+// @Param	body	body 	models.SendCode	true		"body for UserRelated content"
 // @Success 201 {object} {code: 200}
 // @Failure 403 body is empty
-// @router /record-account [post]
+// @router /reset-password [post]
 func (c *UserRelatedController) ResetPassword() {
 	// 获取body的json数据
 	requestBody := models.ResetPasswordType{}

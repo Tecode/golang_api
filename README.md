@@ -159,7 +159,6 @@ go get github.com/ying32/govcl/samples/lunar
 ```bash
 # 快速创建一个controller
 bee generate controller haouxuan
-
 # 快速创建一个model
 bee generate model modelName -fields="name:string,age:int"
 

@@ -30,7 +30,7 @@ type Users struct {
 
 // SendCode 发送验证码
 type SendCode struct {
-	Email string `json:"email"`
+	Email string `json:"email" valid:"Email"`
 }
 
 // ResetPasswordType 重置密码数据格式

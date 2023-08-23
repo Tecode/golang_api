@@ -5,64 +5,6 @@
     },
     "basePath": "/api",
     "paths": {
-        "/v1/": {
-            "get": {
-                "tags": [
-                    "v1"
-                ],
-                "description": "get UserRelated\n\u003cbr\u003e",
-                "operationId": "UserRelatedController.GetAll",
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "query",
-                        "description": "Filter. e.g. col1:v1,col2:v2 ...",
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "fields",
-                        "description": "Fields returned. e.g. col1,col2 ...",
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "sortby",
-                        "description": "Sorted-by fields. e.g. col1,col2 ...",
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "order",
-                        "description": "Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...",
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "limit",
-                        "description": "Limit the size of result set. Must be an integer",
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "offset",
-                        "description": "Start position of result set. Must be an integer",
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.UserRelated"
-                        }
-                    },
-                    "403": {
-                        "description": ""
-                    }
-                }
-            }
-        },
         "/v1/login": {
             "post": {
                 "tags": [
@@ -131,6 +73,37 @@
                 }
             }
         },
+        "/v1/record-account": {
+            "post": {
+                "tags": [
+                    "v1"
+                ],
+                "description": "create UserRelated\n\u003cbr\u003e",
+                "operationId": "UserRelatedController.发送邮箱验证码",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for UserRelated content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SendCode"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "200}",
+                        "schema": {
+                            "$ref": "#/definitions/{code:"
+                        }
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
+            }
+        },
         "/v1/register": {
             "post": {
                 "tags": [
@@ -154,6 +127,37 @@
                         "description": "",
                         "schema": {
                             "$ref": "#/definitions/models.UserRelated"
+                        }
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
+            }
+        },
+        "/v1/reset-password": {
+            "post": {
+                "tags": [
+                    "v1"
+                ],
+                "description": "create UserRelated\n\u003cbr\u003e",
+                "operationId": "UserRelatedController.发送邮箱验证码",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for UserRelated content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SendCode"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "200}",
+                        "schema": {
+                            "$ref": "#/definitions/{code:"
                         }
                     },
                     "403": {
@@ -416,12 +420,11 @@
                         "type": "string"
                     },
                     {
-                        "in": "body",
+                        "in": "models.UserRelated",
                         "name": "body",
                         "description": "body for UserRelated content",
-                        "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UserRelated"
+                            "$ref": "#/definitions/true"
                         }
                     }
                 ],
@@ -526,6 +529,10 @@
                     "format": "int64"
                 }
             }
+        },
+        "true": {
+            "title": "true",
+            "type": "object"
         },
         "{code:": {
             "title": "{code:",

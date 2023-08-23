@@ -183,3 +183,13 @@ func RequestOutInput(ctx *context.Context, status int, code int64, data any, mes
 	)
 	logs.Error(err)
 }
+
+// GenerateRandomString 获取随机字符串
+func GenerateRandomString(length int) string {
+	const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"
+	result := make([]byte, length)
+	for i := 0; i < length; i++ {
+		result[i] = charset[RandomNumber(len(charset))]
+	}
+	return string(result)
+}
