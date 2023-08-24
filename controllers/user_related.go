@@ -3,6 +3,7 @@ package controllers
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"fmt"
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/core/validation"
 	beego "github.com/beego/beego/v2/server/web"
@@ -245,16 +246,50 @@ func (c *UserRelatedController) RecordAccount() {
 		return
 	}
 
-	// 查询邮箱是否已经被注册
-	if account, _ := models.GetUsersByAccount(requestBody.Email); account == nil {
+	// 查询邮箱是否已经被注册，没有被注册的邮箱不能发送重置密码邮件
+	account, err := models.GetUsersByAccount(requestBody.Email)
+	if account == nil || err != nil {
 		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "The email address is not registered")
 		return
 	}
+	// 查询是否账号已经被记录
+	if record, _ := models.GetRecordAccountByEmail(requestBody.Email); record != nil {
+		dateTime := record.CreatedAt
+		duration := time.Now().Sub(dateTime)
+		fmt.Println(duration.Hours(), dateTime, time.Now())
+		if record.Valid && duration.Minutes() < 15 {
+			utils.RequestOutInput(c.Ctx, 400, 400400, nil, "The email is valid for 15 minutes after it was sent")
+			return
+		}
+		// 15分钟后让邮件失效
+		if duration.Minutes() > 15 {
+			err := models.UpdateRecordAccountById(record)
+			if err != nil {
+				logs.Error(err.Error())
+				utils.RequestOutInput(c.Ctx, 400, 400400, nil, err.Error())
+				return
+			}
+		}
+	}
+	// 生成MD5验证码
 	hash := md5.New()
 	token := hex.EncodeToString(hash.Sum([]byte(utils.GenerateRandomString(8))))
 	content, err := utils.RenderTemplate[string]("resource/docs/reset_password.html", &token)
 	if err != nil {
 		logs.Error(err)
+	}
+	// 记录修改的账户以及验证token
+	m := models.RecordAccount{
+		UserId: account.Id,
+		Valid:  true,
+		RecordFiled: models.RecordFiled{
+			Email:       requestBody.Email,
+			RecordToken: token,
+		},
+	}
+	if _, err := models.AddRecordAccount(&m); err != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "Insert db error")
+		return
 	}
 	// 发送邮件
 	emailError := utils.SendEmail(requestBody.Email, "重置密码", content)
@@ -262,13 +297,13 @@ func (c *UserRelatedController) RecordAccount() {
 		utils.RequestOutInput(c.Ctx, 400, 400400, nil, emailError.Error())
 		return
 	}
-	utils.RequestOutInput(c.Ctx, 200, 200200, nil, "The Email has been sent,please go to mailbox to check the email.")
+	utils.RequestOutInput(c.Ctx, 200, 200200, nil, "The email is valid for 15 minutes after it was sent")
 }
 
 // ResetPassword 重置密码
-// @Title 发送邮箱验证码
+// @Title 重置密码，需要邮箱和token验证
 // @Description create UserRelated
-// @Param	body	body 	models.SendCode	true		"body for UserRelated content"
+// @Param	body	body 	models.ResetPasswordType	true		"body for ResetPasswordType content"
 // @Success 201 {object} {code: 200}
 // @Failure 403 body is empty
 // @router /reset-password [post]
@@ -279,11 +314,36 @@ func (c *UserRelatedController) ResetPassword() {
 		logs.Error(jsonErr.Error())
 	}
 	valid := validation.Validation{}
-	valid.Email(requestBody.Password, "password")
-	valid.Email(requestBody.ConfirmPassword, "confirm_password")
-	valid.Email(requestBody.RecordToken, "record_token")
-	if valid.HasErrors() {
-		utils.RequestOutInput(c.Ctx, 400, 400400, nil, valid.Errors[0].Message)
+	pass, _ := valid.Valid(requestBody)
+	if !pass {
+		for _, err := range valid.Errors {
+			utils.RequestOutInput(c.Ctx, 400, 400400, nil, err.Message)
+			break
+		}
 		return
 	}
+	//	密码和确认密码是否相同
+	if requestBody.Password != requestBody.ConfirmPassword {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "密码和确认密码不相同")
+		return
+	}
+	// 查找是否有重置密码的记录
+	if v, _ := models.GetRecordAccountByToken(&requestBody); v != nil {
+		// 设置token无效
+		err := models.UpdateRecordAccountById(v)
+		if err != nil {
+			logs.Error(err.Error())
+		}
+		// 重置密码
+		updateErr := models.UpdateUsersById(&models.Users{
+			Id:        v.UserId,
+			UserFiled: models.UserFiled{Password: requestBody.Password},
+		})
+		if updateErr != nil {
+			return
+		}
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "密码重置成功")
+		return
+	}
+	utils.RequestOutInput(c.Ctx, 400, 400400, nil, "重置密码失败，请重新发送邮件")
 }

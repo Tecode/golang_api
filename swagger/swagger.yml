@@ -166,14 +166,14 @@ paths:
       description: |-
         create UserRelated
         <br>
-      operationId: UserRelatedController.发送邮箱验证码
+      operationId: UserRelatedController.重置密码，需要邮箱和token验证
       parameters:
       - in: body
         name: body
-        description: body for UserRelated content
+        description: body for ResetPasswordType content
         required: true
         schema:
-          $ref: '#/definitions/models.SendCode'
+          $ref: '#/definitions/models.ResetPasswordType'
       responses:
         "201":
           description: 200}
@@ -350,9 +350,9 @@ definitions:
     title: LoginModel
     type: object
     properties:
-      Account:
+      account:
         type: string
-      Password:
+      password:
         type: string
   models.RegisterUser:
     title: RegisterUser
@@ -365,6 +365,16 @@ definitions:
       name:
         type: string
       password:
+        type: string
+  models.ResetPasswordType:
+    title: ResetPasswordType
+    type: object
+    properties:
+      confirmPassword:
+        type: string
+      password:
+        type: string
+      recordToken:
         type: string
   models.SendCode:
     title: SendCode

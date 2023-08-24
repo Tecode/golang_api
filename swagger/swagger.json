@@ -141,15 +141,15 @@
                     "v1"
                 ],
                 "description": "create UserRelated\n\u003cbr\u003e",
-                "operationId": "UserRelatedController.发送邮箱验证码",
+                "operationId": "UserRelatedController.重置密码，需要邮箱和token验证",
                 "parameters": [
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "body for UserRelated content",
+                        "description": "body for ResetPasswordType content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.SendCode"
+                            "$ref": "#/definitions/models.ResetPasswordType"
                         }
                     }
                 ],
@@ -485,10 +485,10 @@
             "title": "LoginModel",
             "type": "object",
             "properties": {
-                "Account": {
+                "account": {
                     "type": "string"
                 },
-                "Password": {
+                "password": {
                     "type": "string"
                 }
             }
@@ -507,6 +507,21 @@
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ResetPasswordType": {
+            "title": "ResetPasswordType",
+            "type": "object",
+            "properties": {
+                "confirmPassword": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "recordToken": {
                     "type": "string"
                 }
             }

@@ -9,13 +9,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// ResponseData 返回的数据统一格式
-//type ResponseData struct {
-//	Code    int64       `json:"code"`
-//	Data    interface{} `json:"data"`
-//	Message string      `json:"message"`
-//}
-
 type UserRelated struct {
 	Id int `json:"id"`
 }
@@ -25,15 +18,15 @@ type Haouxuan struct {
 }
 
 type LoginModel struct {
-	Account  string `valid:"Email";json:"account"`
-	Password string `valid:"Required";json:"password"`
+	Account  string `valid:"Email" json:"account"`
+	Password string `valid:"Required" json:"password"`
 }
 
 func init() {
 	// 设置数据库的基本信息,golang_apiv2数据库名称
 	// SiteAppUser->site_app_user
 	dataSource := fmt.Sprintf(
-		"%s:%s@tcp(%s)/%s?charset=utf8",
+		"%s:%s@tcp(%s)/%s?charset=utf8&loc=Local",
 		utils.GetAppConfigValue("mysqlaccount"),
 		utils.GetAppConfigValue("mysqlpassword"),
 		utils.GetAppConfigValue("mysqlurl"),
@@ -51,6 +44,7 @@ func init() {
 	logs.Info("🚀🚀数据库链接成功")
 	// 创建表，注意！！这里要账号有创建数据库表的权限
 	orm.RegisterModel(new(Users))
+	orm.RegisterModel(new(RecordAccount))
 	if utils.GetAppConfigValue("createtable") == "true" {
 		err := orm.RunSyncdb("default", false, true)
 		if err != nil {
