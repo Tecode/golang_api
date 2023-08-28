@@ -338,11 +338,11 @@ func (c *UserRelatedController) ResetPassword() {
 		updateErr := models.UpdateUsersById(&models.Users{
 			Id:        v.UserId,
 			UserFiled: models.UserFiled{Password: requestBody.Password},
-		})
+		}, "Password")
 		if updateErr != nil {
 			return
 		}
-		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "密码重置成功")
+		utils.RequestOutInput(c.Ctx, 200, 200200, nil, "密码重置成功")
 		return
 	}
 	utils.RequestOutInput(c.Ctx, 400, 400400, nil, "重置密码失败，请重新发送邮件")

@@ -49,7 +49,7 @@ func GetRecordAccountByEmail(email string) (v *RecordAccount, err error) {
 func GetRecordAccountByToken(m *ResetPasswordType) (v *RecordAccount, err error) {
 	o := orm.NewOrm()
 	v = &RecordAccount{}
-	if err = o.QueryTable(new(RecordAccount)).Filter("Email", m.RecordToken).Filter("Valid", true).RelatedSel().One(v); err == nil {
+	if err = o.QueryTable(new(RecordAccount)).Filter("RecordToken", m.RecordToken).Filter("Valid", true).RelatedSel().One(v); err == nil {
 		return v, nil
 	}
 	return nil, err

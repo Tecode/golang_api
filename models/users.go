@@ -87,7 +87,7 @@ func LoginAccount(email string, password string) (v *Users, err error) {
 
 // UpdateUsersById UpdateUsers updates Users by id and returns error if
 // the record to be updated doesn't exist
-func UpdateUsersById(m *Users) (err error) {
+func UpdateUsersById(m *Users, values ...string) (err error) {
 	o := orm.NewOrm()
 	v := Users{Id: m.Id}
 	// ascertain id exists in the database
@@ -100,7 +100,7 @@ func UpdateUsersById(m *Users) (err error) {
 		u.Phone = m.UserFiled.Phone
 		u.Email = m.UserFiled.Email
 		var num int64
-		if num, err = o.Update(&u); err == nil {
+		if num, err = o.Update(&u, values...); err == nil {
 			fmt.Println("Number of records updated in database:", num)
 		}
 	}
