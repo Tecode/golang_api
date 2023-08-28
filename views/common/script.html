@@ -36,5 +36,19 @@
         $('#toast').text(text)
         $('#toast').fadeIn(500).delay(2000).fadeOut(500);
     }
+    $.query = function (key) {
+        const matches = location.search.match(/\?(.+)/);
+        if (matches) {
+            const queryParams = matches[1];
+            const paramsArray = queryParams.split("&");
+            const paramsObject = {};
+            paramsArray.forEach(param => {
+                const [key, value] = param.split("=");
+                paramsObject[key] = value;
+            });
+            return paramsObject[key]
+        }
+        return null
+    }
 </script>
 <!--百度统计-->

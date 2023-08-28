@@ -85,8 +85,8 @@ func LoginAccount(email string, password string) (v *Users, err error) {
 	return nil, err
 }
 
-// UpdateUsersById UpdateUsers updates Users by id and returns error if
-// the record to be updated doesn't exist
+// UpdateUsersById UpdateUsers updates Users by id and returns error
+// values:需要更新的列，默认会全部更新
 func UpdateUsersById(m *Users, values ...string) (err error) {
 	o := orm.NewOrm()
 	v := Users{Id: m.Id}
