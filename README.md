@@ -1,5 +1,6 @@
 ## beego version & go version
 [![Go](https://github.com/Tecode/golang_api/actions/workflows/go.yml/badge.svg)](https://github.com/Tecode/golang_api/actions/workflows/go.yml)
+
 要运行项目不要配置`GOPATH`,需要`GO`版本大于`1.16`，这样才支持使用`go mod` 管理依赖
 
 ## 解决不能debug问题 WARNING: undefined behavior - version of Delve is too old for Go version 1.20.5 (maximum supported version 1.18)
