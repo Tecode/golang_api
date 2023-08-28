@@ -8,3 +8,4 @@ conf/app.conf
 logs/
 golang_apiv2.exe
 golang_apiv2.exe~
+static/files/

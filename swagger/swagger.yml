@@ -203,6 +203,26 @@ paths:
             $ref: '#/definitions/{code:'
         "403":
           description: body is empty
+  /v1/upload:
+    post:
+      tags:
+      - v1
+      summary: Upload a file
+      description: |-
+        Uploads a file using form-data
+        <br>
+      operationId: CommonController.上传文件
+      parameters:
+      - in: formData
+        name: file
+        description: File to be uploaded
+        required: true
+        type: file
+      responses:
+        "200":
+          description: '{string} string "File uploaded successfully"'
+        "400":
+          description: '{string} string "Bad request"'
   /v1/user/:
     post:
       tags:

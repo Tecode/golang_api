@@ -16,6 +16,15 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
+	beego.GlobalControllerRouter["golang_apiv2/controllers:CommonController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:CommonController"],
+		beego.ControllerComments{
+			Method:           "Upload",
+			Router:           `/upload`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["golang_apiv2/controllers:ErrorControllerController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:ErrorControllerController"],
 		beego.ControllerComments{
 			Method:           "GetAll",

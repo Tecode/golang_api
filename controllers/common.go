@@ -9,6 +9,7 @@ import (
 	"golang_apiv2/utils"
 	"image"
 	"log"
+	"mime/multipart"
 	"os"
 	"path"
 	"strconv"
@@ -17,6 +18,20 @@ import (
 // CommonController operations for Common
 type CommonController struct {
 	beego.Controller
+}
+
+var dir = "static/files/"
+
+func init() {
+	//	创建文件夹，查看文件夹是否存在如果不存在就创建文件夹
+	_, err := os.Stat(dir)
+	if err == nil {
+		return
+	}
+	makeError := os.Mkdir(dir, 0755)
+	if makeError != nil {
+		return
+	}
 }
 
 // ImageResize ...
@@ -78,4 +93,37 @@ func (c *CommonController) ImageResize() {
 	if bodyErr := c.Ctx.Output.Body(data); bodyErr != nil {
 		return
 	}
+}
+
+// Upload 上传文件
+// @Title 上传文件
+// @Summary Upload a file
+// @Description Uploads a file using form-data
+// @Accept multipart/form-data
+// @Param file formData file true "File to be uploaded"
+// @Success 200 {string} string "File uploaded successfully"
+// @Failure 400 {string} string "Bad request"
+// @router /upload [post]
+func (c *CommonController) Upload() {
+	file, m, err := c.GetFile("file")
+	if err != nil {
+		return
+	}
+	defer func(file multipart.File) {
+		err := file.Close()
+		if err != nil {
+
+		}
+	}(file)
+	ext := utils.GetFileExtension(m)
+	if len(ext) < 1 {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "File types are not supported")
+	}
+	pathName := dir + utils.GenerateRandomString(16) + ext
+	saveError := c.SaveToFile("file", pathName)
+	if saveError != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, saveError.Error())
+		return
+	}
+	utils.RequestOutInput(c.Ctx, 200, 200200, pathName, "Upload success")
 }

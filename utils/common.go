@@ -8,6 +8,9 @@ import (
 	"github.com/beego/beego/v2/server/web/context"
 	"github.com/dgrijalva/jwt-go"
 	"math/rand"
+	"mime/multipart"
+	"net/http"
+	"regexp"
 	"time"
 )
 
@@ -192,4 +195,46 @@ func GenerateRandomString(length int) string {
 		result[i] = charset[RandomNumber(len(charset))]
 	}
 	return string(result)
+}
+
+// GetFileExtension 获取文件后缀名
+func GetFileExtension(fileHeader *multipart.FileHeader) string {
+	file, err := fileHeader.Open()
+	if err != nil {
+		return ""
+	}
+	defer func(file multipart.File) {
+		err := file.Close()
+		if err != nil {
+
+		}
+	}(file)
+
+	buf := make([]byte, 512) // Read the first 512 bytes
+	_, err = file.Read(buf)
+	if err != nil {
+		return ""
+	}
+
+	contentType := http.DetectContentType(buf)
+	switch contentType {
+	case "image/jpeg":
+		return ".jpg"
+	case "image/png":
+		return ".png"
+	case "image/gif":
+		return ".gif"
+	case "application/pdf":
+		return ".pdf"
+	// Add more cases for other file types
+	default:
+		pattern := `\.([a-zA-Z0-9]+)$`
+		re := regexp.MustCompile(pattern)
+		matches := re.FindStringSubmatch(fileHeader.Filename)
+		if len(matches) == 2 {
+			extension := matches[1]
+			return "." + extension
+		}
+		return ""
+	}
 }
