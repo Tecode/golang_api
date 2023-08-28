@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- head公共模块开始 -->
+{{template "common/head.html" .}}
+<!-- hea公共模块结束 -->
+
+<body>
+<!--====== Sign In Content  ======-->
+<section class="sign-in-section p-t-120 p-b-120">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10">
+                <div class="sign-in-up-wrapper">
+                    <form>
+                        <div class="form-groups">
+                            <h4 class="form-title">Log In To Your Account</h4>
+                            <div class="field-group">
+                                <div class="icon">
+                                    <i class="far fa-user"></i>
+                                </div>
+                                <input id="account" type="text" placeholder="Username">
+                            </div>
+                            <div class="field-group">
+                                <div class="icon">
+                                    <i class="far fa-lock"></i>
+                                </div>
+                                <input id="password" type="password" placeholder="Password">
+                            </div>
+                            <div id="login-in" class="field-group">
+                                <button type="submit">Log In</button>
+                            </div>
+                        </div>
+                        <div class="form-note">
+                            <p>New to JoyGameTech? <a href="/sign-up">Sign Up</a></p>
+                        </div>
+                    </form>
+                    <a href="/forgot-password" class="forgot-password">Forgot your password?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--====== Sign In End ======-->
+{{template "common/script.html" .}}
+<script type="application/javascript">
+    $(function () {
+        var loading = false
+        $("#login-in").on("click", function () {
+
+            var account = $("#account").val()
+            var password = $("#password").val()
+            if (loading || !account || !password) {
+                $.toast("Account or Password can`t empty!")
+                return false
+            }
+            loading = true
+            $.ajax({
+                url: "/api/v1/login",
+                type: "POST",
+                data: JSON.stringify({account: account, password: password}),
+                dateType: "json",
+                error: function (error) {
+                    $.toast(error.responseJSON.message)
+                },
+                success: function (data) {
+                    localStorage.setItem("token", data.data.token)
+                    location.href = "/"
+                },
+                complete: function () {
+                    loading = false
+                }
+            })
+            return false
+        })
+    })
+</script>
+</body>
+
+</html>

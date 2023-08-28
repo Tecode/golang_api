@@ -1,483 +1,424 @@
 swagger: "2.0"
-info:
-  title: API Interface
-  description: |
-    beego 实现的API方法
-  version: 1.0.0
-  termsOfService: http://beego.me/
-  contact:
-    email: astaxie@gmail.com
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+info: {}
 basePath: /api
 paths:
-  /book_info/detail/{book_id}:
+  /v1/{id}:
     get:
       tags:
-      - book_info
+        - v1
       description: |-
-        create books
+        get UserRelated by id
         <br>
+      operationId: UserRelatedController.GetOne
       parameters:
-      - in: header
-        name: token
-        description: The token is required
-        required: true
-        type: string
-      - in: path
-        name: book_id
-        description: The book_id is required
-        required: true
-        type: integer
-        format: int64
+        - in: path
+          name: id
+          description: The key for staticblock
+          required: true
+          type: string
       responses:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.BookInfo'
-        "400":
-          description: token验证失败
+            $ref: '#/definitions/models.UserRelated'
         "403":
-          description: body is empty
-  /book_info/hot_book:
-    get:
-      tags:
-      - book_info
-      description: |-
-        create books
-        <br>
-      parameters:
-      - in: header
-        name: token
-        description: The token is required
-        required: true
-        type: string
-      - in: query
-        name: index
-        description: The index is required
-        required: true
-        type: integer
-        format: int64
-      - in: query
-        name: size
-        description: The size is required
-        required: true
-        type: integer
-        format: int64
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.BookInfo'
-        "400":
-          description: token验证失败
-        "403":
-          description: body is empty
-  /book_info/new_book:
-    get:
-      tags:
-      - book_info
-      description: |-
-        create books
-        <br>
-      parameters:
-      - in: header
-        name: token
-        description: The token is required
-        required: true
-        type: string
-      - in: query
-        name: index
-        description: The index is required
-        required: true
-        type: integer
-        format: int64
-      - in: query
-        name: size
-        description: The size is required
-        required: true
-        type: integer
-        format: int64
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.BookInfo'
-        "400":
-          description: token验证失败
-        "403":
-          description: body is empty
-  /book_info/popular_book:
-    get:
-      tags:
-      - book_info
-      description: |-
-        create books
-        <br>
-      parameters:
-      - in: header
-        name: token
-        description: The token is required
-        required: true
-        type: string
-      - in: query
-        name: index
-        description: The index is required
-        required: true
-        type: integer
-        format: int64
-      - in: query
-        name: size
-        description: The size is required
-        required: true
-        type: integer
-        format: int64
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.BookInfo'
-        "400":
-          description: token验证失败
-        "403":
-          description: body is empty
-  /book_info/recommend:
-    get:
-      tags:
-      - book_info
-      description: |-
-        create books
-        <br>
-      parameters:
-      - in: header
-        name: token
-        description: The token is required
-        required: true
-        type: string
-      - in: query
-        name: index
-        description: The index is required
-        required: true
-        type: integer
-        format: int64
-      - in: query
-        name: size
-        description: The size is required
-        required: true
-        type: integer
-        format: int64
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.BookInfo'
-        "400":
-          description: token验证失败
-        "403":
-          description: body is empty
-  /book_info/today:
-    get:
-      tags:
-      - book_info
-      description: |-
-        create books
-        <br>
-      parameters:
-      - in: header
-        name: token
-        description: The token is required
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.BookInfo'
-        "400":
-          description: token验证失败
-        "403":
-          description: body is empty
-  /public/picture/{img}:
-    get:
-      tags:
-      - public
-      description: |-
-        图片裁剪
-        <br>
-      operationId: PublicController.公共的一些api
-      parameters:
-      - in: query
-        name: width
-        description: 宽度
-        type: integer
-        format: int64
-      - in: query
-        name: height
-        description: 高度
-        type: integer
-        format: int64
-      - in: path
-        name: img
-        description: 6Co6W3DogOqW6TxwDp8Vb.jpg
-        required: true
-        type: string
-      responses:
-        "200":
-          description: 获取图片成功
-  /public/version:
-    get:
-      tags:
-      - public
-      description: |-
-        版本信息
-        <br>
-      operationId: PublicController.版本信息
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/Version'
-        "400":
-          description: token验证失败
-        "403":
-          description: body is empty
-  /user/:
-    get:
-      tags:
-      - user
-      description: |-
-        get all Users
-        <br>
-      operationId: UserController.GetAll
-      parameters:
-      - in: header
-        name: token
-        description: The token is required
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.User'
-    post:
-      tags:
-      - user
-      description: |-
-        create users
-        <br>
-      operationId: UserController.CreateUser
-      parameters:
-      - in: body
-        name: body
-        description: body for user content
-        required: true
-        schema:
-          $ref: '#/definitions/models.Registered'
-      responses:
-        "200":
-          description: '{int} models.SiteAppUser.Id'
-        "403":
-          description: body is empty
-  /user/{uid}:
+          description: :id is empty
     put:
       tags:
-      - user
+        - v1
       description: |-
-        update the user
+        update the UserRelated
         <br>
-      operationId: UserController.Update
+      operationId: UserRelatedController.Put
       parameters:
-      - in: path
-        name: uid
-        description: The uid you want to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: body for user content
-        required: true
-        schema:
-          $ref: '#/definitions/models.SiteAppUser'
+        - in: path
+          name: id
+          description: The id you want to update
+          required: true
+          type: string
+        - in: models.UserRelated
+          name: body
+          description: body for UserRelated content
+          schema:
+            $ref: '#/definitions/true'
       responses:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.SiteAppUser'
+            $ref: '#/definitions/models.UserRelated'
         "403":
-          description: :uid is not int
+          description: :id is not int
     delete:
       tags:
-      - user
+        - v1
       description: |-
-        delete the user
+        delete the UserRelated
         <br>
-      operationId: UserController.Delete
+      operationId: UserRelatedController.Delete
       parameters:
-      - in: path
-        name: uid
-        description: The uid you want to delete
-        required: true
-        type: string
+        - in: path
+          name: id
+          description: The id you want to delete
+          required: true
+          type: string
       responses:
         "200":
           description: '{string} delete success!'
         "403":
-          description: uid is empty
-  /user/login:
+          description: id is empty
+  /v1/login:
     post:
       tags:
-      - user
+        - v1
       description: |-
-        登录获取token username:admin password:123456
+        登录后获取token
         <br>
-      operationId: UserController.登录
+      operationId: UserRelatedController.用户登录
       parameters:
-      - in: body
-        name: body
-        description: body for user content
-        required: true
-        schema:
-          $ref: '#/definitions/models.LoginInfo'
+        - in: body
+          name: body
+          description: body for Haouxuan content
+          required: true
+          schema:
+            $ref: '#/definitions/models.LoginModel'
       responses:
-        "200":
-          description: '{string} login success'
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.UserRelated'
         "403":
-          description: user not exist
-  /user/logout:
+          description: body is empty
+  /v1/picture/{img}:
     get:
       tags:
-      - user
+        - v1
       description: |-
-        Logs out current logged in user session
+        图片自定义尺寸
         <br>
-      operationId: UserController.登出
-      responses:
-        "200":
-          description: '{string} logout success'
-  /user/user_info:
-    get:
-      tags:
-      - user
-      description: |-
-        验证token
-        <br>
-      operationId: UserController.token验证
+      operationId: CommonController.ImageResize
       parameters:
-      - in: header
-        name: token
-        description: The token is required
-        required: true
-        type: string
+        - in: query
+          name: width
+          description: 宽度
+          type: integer
+          format: int64
+        - in: query
+          name: height
+          description: 高度
+          type: integer
+          format: int64
+        - in: path
+          name: img
+          description: 6Co6W3DogOqW6TxwDp8Vb.png
+          required: true
+          type: string
       responses:
         "200":
-          description: '{struct} {"name":"admin","id":"125"}'
+          description: 获取图片成功
+  /v1/record-account:
+    post:
+      tags:
+        - v1
+      description: |-
+        create UserRelated
+        <br>
+      operationId: UserRelatedController.发送邮箱验证码
+      parameters:
+        - in: body
+          name: body
+          description: body for UserRelated content
+          required: true
+          schema:
+            $ref: '#/definitions/models.SendCode'
+      responses:
+        "201":
+          description: 200}
+          schema:
+            $ref: '#/definitions/{code:'
+        "403":
+          description: body is empty
+  /v1/register:
+    post:
+      tags:
+        - v1
+      description: |-
+        登录后获取token
+        <br>
+      operationId: UserRelatedController.用户注册
+      parameters:
+        - in: body
+          name: body
+          description: body for UserFiled content
+          required: true
+          schema:
+            $ref: '#/definitions/models.RegisterUser'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.UserRelated'
+        "403":
+          description: body is empty
+  /v1/reset-password:
+    post:
+      tags:
+        - v1
+      description: |-
+        create UserRelated
+        <br>
+      operationId: UserRelatedController.重置密码，需要邮箱和token验证
+      parameters:
+        - in: body
+          name: body
+          description: body for ResetPasswordType content
+          required: true
+          schema:
+            $ref: '#/definitions/models.ResetPasswordType'
+      responses:
+        "201":
+          description: 200}
+          schema:
+            $ref: '#/definitions/{code:'
+        "403":
+          description: body is empty
+  /v1/send-code:
+    post:
+      tags:
+        - v1
+      description: |-
+        create UserRelated
+        <br>
+      operationId: UserRelatedController.发送邮箱验证码
+      parameters:
+        - in: body
+          name: body
+          description: body for UserRelated content
+          required: true
+          schema:
+            $ref: '#/definitions/models.SendCode'
+      responses:
+        "201":
+          description: 200}
+          schema:
+            $ref: '#/definitions/{code:'
+        "403":
+          description: body is empty
+  /v1/upload:
+    post:
+      tags:
+        - v1
+      summary: Upload a file
+      description: |-
+        Uploads a file using form-data
+        <br>
+      operationId: CommonController.上传文件
+      parameters:
+        - in: formData
+          name: file
+          description: File to be uploaded
+          required: true
+          type: file
+      responses:
+        "200":
+          description: '{string} string "File uploaded successfully"'
+        "400":
+          description: '{string} string "Bad request"'
+  /v1/user/:
+    post:
+      tags:
+        - v1/user
+      description: |-
+        create Haouxuan
+        <br>
+      operationId: HaouxuanController.Create
+      parameters:
+        - in: body
+          name: body
+          description: body for Haouxuan content
+          required: true
+          schema:
+            $ref: '#/definitions/models.Haouxuan'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Haouxuan'
+        "403":
+          description: body is empty
+  /v1/user/{id}:
+    put:
+      tags:
+        - v1/user
+      description: |-
+        update the Haouxuan
+        <br>
+      operationId: HaouxuanController.Put
+      parameters:
+        - in: path
+          name: id
+          description: The id you want to update
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: body for Haouxuan content
+          required: true
+          schema:
+            $ref: '#/definitions/models.Haouxuan'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Haouxuan'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+        - v1/user
+      description: |-
+        delete the Haouxuan
+        <br>
+      operationId: HaouxuanController.Delete
+      parameters:
+        - in: path
+          name: id
+          description: The id you want to delete
+          required: true
+          type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: id is empty
+  /v1/user/all:
+    get:
+      tags:
+        - v1/user
+      description: |-
+        get Haouxuan
+        <br>
+      operationId: HaouxuanController.GetAll
+      parameters:
+        - in: query
+          name: query
+          description: Filter. e.g. col1:v1,col2:v2 ...
+          type: string
+        - in: query
+          name: fields
+          description: Fields returned. e.g. col1,col2 ...
+          type: string
+        - in: query
+          name: sortby
+          description: Sorted-by fields. e.g. col1,col2 ...
+          type: string
+        - in: query
+          name: order
+          description: Order corresponding to each sortby field, if single value, apply
+            to all sortby fields. e.g. desc,asc ...
+          type: string
+        - in: query
+          name: limit
+          description: Limit the size of result set. Must be an integer
+          type: string
+        - in: query
+          name: offset
+          description: Start position of result set. Must be an integer
+          type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Haouxuan'
+        "403":
+          description: ""
+  /v1/user/info:
+    get:
+      tags:
+        - v1/user
+      description: |-
+        get Haouxuan by id
+        <br>
+      operationId: HaouxuanController.GetOne
+      parameters:
+        - in: path
+          name: id
+          description: The key for staticblock
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Haouxuan'
+        "403":
+          description: :id is empty
 definitions:
-  Version:
-    title: Version
+  '{code:':
+    title: '{code:'
     type: object
-  models.BookInfo:
-    title: BookInfo
+  models.ErrorController:
+    title: ErrorController
     type: object
-  models.LoginInfo:
-    title: LoginInfo
-    type: object
-    properties:
-      email:
-        type: string
-      password:
-        type: string
-  models.Object:
-    title: Object
+  models.Haouxuan:
+    title: Haouxuan
     type: object
     properties:
-      ObjectId:
-        type: string
-      PlayerName:
-        type: string
-      Score:
-        type: integer
-        format: int64
-  models.Profile:
-    title: Profile
-    type: object
-    properties:
-      Address:
-        type: string
-      Age:
-        type: integer
-        format: int64
-      Email:
-        type: string
-      Gender:
-        type: string
-  models.Registered:
-    title: Registered
-    type: object
-    properties:
-      email:
-        description: 邮箱账号
-        type: string
-      name:
-        description: 姓名
-        type: string
-      password:
-        description: 密码
-        type: string
-      phone:
-        description: 手机号码
-        type: string
-  models.SiteAppUser:
-    title: SiteAppUser
-    type: object
-    properties:
-      createdAt:
-        description: 注册时间
-        type: string
-        format: datetime
-      email:
-        description: 邮箱账号
-        type: string
       id:
-        description: id
         type: integer
         format: int64
-      name:
-        description: 姓名
-        type: string
-      nickname:
-        description: 昵称
-        type: string
-      password:
-        description: 密码
-        type: string
-      phone:
-        description: 手机号码
-        type: string
-      updatedAt:
-        description: 更新时间
-        type: string
-        format: datetime
-  models.User:
-    title: User
+  models.LoginModel:
+    title: LoginModel
     type: object
     properties:
-      Id:
+      account:
         type: string
-      Password:
+      password:
         type: string
-      Profile:
-        $ref: '#/definitions/models.Profile'
-      Username:
+  models.RegisterUser:
+    title: RegisterUser
+    type: object
+    properties:
+      code:
         type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+  models.ResetPasswordType:
+    title: ResetPasswordType
+    type: object
+    properties:
+      confirmPassword:
+        type: string
+      password:
+        type: string
+      recordToken:
+        type: string
+  models.SendCode:
+    title: SendCode
+    type: object
+    properties:
+      email:
+        type: string
+  models.UserRelated:
+    title: UserRelated
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+  "true":
+    title: "true"
+    type: object
 tags:
-- name: user
-  description: |
-    用户相关
-- name: book_info
-  description: |
-    BookController 书籍信息相关
-- name: public
-  description: |
-    公共的一些api
+  - name: v1
+    description: |
+      UserRelatedController operations for UserRelated
+  - name: v1
+    description: |
+      CommonController operations for Common
+  - name: v1/user
+    description: |
+      HaouxuanController operations for Haouxuan

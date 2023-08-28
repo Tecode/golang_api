@@ -4,3 +4,8 @@ lastupdate.tmp
 golang_api.exe
 golang_api.exe~
 pkg/
+conf/app.conf
+logs/
+golang_apiv2.exe
+golang_apiv2.exe~
+static/files/
