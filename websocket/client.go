@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+	"regexp"
 	"time"
 )
 
@@ -34,10 +35,15 @@ var (
 
 var upGrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-	// 允许跨域连接
+	WriteBufferSize: 1024, // 允许/不允许跨域连接
 	CheckOrigin: func(r *http.Request) bool {
-		return true
+		logs.Info(r.Host)
+		pattern := `(localhost|soscoon.com)`
+		matchString, err := regexp.MatchString(pattern, r.Host)
+		if err != nil {
+			return false
+		}
+		return matchString
 	},
 }
 
@@ -166,4 +172,5 @@ func ServeWebsocket(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// new goroutines.
 	go client.writePump()
 	go client.readPump()
+	hub.SendMessage()
 }

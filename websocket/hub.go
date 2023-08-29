@@ -47,3 +47,7 @@ func (h *Hub) Run() {
 		}
 	}
 }
+
+func (h *Hub) SendMessage() {
+	h.broadcast <- []byte("Connect success")
+}

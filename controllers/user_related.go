@@ -234,6 +234,8 @@ func (c *UserRelatedController) UserLogin() {
 // @Failure 403 body is empty
 // @router /record-account [post]
 func (c *UserRelatedController) RecordAccount() {
+	// 发送socket消息
+	//GetSocket().hub.SendMessage()
 	// 获取body的json数据
 	requestBody := models.SendCode{}
 	if jsonErr := c.BindJSON(&requestBody); jsonErr != nil {
