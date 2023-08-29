@@ -119,7 +119,7 @@ func (c *CommonController) Upload() {
 	if len(ext) < 1 {
 		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "File types are not supported")
 	}
-	pathName := dir + utils.GenerateRandomString(16) + ext
+	pathName := dir + utils.GenerateRandomString(18) + ext
 	saveError := c.SaveToFile("file", pathName)
 	if saveError != nil {
 		utils.RequestOutInput(c.Ctx, 400, 400400, nil, saveError.Error())
