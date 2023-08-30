@@ -4,15 +4,15 @@ import (
 	beego "github.com/beego/beego/v2/server/web"
 )
 
-// HaouxuanController operations for Haouxuan
-type HaouxuanController struct {
+// UserControllerController operations for UserController
+type UserControllerController struct {
 	beego.Controller
 }
 
 // URLMapping ...
-func (c *HaouxuanController) URLMapping() {
+func (c *UserControllerController) URLMapping() {
 	c.Mapping("Post", c.Post)
-	c.Mapping("GetOne", c.Get)
+	c.Mapping("GetOne", c.GetOne)
 	c.Mapping("GetAll", c.GetAll)
 	c.Mapping("Put", c.Put)
 	c.Mapping("Delete", c.Delete)
@@ -20,70 +20,61 @@ func (c *HaouxuanController) URLMapping() {
 
 // Post ...
 // @Title Create
-// @Description create Haouxuan
-// @Param	body		body 	models.Haouxuan	true		"body for Haouxuan content"
-// @Success 201 {object} models.Haouxuan
+// @Description create UserController
+// @Param	body		body 	models.UserController	true		"body for UserController content"
+// @Success 201 {object} models.UserController
 // @Failure 403 body is empty
 // @router / [post]
-func (c *HaouxuanController) Post() {
+func (c *UserControllerController) Post() {
 
 }
 
-// Get ...
+// GetOne ...
 // @Title GetOne
-// @Description get Haouxuan by id
+// @Description get UserController by id
 // @Param	id		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.Haouxuan
+// @Success 200 {object} models.UserController
 // @Failure 403 :id is empty
-// @router /info [get]
-func (c *HaouxuanController) Get() {
-	appName, _ := beego.AppConfig.String("appname")
-	c.Data["json"] = map[string]string{"GetOne": c.Ctx.Input.Param(":haoxuan"), "appname": appName}
-	err := c.ServeJSON()
-	if err != nil {
-		return
-	}
+// @router /:id [get]
+func (c *UserControllerController) GetOne() {
+
 }
 
 // GetAll ...
 // @Title GetAll
-// @Description get Haouxuan
+// @Description get UserController
 // @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
 // @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
 // @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
 // @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
 // @Param	offset	query	string	false	"Start position of result set. Must be an integer"
-// @Success 200 {object} models.Haouxuan
+// @Success 200 {object} models.UserController
 // @Failure 403
-// @router /all [get]
-func (c *HaouxuanController) GetAll() {
-	c.Data["json"] = map[string]string{"GetAll": "GetAll"}
-	err := c.ServeJSON()
-	if err != nil {
-		return
-	}
+// @router / [get]
+func (c *UserControllerController) GetAll() {
+
 }
 
 // Put ...
 // @Title Put
-// @Description update the Haouxuan
+// @Description update the UserController
 // @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.Haouxuan	true		"body for Haouxuan content"
-// @Success 200 {object} models.Haouxuan
+// @Param	body		body 	models.UserController	true		"body for UserController content"
+// @Success 200 {object} models.UserController
 // @Failure 403 :id is not int
 // @router /:id [put]
-func (c *HaouxuanController) Put() {
+func (c *UserControllerController) Put() {
 
 }
 
 // Delete ...
 // @Title Delete
-// @Description delete the Haouxuan
+// @Description delete the UserController
 // @Param	id		path 	string	true		"The id you want to delete"
 // @Success 200 {string} delete success!
 // @Failure 403 id is empty
 // @router /:id [delete]
-func (c *HaouxuanController) Delete() {
+func (c *UserControllerController) Delete() {
 
 }

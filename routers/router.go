@@ -16,7 +16,7 @@ func init() {
 			beego.NSInclude(&controllers.UserRelatedController{}),
 			beego.NSInclude(&controllers.CommonController{}),
 		),
-		beego.NSNamespace("/v1/user", beego.NSInclude(&controllers.HaouxuanController{})),
+		beego.NSNamespace("/v1/user", beego.NSInclude(&controllers.UserControllerController{})),
 	)
 
 	// 包含token验证，中间件过滤拦截

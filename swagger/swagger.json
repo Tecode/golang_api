@@ -225,43 +225,12 @@
             }
         },
         "/v1/user/": {
-            "post": {
-                "tags": [
-                    "v1/user"
-                ],
-                "description": "create Haouxuan\n\u003cbr\u003e",
-                "operationId": "HaouxuanController.Create",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body for Haouxuan content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Haouxuan"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.Haouxuan"
-                        }
-                    },
-                    "403": {
-                        "description": "body is empty"
-                    }
-                }
-            }
-        },
-        "/v1/user/all": {
             "get": {
                 "tags": [
                     "v1/user"
                 ],
-                "description": "get Haouxuan\n\u003cbr\u003e",
-                "operationId": "HaouxuanController.GetAll",
+                "description": "get UserController\n\u003cbr\u003e",
+                "operationId": "UserControllerController.GetAll",
                 "parameters": [
                     {
                         "in": "query",
@@ -304,22 +273,51 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.Haouxuan"
+                            "$ref": "#/definitions/models.UserController"
                         }
                     },
                     "403": {
                         "description": ""
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "v1/user"
+                ],
+                "description": "create UserController\n\u003cbr\u003e",
+                "operationId": "UserControllerController.Create",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for UserController content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserController"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserController"
+                        }
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
             }
         },
-        "/v1/user/info": {
+        "/v1/user/{id}": {
             "get": {
                 "tags": [
                     "v1/user"
                 ],
-                "description": "get Haouxuan by id\n\u003cbr\u003e",
-                "operationId": "HaouxuanController.GetOne",
+                "description": "get UserController by id\n\u003cbr\u003e",
+                "operationId": "UserControllerController.GetOne",
                 "parameters": [
                     {
                         "in": "path",
@@ -333,22 +331,20 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.Haouxuan"
+                            "$ref": "#/definitions/models.UserController"
                         }
                     },
                     "403": {
                         "description": ":id is empty"
                     }
                 }
-            }
-        },
-        "/v1/user/{id}": {
+            },
             "put": {
                 "tags": [
                     "v1/user"
                 ],
-                "description": "update the Haouxuan\n\u003cbr\u003e",
-                "operationId": "HaouxuanController.Put",
+                "description": "update the UserController\n\u003cbr\u003e",
+                "operationId": "UserControllerController.Put",
                 "parameters": [
                     {
                         "in": "path",
@@ -360,10 +356,10 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "body for Haouxuan content",
+                        "description": "body for UserController content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Haouxuan"
+                            "$ref": "#/definitions/models.UserController"
                         }
                     }
                 ],
@@ -371,7 +367,7 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.Haouxuan"
+                            "$ref": "#/definitions/models.UserController"
                         }
                     },
                     "403": {
@@ -383,96 +379,8 @@
                 "tags": [
                     "v1/user"
                 ],
-                "description": "delete the Haouxuan\n\u003cbr\u003e",
-                "operationId": "HaouxuanController.Delete",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "description": "The id you want to delete",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{string} delete success!"
-                    },
-                    "403": {
-                        "description": "id is empty"
-                    }
-                }
-            }
-        },
-        "/v1/{id}": {
-            "get": {
-                "tags": [
-                    "v1"
-                ],
-                "description": "get UserRelated by id\n\u003cbr\u003e",
-                "operationId": "UserRelatedController.GetOne",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "description": "The key for staticblock",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.UserRelated"
-                        }
-                    },
-                    "403": {
-                        "description": ":id is empty"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "v1"
-                ],
-                "description": "update the UserRelated\n\u003cbr\u003e",
-                "operationId": "UserRelatedController.Put",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "description": "The id you want to update",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "models.UserRelated",
-                        "name": "body",
-                        "description": "body for UserRelated content",
-                        "schema": {
-                            "$ref": "#/definitions/true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.UserRelated"
-                        }
-                    },
-                    "403": {
-                        "description": ":id is not int"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "v1"
-                ],
-                "description": "delete the UserRelated\n\u003cbr\u003e",
-                "operationId": "UserRelatedController.Delete",
+                "description": "delete the UserController\n\u003cbr\u003e",
+                "operationId": "UserControllerController.Delete",
                 "parameters": [
                     {
                         "in": "path",
@@ -497,16 +405,6 @@
         "models.ErrorController": {
             "title": "ErrorController",
             "type": "object"
-        },
-        "models.Haouxuan": {
-            "title": "Haouxuan",
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "format": "int64"
-                }
-            }
         },
         "models.LoginModel": {
             "title": "LoginModel",
@@ -562,6 +460,10 @@
                 }
             }
         },
+        "models.UserController": {
+            "title": "UserController",
+            "type": "object"
+        },
         "models.UserRelated": {
             "title": "UserRelated",
             "type": "object",
@@ -571,10 +473,6 @@
                     "format": "int64"
                 }
             }
-        },
-        "true": {
-            "title": "true",
-            "type": "object"
         },
         "{code:": {
             "title": "{code:",
@@ -592,7 +490,7 @@
         },
         {
             "name": "v1/user",
-            "description": "HaouxuanController operations for Haouxuan\n"
+            "description": "UserControllerController operations for UserController\n"
         }
     ]
 }

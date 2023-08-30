@@ -62,44 +62,6 @@ func (c *UserRelatedController) SendEmailCode() {
 
 }
 
-// GetOne ...
-// @Title GetOne
-// @Description get UserRelated by id
-// @Param	id		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.UserRelated
-// @Failure 403 :id is empty
-// @router /:id [get]
-func (c *UserRelatedController) GetOne() {
-	c.Data["json"] = map[string]string{"GetOne": c.Ctx.Input.Param(":haoxuan"), "appname": "appName"}
-	err := c.ServeJSON()
-	if err != nil {
-		return
-	}
-}
-
-// Put ...
-// @Title Put
-// @Description update the UserRelated
-// @Param	id		path 	string	true		"The id you want to update"
-// @Param	body	 	models.UserRelated	true		"body for UserRelated content"
-// @Success 200 {object} models.UserRelated
-// @Failure 403 :id is not int
-// @router /:id [put]
-func (c *UserRelatedController) Put() {
-
-}
-
-// Delete ...
-// @Title Delete
-// @Description delete the UserRelated
-// @Param	id		path 	string	true		"The id you want to delete"
-// @Success 200 {string} delete success!
-// @Failure 403 id is empty
-// @router /:id [delete]
-func (c *UserRelatedController) Delete() {
-
-}
-
 // Register ...
 // @Title 用户注册
 // @Description 登录后获取token

@@ -2,70 +2,6 @@ swagger: "2.0"
 info: {}
 basePath: /api
 paths:
-  /v1/{id}:
-    get:
-      tags:
-      - v1
-      description: |-
-        get UserRelated by id
-        <br>
-      operationId: UserRelatedController.GetOne
-      parameters:
-      - in: path
-        name: id
-        description: The key for staticblock
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.UserRelated'
-        "403":
-          description: :id is empty
-    put:
-      tags:
-      - v1
-      description: |-
-        update the UserRelated
-        <br>
-      operationId: UserRelatedController.Put
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to update
-        required: true
-        type: string
-      - in: models.UserRelated
-        name: body
-        description: body for UserRelated content
-        schema:
-          $ref: '#/definitions/true'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.UserRelated'
-        "403":
-          description: :id is not int
-    delete:
-      tags:
-      - v1
-      description: |-
-        delete the UserRelated
-        <br>
-      operationId: UserRelatedController.Delete
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to delete
-        required: true
-        type: string
-      responses:
-        "200":
-          description: '{string} delete success!'
-        "403":
-          description: id is empty
   /v1/login:
     post:
       tags:
@@ -224,80 +160,13 @@ paths:
         "400":
           description: '{string} string "Bad request"'
   /v1/user/:
-    post:
-      tags:
-      - v1/user
-      description: |-
-        create Haouxuan
-        <br>
-      operationId: HaouxuanController.Create
-      parameters:
-      - in: body
-        name: body
-        description: body for Haouxuan content
-        required: true
-        schema:
-          $ref: '#/definitions/models.Haouxuan'
-      responses:
-        "201":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.Haouxuan'
-        "403":
-          description: body is empty
-  /v1/user/{id}:
-    put:
-      tags:
-      - v1/user
-      description: |-
-        update the Haouxuan
-        <br>
-      operationId: HaouxuanController.Put
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: body for Haouxuan content
-        required: true
-        schema:
-          $ref: '#/definitions/models.Haouxuan'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.Haouxuan'
-        "403":
-          description: :id is not int
-    delete:
-      tags:
-      - v1/user
-      description: |-
-        delete the Haouxuan
-        <br>
-      operationId: HaouxuanController.Delete
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to delete
-        required: true
-        type: string
-      responses:
-        "200":
-          description: '{string} delete success!'
-        "403":
-          description: id is empty
-  /v1/user/all:
     get:
       tags:
       - v1/user
       description: |-
-        get Haouxuan
+        get UserController
         <br>
-      operationId: HaouxuanController.GetAll
+      operationId: UserControllerController.GetAll
       parameters:
       - in: query
         name: query
@@ -328,17 +197,38 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.Haouxuan'
+            $ref: '#/definitions/models.UserController'
         "403":
           description: ""
-  /v1/user/info:
+    post:
+      tags:
+      - v1/user
+      description: |-
+        create UserController
+        <br>
+      operationId: UserControllerController.Create
+      parameters:
+      - in: body
+        name: body
+        description: body for UserController content
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserController'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.UserController'
+        "403":
+          description: body is empty
+  /v1/user/{id}:
     get:
       tags:
       - v1/user
       description: |-
-        get Haouxuan by id
+        get UserController by id
         <br>
-      operationId: HaouxuanController.GetOne
+      operationId: UserControllerController.GetOne
       parameters:
       - in: path
         name: id
@@ -349,9 +239,53 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.Haouxuan'
+            $ref: '#/definitions/models.UserController'
         "403":
           description: :id is empty
+    put:
+      tags:
+      - v1/user
+      description: |-
+        update the UserController
+        <br>
+      operationId: UserControllerController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for UserController content
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserController'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.UserController'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+      - v1/user
+      description: |-
+        delete the UserController
+        <br>
+      operationId: UserControllerController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: id is empty
 definitions:
   '{code:':
     title: '{code:'
@@ -359,13 +293,6 @@ definitions:
   models.ErrorController:
     title: ErrorController
     type: object
-  models.Haouxuan:
-    title: Haouxuan
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
   models.LoginModel:
     title: LoginModel
     type: object
@@ -402,6 +329,9 @@ definitions:
     properties:
       email:
         type: string
+  models.UserController:
+    title: UserController
+    type: object
   models.UserRelated:
     title: UserRelated
     type: object
@@ -409,9 +339,6 @@ definitions:
       id:
         type: integer
         format: int64
-  "true":
-    title: "true"
-    type: object
 tags:
 - name: v1
   description: |
@@ -421,4 +348,4 @@ tags:
     CommonController operations for Common
 - name: v1/user
   description: |
-    HaouxuanController operations for Haouxuan
+    UserControllerController operations for UserController

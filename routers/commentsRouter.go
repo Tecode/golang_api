@@ -61,7 +61,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["golang_apiv2/controllers:HaouxuanController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:HaouxuanController"],
+	beego.GlobalControllerRouter["golang_apiv2/controllers:UserControllerController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserControllerController"],
 		beego.ControllerComments{
 			Method:           "Post",
 			Router:           `/`,
@@ -70,43 +70,16 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["golang_apiv2/controllers:HaouxuanController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:HaouxuanController"],
-		beego.ControllerComments{
-			Method:           "Put",
-			Router:           `/:id`,
-			AllowHTTPMethods: []string{"put"},
-			MethodParams:     param.Make(),
-			Filters:          nil,
-			Params:           nil})
-
-	beego.GlobalControllerRouter["golang_apiv2/controllers:HaouxuanController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:HaouxuanController"],
-		beego.ControllerComments{
-			Method:           "Delete",
-			Router:           `/:id`,
-			AllowHTTPMethods: []string{"delete"},
-			MethodParams:     param.Make(),
-			Filters:          nil,
-			Params:           nil})
-
-	beego.GlobalControllerRouter["golang_apiv2/controllers:HaouxuanController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:HaouxuanController"],
+	beego.GlobalControllerRouter["golang_apiv2/controllers:UserControllerController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserControllerController"],
 		beego.ControllerComments{
 			Method:           "GetAll",
-			Router:           `/all`,
+			Router:           `/`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["golang_apiv2/controllers:HaouxuanController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:HaouxuanController"],
-		beego.ControllerComments{
-			Method:           "Get",
-			Router:           `/info`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams:     param.Make(),
-			Filters:          nil,
-			Params:           nil})
-
-	beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"],
+	beego.GlobalControllerRouter["golang_apiv2/controllers:UserControllerController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserControllerController"],
 		beego.ControllerComments{
 			Method:           "GetOne",
 			Router:           `/:id`,
@@ -115,7 +88,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"],
+	beego.GlobalControllerRouter["golang_apiv2/controllers:UserControllerController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserControllerController"],
 		beego.ControllerComments{
 			Method:           "Put",
 			Router:           `/:id`,
@@ -124,7 +97,7 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
-	beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserRelatedController"],
+	beego.GlobalControllerRouter["golang_apiv2/controllers:UserControllerController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:UserControllerController"],
 		beego.ControllerComments{
 			Method:           "Delete",
 			Router:           `/:id`,
