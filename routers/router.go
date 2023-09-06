@@ -24,6 +24,12 @@ func init() {
 	// 包含token验证，中间件过滤拦截
 	beego.InsertFilter("/api/v1/user/*", beego.BeforeRouter, utils.Interceptor)
 
+	// mock api使用的路由
+	beego.Get("/api/*", controllers.MockGet)
+	beego.Post("/api/*", controllers.MockPost)
+	beego.Delete("/api/*", controllers.MockDelete)
+	beego.Put("/api/*", controllers.MockPut)
+
 	// http://localhost:8080/contact
 	// 模板引擎页面
 	beego.Router("/", &controllers.MainController{})

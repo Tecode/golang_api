@@ -45,6 +45,7 @@ func init() {
 	// 创建表，注意！！这里要账号有创建数据库表的权限
 	orm.RegisterModel(new(Users))
 	orm.RegisterModel(new(RecordAccount))
+	orm.RegisterModel(new(Mock))
 	if utils.GetAppConfigValue("createtable") == "true" {
 		err := orm.RunSyncdb("default", false, true)
 		if err != nil {
