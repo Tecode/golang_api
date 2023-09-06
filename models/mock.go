@@ -10,12 +10,16 @@ import (
 	"github.com/beego/beego/v2/client/orm"
 )
 
+type MockBaseData struct {
+	Method string `orm:"size(10)" json:"method"`
+	UserId int64  `json:"userId" json:"userId"`
+	Path   string `orm:"size(128)" json:"path"`
+	Data   string `orm:"type(text)" json:"data"`
+}
+
 type Mock struct {
-	Id        int64     `orm:"auto_now_add" json:"id"` // id
-	Method    string    `orm:"size(10)"`
-	UserId    int64     `json:"userId"`
-	Path      string    `orm:"size(128)" json:"path"`
-	Data      string    `orm:"type(text)" json:"data"`
+	Id int64 `orm:"auto_now_add" json:"id"` // id
+	MockBaseData
 	CreatedAt time.Time `orm:"auto_now_add;type(datetime)" json:"createdAt"` // 注册时间
 	UpdatedAt time.Time `orm:"auto_now;type(datetime)" json:"updatedAt"`     // 更新时间
 }

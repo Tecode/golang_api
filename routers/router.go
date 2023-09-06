@@ -16,13 +16,15 @@ func init() {
 			beego.NSInclude(&controllers.UserRelatedController{}),
 			beego.NSInclude(&controllers.CommonController{}),
 		),
-		beego.NSNamespace("/v1/user", beego.NSInclude(&controllers.UserControllerController{})),
+		beego.NSNamespace("/v1/user", beego.NSInclude(&controllers.UserController{})),
+		beego.NSNamespace("/v1/mock", beego.NSInclude(&controllers.MockController{})),
 	)
 
 	// 包含token验证，中间件过滤拦截
 	//nameSpace.Filter("before", utils.Interceptor)
 	// 包含token验证，中间件过滤拦截
 	beego.InsertFilter("/api/v1/user/*", beego.BeforeRouter, utils.Interceptor)
+	//beego.InsertFilter("/api/v1/mock/*", beego.BeforeRouter, utils.Interceptor)
 
 	// mock api使用的路由
 	beego.Get("/api/*", controllers.MockGet)

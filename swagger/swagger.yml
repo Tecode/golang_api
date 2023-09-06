@@ -24,6 +24,134 @@ paths:
             $ref: '#/definitions/models.UserRelated'
         "403":
           description: body is empty
+  /v1/mock/{id}:
+    get:
+      tags:
+      - v1/mock
+      description: |-
+        get MockController by id
+        <br>
+      operationId: MockController.GetOne
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.MockController'
+        "403":
+          description: :id is empty
+    put:
+      tags:
+      - v1/mock
+      description: |-
+        update the MockController
+        <br>
+      operationId: MockController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for MockController content
+        required: true
+        schema:
+          $ref: '#/definitions/models.MockController'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.MockController'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+      - v1/mock
+      description: |-
+        delete the MockController
+        <br>
+      operationId: MockController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: id is empty
+  /v1/mock/add:
+    post:
+      tags:
+      - v1/mock
+      description: |-
+        create MockController
+        <br>
+      operationId: MockController.Create
+      parameters:
+      - in: body
+        name: body
+        description: body for MockController content
+        required: true
+        schema:
+          $ref: '#/definitions/models.MockBaseData'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.MockBaseData'
+        "403":
+          description: body is empty
+  /v1/mock/getList:
+    get:
+      tags:
+      - v1/mock
+      description: |-
+        get MockController
+        <br>
+      operationId: MockController.GetAll
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.MockController'
+        "403":
+          description: ""
   /v1/picture/{img}:
     get:
       tags:
@@ -166,7 +294,7 @@ paths:
       description: |-
         get UserController
         <br>
-      operationId: UserControllerController.GetAll
+      operationId: UserController.GetAll
       parameters:
       - in: query
         name: query
@@ -206,7 +334,7 @@ paths:
       description: |-
         create UserController
         <br>
-      operationId: UserControllerController.Create
+      operationId: UserController.Create
       parameters:
       - in: body
         name: body
@@ -228,7 +356,7 @@ paths:
       description: |-
         get UserController by id
         <br>
-      operationId: UserControllerController.GetOne
+      operationId: UserController.GetOne
       parameters:
       - in: path
         name: id
@@ -248,7 +376,7 @@ paths:
       description: |-
         update the UserController
         <br>
-      operationId: UserControllerController.Put
+      operationId: UserController.Put
       parameters:
       - in: path
         name: id
@@ -274,7 +402,7 @@ paths:
       description: |-
         delete the UserController
         <br>
-      operationId: UserControllerController.Delete
+      operationId: UserController.Delete
       parameters:
       - in: path
         name: id
@@ -301,6 +429,22 @@ definitions:
         type: string
       password:
         type: string
+  models.MockBaseData:
+    title: MockBaseData
+    type: object
+    properties:
+      data:
+        type: string
+      method:
+        type: string
+      path:
+        type: string
+      userId:
+        type: integer
+        format: int64
+  models.MockController:
+    title: MockController
+    type: object
   models.RegisterUser:
     title: RegisterUser
     type: object
@@ -348,4 +492,7 @@ tags:
     CommonController operations for Common
 - name: v1/user
   description: |
-    UserControllerController operations for UserController
+    UserController operations for UserController
+- name: v1/mock
+  description: |
+    MockController operations for MockController
