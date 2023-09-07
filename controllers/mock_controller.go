@@ -2,9 +2,13 @@ package controllers
 
 import (
 	"encoding/json"
+	"github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/core/validation"
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/server/web/context"
+	"golang_apiv2/models"
 	"golang_apiv2/utils"
+	"strconv"
 )
 
 // MockController operations for MockController
@@ -12,9 +16,10 @@ type MockController struct {
 	beego.Controller
 }
 
-// MockGet mock请求数据的GET方法
-func MockGet(ctx *context.Context) {
-	jsonStr := `{"name": "haoxuan","age":20}`
+// MockAnyMethod mock请求数据的GET方法
+func MockAnyMethod(ctx *context.Context) {
+
+	jsonStr := "{\"name\":\"haoxuan\",\"code\":200200,\"status\":200,\"path\":\"/po/auth/name/data\",\"to\":\"成都\"}"
 	var result map[string]any
 	jsonErr := json.Unmarshal([]byte(jsonStr), &result)
 	if jsonErr != nil {
@@ -26,21 +31,6 @@ func MockGet(ctx *context.Context) {
 		utils.RequestOutInput(ctx, 500, 500500, nil, err.Error())
 		return
 	}
-}
-
-// MockPost mock请求数据的POST方法
-func MockPost(ctx *context.Context) {
-	ctx.GetCookie("5556")
-}
-
-// MockDelete mock请求数据的DELETE方法
-func MockDelete(ctx *context.Context) {
-	ctx.GetCookie("5556")
-}
-
-// MockPut mock请求数据的PUT方法
-func MockPut(ctx *context.Context) {
-	ctx.GetCookie("5556")
 }
 
 // URLMapping ...
@@ -56,33 +46,58 @@ func (c *MockController) URLMapping() {
 // @Title Create
 // @Description create MockController
 // @Param	body		body 	models.MockBaseData	true		"body for MockController content"
-// @Success 201 {object} models.MockBaseData
+// @Success 201 {object} {}
 // @Failure 403 body is empty
 // @router /add [post]
 func (c *MockController) Post() {
-
+	// 获取body的json数据
+	requestBody := models.MockBaseData{}
+	if jsonErr := c.BindJSON(&requestBody); jsonErr != nil {
+		logs.Error(jsonErr.Error())
+	}
+	valid := validation.Validation{}
+	pass, _ := valid.Valid(requestBody)
+	if !pass {
+		for _, err := range valid.Errors {
+			utils.RequestOutInput(c.Ctx, 400, 400400, nil, err.Message)
+			break
+		}
+		return
+	}
+	mock, mockErr := models.AddMock(&requestBody)
+	if mockErr != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, mock, mockErr.Error())
+		return
+	}
+	utils.RequestOutInput(c.Ctx, 200, 200200, mock, "添加成功")
 }
 
 // GetOne ...
-// @Title GetOne
-// @Description get MockController by id
+// @Title 获取mock 接口详情
+// @Description 获取mock 接口详情
 // @Param	id		path 	string	true		"The key for staticblock"
 // @Success 200 {object} models.MockController
 // @Failure 403 :id is empty
 // @router /:id [get]
 func (c *MockController) GetOne() {
-
+	intValue, err := strconv.ParseInt(c.Ctx.Input.Param(":id"), 10, 32)
+	if err != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, err.Error(), "参数错误")
+		return
+	}
+	data, findError := models.GetMockById(intValue)
+	if err != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, findError.Error())
+		return
+	}
+	utils.RequestOutInput(c.Ctx, 200, 200200, data, findError.Error())
 }
 
 // GetAll ...
-// @Title GetAll
+// @Title 获取全部的mock api 接口
 // @Description get MockController
-// @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
-// @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
-// @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
-// @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
-// @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
-// @Param	offset	query	string	false	"Start position of result set. Must be an integer"
+// @Param	page	query	string	false	"第几页 例如：1"
+// @Param	size	query	string	false	"每页条数 例如：10"
 // @Success 200 {object} models.MockController
 // @Failure 403
 // @router /getList [get]
@@ -91,15 +106,39 @@ func (c *MockController) GetAll() {
 }
 
 // Put ...
-// @Title Put
-// @Description update the MockController
+// @Title 修改api接口信息
+// @Description 修改mock api接口信息
 // @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.MockController	true		"body for MockController content"
+// @Param	body		body 	models.MockBaseData	true		"body for MockController content"
 // @Success 200 {object} models.MockController
 // @Failure 403 :id is not int
 // @router /:id [put]
 func (c *MockController) Put() {
-
+	// 获取body的json数据
+	requestBody := models.MockBaseData{}
+	if jsonErr := c.BindJSON(&requestBody); jsonErr != nil {
+		logs.Error(jsonErr.Error())
+	}
+	valid := validation.Validation{}
+	pass, _ := valid.Valid(requestBody)
+	if !pass {
+		for _, err := range valid.Errors {
+			utils.RequestOutInput(c.Ctx, 400, 400400, nil, err.Message)
+			break
+		}
+		return
+	}
+	intValue, err := strconv.ParseInt(c.Ctx.Input.Param(":id"), 10, 32)
+	if err != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, err.Error(), "参数错误")
+		return
+	}
+	updateErr := models.UpdateMockById(intValue, &requestBody)
+	if updateErr != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, updateErr.Error())
+		return
+	}
+	utils.RequestOutInput(c.Ctx, 200, 200200, "mock", "添加成功")
 }
 
 // Delete ...

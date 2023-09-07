@@ -18,6 +18,8 @@ func init() {
 		),
 		beego.NSNamespace("/v1/user", beego.NSInclude(&controllers.UserController{})),
 		beego.NSNamespace("/v1/mock", beego.NSInclude(&controllers.MockController{})),
+		// mock api使用的路由
+		beego.NSAny("*", controllers.MockAnyMethod),
 	)
 
 	// 包含token验证，中间件过滤拦截
@@ -25,12 +27,6 @@ func init() {
 	// 包含token验证，中间件过滤拦截
 	beego.InsertFilter("/api/v1/user/*", beego.BeforeRouter, utils.Interceptor)
 	//beego.InsertFilter("/api/v1/mock/*", beego.BeforeRouter, utils.Interceptor)
-
-	// mock api使用的路由
-	beego.Get("/api/*", controllers.MockGet)
-	beego.Post("/api/*", controllers.MockPost)
-	beego.Delete("/api/*", controllers.MockDelete)
-	beego.Put("/api/*", controllers.MockPut)
 
 	// http://localhost:8080/contact
 	// 模板引擎页面

@@ -11,10 +11,11 @@ import (
 )
 
 type MockBaseData struct {
-	Method string `orm:"size(10)" json:"method"`
-	UserId int64  `json:"userId" json:"userId"`
-	Path   string `orm:"size(128)" json:"path"`
-	Data   string `orm:"type(text)" json:"data"`
+	Method     string `orm:"size(10)" json:"method" valid:"Required"`
+	UserId     int64  `json:"userId" json:"userId" valid:"Required"`
+	Path       string `orm:"size(128)" json:"path" valid:"Required"`
+	StatusCode int64  `orm:"size(10)" json:"statusCode" valid:"Required"`
+	Data       string `orm:"type(text)" json:"data" valid:"Required"`
 }
 
 type Mock struct {
@@ -26,9 +27,19 @@ type Mock struct {
 
 // AddMock insert a new Mock into database and returns
 // last inserted I'd on success.
-func AddMock(m *Mock) (id int64, err error) {
+func AddMock(m *MockBaseData) (id int64, err error) {
 	o := orm.NewOrm()
-	id, err = o.Insert(m)
+	exist := o.QueryTable(new(Mock)).Filter("Method", m.Method).Filter("path", m.Path).Exist()
+	if exist {
+		return 0, errors.New("api 已存在")
+	}
+	var data Mock
+	data.MockBaseData.Data = m.Data
+	data.MockBaseData.UserId = m.UserId
+	data.MockBaseData.Path = m.Path
+	data.MockBaseData.Method = m.Method
+	data.MockBaseData.StatusCode = m.StatusCode
+	id, err = o.Insert(&data)
 	return
 }
 
@@ -117,22 +128,27 @@ func GetAllMock(query map[string]string, fields []string, sortby []string, order
 	return nil, err
 }
 
-// UpdateMock updates Mock by Id and returns error if
+// UpdateMockById updates Mock by I'd and returns error if
 // the record to be updated doesn't exist
-func UpdateMockById(m *Mock) (err error) {
+func UpdateMockById(id int64, m *MockBaseData) (err error) {
 	o := orm.NewOrm()
-	v := Mock{Id: m.Id}
+	v := Mock{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
-		var num int64
-		if num, err = o.Update(m); err == nil {
-			fmt.Println("Number of records updated in database:", num)
+		var data Mock
+		data.Id = id
+		data.MockBaseData.Data = m.Data
+		data.MockBaseData.UserId = m.UserId
+		data.MockBaseData.Path = m.Path
+		data.MockBaseData.Method = m.Method
+		data.MockBaseData.StatusCode = m.StatusCode
+		if _, err = o.Update(&data, "Data", "UserId", "Path", "Method", "StatusCode"); err == nil {
 		}
 	}
 	return
 }
 
-// DeleteMock deletes Mock by Id and returns error if
+// DeleteMock deletes Mock by I'd and returns error if
 // the record to be deleted doesn't exist
 func DeleteMock(id int64) (err error) {
 	o := orm.NewOrm()

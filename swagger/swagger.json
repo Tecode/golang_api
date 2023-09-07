@@ -58,7 +58,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/models.MockBaseData"
+                            "$ref": "#/definitions/{}"
                         }
                     },
                     "403": {
@@ -73,42 +73,18 @@
                     "v1/mock"
                 ],
                 "description": "get MockController\n\u003cbr\u003e",
-                "operationId": "MockController.GetAll",
+                "operationId": "MockController.获取全部的mock api 接口",
                 "parameters": [
                     {
                         "in": "query",
-                        "name": "query",
-                        "description": "Filter. e.g. col1:v1,col2:v2 ...",
+                        "name": "page",
+                        "description": "第几页 例如：1",
                         "type": "string"
                     },
                     {
                         "in": "query",
-                        "name": "fields",
-                        "description": "Fields returned. e.g. col1,col2 ...",
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "sortby",
-                        "description": "Sorted-by fields. e.g. col1,col2 ...",
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "order",
-                        "description": "Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...",
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "limit",
-                        "description": "Limit the size of result set. Must be an integer",
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "offset",
-                        "description": "Start position of result set. Must be an integer",
+                        "name": "size",
+                        "description": "每页条数 例如：10",
                         "type": "string"
                     }
                 ],
@@ -130,8 +106,8 @@
                 "tags": [
                     "v1/mock"
                 ],
-                "description": "get MockController by id\n\u003cbr\u003e",
-                "operationId": "MockController.GetOne",
+                "description": "获取mock 接口详情\n\u003cbr\u003e",
+                "operationId": "MockController.获取mock 接口详情",
                 "parameters": [
                     {
                         "in": "path",
@@ -157,8 +133,8 @@
                 "tags": [
                     "v1/mock"
                 ],
-                "description": "update the MockController\n\u003cbr\u003e",
-                "operationId": "MockController.Put",
+                "description": "修改mock api接口信息\n\u003cbr\u003e",
+                "operationId": "MockController.修改api接口信息",
                 "parameters": [
                     {
                         "in": "path",
@@ -173,7 +149,7 @@
                         "description": "body for MockController content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.MockController"
+                            "$ref": "#/definitions/models.MockBaseData"
                         }
                     }
                 ],
@@ -609,6 +585,10 @@
                 "path": {
                     "type": "string"
                 },
+                "statusCode": {
+                    "type": "integer",
+                    "format": "int64"
+                },
                 "userId": {
                     "type": "integer",
                     "format": "int64"
@@ -677,6 +657,10 @@
         },
         "{code:": {
             "title": "{code:",
+            "type": "object"
+        },
+        "{}": {
+            "title": "{}",
             "type": "object"
         }
     },
