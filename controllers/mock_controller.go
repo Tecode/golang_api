@@ -86,11 +86,11 @@ func (c *MockController) GetOne() {
 		return
 	}
 	data, findError := models.GetMockById(intValue)
-	if err != nil {
+	if err != nil || data == nil {
 		utils.RequestOutInput(c.Ctx, 400, 400400, nil, findError.Error())
 		return
 	}
-	utils.RequestOutInput(c.Ctx, 200, 200200, data, findError.Error())
+	utils.RequestOutInput(c.Ctx, 200, 200200, *data, "查找成功")
 }
 
 // GetAll ...
@@ -102,7 +102,11 @@ func (c *MockController) GetOne() {
 // @Failure 403
 // @router /getList [get]
 func (c *MockController) GetAll() {
-
+	listData, err := models.GetAllMock(0, 10)
+	if err != nil {
+		return
+	}
+	utils.RequestOutInput(c.Ctx, 200, 200200, listData, "查找成功")
 }
 
 // Put ...
