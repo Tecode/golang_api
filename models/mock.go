@@ -54,16 +54,24 @@ func GetMockById(id int64) (v *Mock, err error) {
 
 // GetAllMock retrieves all Mock matches certain condition. Returns empty list if
 // no records exist
-func GetAllMock(offset int, limit int) (ml []interface{}, err error) {
+func GetAllMock(offset int64, limit int64) (ml map[string]interface{}, err error) {
 	o := orm.NewOrm()
 	qs := o.QueryTable(new(Mock))
 
 	var list []Mock
 	qs = qs.OrderBy("id").RelatedSel()
-	if _, err = qs.Limit(limit, offset).All(&list); err == nil {
+	var listData []any
+	if _, err = qs.Limit(offset, limit*offset).All(&list); err == nil {
 		for _, v := range list {
-			ml = append(ml, v)
+			listData = append(listData, v)
 		}
+		ml = map[string]interface{}{}
+		ml["list"] = listData
+		count, err := qs.Count()
+		if err != nil {
+			return nil, err
+		}
+		ml["total"] = count
 		return ml, nil
 	}
 	return nil, err

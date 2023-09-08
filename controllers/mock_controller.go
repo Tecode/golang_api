@@ -8,6 +8,7 @@ import (
 	"github.com/beego/beego/v2/server/web/context"
 	"golang_apiv2/models"
 	"golang_apiv2/utils"
+	"math"
 	"strconv"
 )
 
@@ -102,11 +103,21 @@ func (c *MockController) GetOne() {
 // @Failure 403
 // @router /getList [get]
 func (c *MockController) GetAll() {
-	listData, err := models.GetAllMock(0, 10)
+	value1 := c.Ctx.Input.Query("page")
+	value2 := c.Ctx.Input.Query("size")
+	limit, limitErr := strconv.ParseInt(value1, 10, 64)
+	offset, offsetErr := strconv.ParseInt(value2, 10, 64)
+	if limitErr != nil || offsetErr != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, "参数错误")
+		return
+	}
+	val := float64(limit - 1)
+	i := int64(math.Max(0, val))
+	mapData, err := models.GetAllMock(offset, i)
 	if err != nil {
 		return
 	}
-	utils.RequestOutInput(c.Ctx, 200, 200200, listData, "查找成功")
+	utils.RequestOutInput(c.Ctx, 200, 200200, mapData, "查找成功")
 }
 
 // Put ...
