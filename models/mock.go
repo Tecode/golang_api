@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/beego/beego/v2/client/orm"
@@ -35,7 +36,7 @@ func AddMock(m *MockBaseData) (id int64, err error) {
 	data.MockBaseData.Data = m.Data
 	data.MockBaseData.UserId = m.UserId
 	data.MockBaseData.Path = m.Path
-	data.MockBaseData.Method = m.Method
+	data.MockBaseData.Method = strings.ToUpper(m.Method)
 	data.MockBaseData.StatusCode = m.StatusCode
 	id, err = o.Insert(&data)
 	return
@@ -100,7 +101,8 @@ func UpdateMockById(id int64, m *MockBaseData) (err error) {
 		data.MockBaseData.Data = m.Data
 		data.MockBaseData.UserId = m.UserId
 		data.MockBaseData.Path = m.Path
-		data.MockBaseData.Method = m.Method
+		// 都转换为大写进行保存
+		data.MockBaseData.Method = strings.ToUpper(m.Method)
 		data.MockBaseData.StatusCode = m.StatusCode
 		if _, err = o.Update(&data, "Data", "UserId", "Path", "Method", "StatusCode"); err == nil {
 		}

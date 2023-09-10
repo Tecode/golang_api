@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/core/validation"
 	beego "github.com/beego/beego/v2/server/web"
@@ -11,7 +10,6 @@ import (
 	"golang_apiv2/utils"
 	"math"
 	"strconv"
-	"strings"
 )
 
 // MockController operations for MockController
@@ -21,11 +19,9 @@ type MockController struct {
 
 // MockAnyMethod mock请求数据的GET方法
 func MockAnyMethod(ctx *context.Context) {
-	fmt.Println(ctx.Request.Method, "--", ctx.Request.URL.Path)
-	url := strings.Replace(ctx.Request.URL.Path, "//", "/", 1)
-	mockData, findErr := models.GetMockByUrlAndMethod(url, ctx.Request.Method)
+	mockData, findErr := models.GetMockByUrlAndMethod(ctx.Request.URL.Path, ctx.Request.Method)
 	if findErr != nil {
-		utils.RequestOutInput(ctx, 400, 400400, nil, findErr.Error())
+		utils.RequestOutInput(ctx, 404, 404404, nil, "Not found api request")
 		return
 	}
 	var result map[string]any
@@ -34,6 +30,8 @@ func MockAnyMethod(ctx *context.Context) {
 		utils.RequestOutInput(ctx, 500, 500500, nil, jsonErr.Error())
 		return
 	}
+	// 设置状态码
+	ctx.Output.Status = int(mockData.StatusCode)
 	err := ctx.Output.JSON(result, false, true)
 	if err != nil {
 		utils.RequestOutInput(ctx, 500, 500500, nil, err.Error())
@@ -139,6 +137,7 @@ func (c *MockController) Put() {
 	// 获取body的json数据
 	requestBody := models.MockBaseData{}
 	if jsonErr := c.BindJSON(&requestBody); jsonErr != nil {
+		utils.RequestOutInput(c.Ctx, 500, 500500, nil, jsonErr.Error())
 		logs.Error(jsonErr.Error())
 	}
 	valid := validation.Validation{}
@@ -171,5 +170,15 @@ func (c *MockController) Put() {
 // @Failure 403 id is empty
 // @router /:id [delete]
 func (c *MockController) Delete() {
-
+	intValue, err := strconv.ParseInt(c.Ctx.Input.Param(":id"), 10, 32)
+	if err != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, err.Error(), "参数错误")
+		return
+	}
+	deleteErr := models.DeleteMock(intValue)
+	if err != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, deleteErr.Error())
+		return
+	}
+	utils.RequestOutInput(c.Ctx, 200, 200200, nil, "删除成功")
 }
