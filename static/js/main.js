@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------------
-    Template Name: Landio - Multipurpose Landing Page HTML Template
+    Template Name: 乐游 - Multipurpose Landing Page HTML Template
     Template URI: https://webtend.net/demo/html/landio/
     Author: WebTend
     Author URI:  https://webtend.net/
@@ -30,7 +30,7 @@
     #. Video Popup
     #. Team Slider
     #. Scroll To Top
-    #. Portfolio FIlter
+    #. Portfolio Filter
 -----------------------------------------------------------------------------------*/
 
 (function ($) {

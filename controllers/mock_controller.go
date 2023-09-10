@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/core/validation"
 	beego "github.com/beego/beego/v2/server/web"
@@ -10,6 +11,7 @@ import (
 	"golang_apiv2/utils"
 	"math"
 	"strconv"
+	"strings"
 )
 
 // MockController operations for MockController
@@ -19,10 +21,15 @@ type MockController struct {
 
 // MockAnyMethod mock请求数据的GET方法
 func MockAnyMethod(ctx *context.Context) {
-
-	jsonStr := "{\"name\":\"haoxuan\",\"code\":200200,\"status\":200,\"path\":\"/po/auth/name/data\",\"to\":\"成都\"}"
+	fmt.Println(ctx.Request.Method, "--", ctx.Request.URL.Path)
+	url := strings.Replace(ctx.Request.URL.Path, "//", "/", 1)
+	mockData, findErr := models.GetMockByUrlAndMethod(url, ctx.Request.Method)
+	if findErr != nil {
+		utils.RequestOutInput(ctx, 400, 400400, nil, findErr.Error())
+		return
+	}
 	var result map[string]any
-	jsonErr := json.Unmarshal([]byte(jsonStr), &result)
+	jsonErr := json.Unmarshal([]byte(mockData.Data), &result)
 	if jsonErr != nil {
 		utils.RequestOutInput(ctx, 500, 500500, nil, jsonErr.Error())
 		return

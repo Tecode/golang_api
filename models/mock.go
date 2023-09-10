@@ -41,6 +41,17 @@ func AddMock(m *MockBaseData) (id int64, err error) {
 	return
 }
 
+// GetMockByUrlAndMethod retrieves Mock by I'd. Returns error if
+// I'd don't exist
+func GetMockByUrlAndMethod(url string, method string) (v *Mock, err error) {
+	o := orm.NewOrm()
+	v = &Mock{}
+	if err = o.QueryTable(new(Mock)).Filter("path", url).Filter("method", method).RelatedSel().One(v); err == nil {
+		return v, nil
+	}
+	return nil, err
+}
+
 // GetMockById retrieves Mock by I'd. Returns error if
 // I'd doesn't exist
 func GetMockById(id int64) (v *Mock, err error) {
