@@ -11,16 +11,14 @@ func init() {
 	// 登录
 	//beego.CtrlPost("/api/login", (*controllers.UserRelatedController).UserLogin)
 	// 注解路由
-	nameSpace := beego.NewNamespace("/api",
+	nameSpace := beego.NewNamespace("*", beego.NSNamespace("/api",
 		beego.NSNamespace("/v1",
 			beego.NSInclude(&controllers.UserRelatedController{}),
 			beego.NSInclude(&controllers.CommonController{}),
 		),
 		beego.NSNamespace("/v1/user", beego.NSInclude(&controllers.UserController{})),
 		beego.NSNamespace("/v1/mock", beego.NSInclude(&controllers.MockController{})),
-		// mock api使用的路由
-		beego.NSAny("*", controllers.MockAnyMethod),
-	)
+	), beego.NSNamespace("*", beego.NSAny("*", controllers.MockAnyMethod)))
 
 	// 包含token验证，中间件过滤拦截
 	//nameSpace.Filter("before", utils.Interceptor)
