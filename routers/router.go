@@ -11,14 +11,13 @@ func init() {
 	// 登录
 	//beego.CtrlPost("/api/login", (*controllers.UserRelatedController).UserLogin)
 	// 注解路由
-	nameSpace := beego.NewNamespace("*", beego.NSNamespace("/api",
-		beego.NSNamespace("/v1",
-			beego.NSInclude(&controllers.UserRelatedController{}),
-			beego.NSInclude(&controllers.CommonController{}),
-		),
+	nameSpace := beego.NewNamespace("/api", beego.NSNamespace("/v1",
+		beego.NSInclude(&controllers.UserRelatedController{}),
+		beego.NSInclude(&controllers.CommonController{}),
+	),
 		beego.NSNamespace("/v1/user", beego.NSInclude(&controllers.UserController{})),
 		beego.NSNamespace("/v1/mock", beego.NSInclude(&controllers.MockController{})),
-	), beego.NSNamespace("*", beego.NSAny("*", controllers.MockAnyMethod)))
+	)
 
 	// 包含token验证，中间件过滤拦截
 	//nameSpace.Filter("before", utils.Interceptor)
@@ -41,5 +40,6 @@ func init() {
 	beego.CtrlGet("/forgot-password", (*controllers.MainController).ForgotPassword)
 	beego.Router("/ws", &controllers.WebSocketController{})
 	beego.Get("/.well-known/pki-validation/1BA546375A5C77B851DB153B5516819B.txt", controllers.CertificateText)
+	beego.Any("*", controllers.MockAnyMethod)
 	beego.AddNamespace(nameSpace)
 }
