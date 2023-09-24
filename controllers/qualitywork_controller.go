@@ -1,16 +1,22 @@
 package controllers
 
 import (
+	"fmt"
+	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
+	"golang_apiv2/models"
+	"golang_apiv2/utils"
+	"math"
+	"strconv"
 )
 
-// QualityWorkControllerController operations for QualityWorkController
-type QualityWorkControllerController struct {
+// QualityWorkController operations for QualityWorkController
+type QualityWorkController struct {
 	beego.Controller
 }
 
 // URLMapping ...
-func (c *QualityWorkControllerController) URLMapping() {
+func (c *QualityWorkController) URLMapping() {
 	c.Mapping("Post", c.Post)
 	c.Mapping("GetOne", c.GetOne)
 	c.Mapping("GetAll", c.GetAll)
@@ -18,15 +24,31 @@ func (c *QualityWorkControllerController) URLMapping() {
 	c.Mapping("Delete", c.Delete)
 }
 
+// QualityWork 这B班上的值不值测算版
+func (c *QualityWorkController) QualityWork() {
+	c.TplName = "quality-work.html"
+}
+
 // Post ...
 // @Title Create
 // @Description create QualityWorkController
-// @Param	body		body 	models.QualityWorkController	true		"body for QualityWorkController content"
+// @Param	body		body 	models.QualityWorkData	true		"body for QualityWorkController content"
 // @Success 201 {object} models.QualityWorkController
 // @Failure 403 body is empty
-// @router / [post]
-func (c *QualityWorkControllerController) Post() {
-
+// @router /quality-work [post]
+func (c *QualityWorkController) Post() {
+	// 获取body的json数据
+	r := models.QualityWorkData{}
+	if jsonErr := c.BindJSON(&r); jsonErr != nil {
+		logs.Error(jsonErr.Error())
+	}
+	//综合环境系数
+	coefficient := r.WorkEnvironmentCoefficient * r.OppositeSex * r.ColleagueEnvironment
+	//	工作性价比 = （平均日薪 x 综合环境系数）/ 35*（通勤时长 - 0.5*摸鱼时长） x 学历系数
+	price := (r.AverageDailySalary * coefficient) / ((35 * (r.WorkingHours + r.CommutingHours - 0.5*r.IdleDuration)) * r.EducationCoefficient) * r.WorkTime
+	result := strconv.FormatFloat(math.Round(float64(price)), 'f', 2, 64)
+	fmt.Println(result)
+	utils.RequestOutInput(c.Ctx, 200, 200200, result, "OK")
 }
 
 // GetOne ...
@@ -36,7 +58,7 @@ func (c *QualityWorkControllerController) Post() {
 // @Success 200 {object} models.QualityWorkController
 // @Failure 403 :id is empty
 // @router /:id [get]
-func (c *QualityWorkControllerController) GetOne() {
+func (c *QualityWorkController) GetOne() {
 
 }
 
@@ -52,7 +74,7 @@ func (c *QualityWorkControllerController) GetOne() {
 // @Success 200 {object} models.QualityWorkController
 // @Failure 403
 // @router / [get]
-func (c *QualityWorkControllerController) GetAll() {
+func (c *QualityWorkController) GetAll() {
 
 }
 
@@ -64,7 +86,7 @@ func (c *QualityWorkControllerController) GetAll() {
 // @Success 200 {object} models.QualityWorkController
 // @Failure 403 :id is not int
 // @router /:id [put]
-func (c *QualityWorkControllerController) Put() {
+func (c *QualityWorkController) Put() {
 
 }
 
@@ -75,6 +97,6 @@ func (c *QualityWorkControllerController) Put() {
 // @Success 200 {string} delete success!
 // @Failure 403 id is empty
 // @router /:id [delete]
-func (c *QualityWorkControllerController) Delete() {
+func (c *QualityWorkController) Delete() {
 
 }

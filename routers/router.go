@@ -14,6 +14,7 @@ func init() {
 	nameSpace := beego.NewNamespace("/api", beego.NSNamespace("/v1",
 		beego.NSInclude(&controllers.UserRelatedController{}),
 		beego.NSInclude(&controllers.CommonController{}),
+		beego.NSInclude(&controllers.QualityWorkController{}),
 	),
 		beego.NSNamespace("/v1/user", beego.NSInclude(&controllers.UserController{})),
 		beego.NSNamespace("/v1/mock", beego.NSInclude(&controllers.MockController{})),
@@ -38,6 +39,7 @@ func init() {
 	beego.CtrlGet("/sign-in", (*controllers.MainController).SignIn)
 	beego.CtrlGet("/sign-up", (*controllers.MainController).SignUp)
 	beego.CtrlGet("/forgot-password", (*controllers.MainController).ForgotPassword)
+	beego.CtrlGet("/quality-work", (*controllers.QualityWorkController).QualityWork)
 	beego.Router("/ws", &controllers.WebSocketController{})
 	beego.Get("/.well-known/pki-validation/1BA546375A5C77B851DB153B5516819B.txt", controllers.CertificateText)
 	beego.Any("*", controllers.MockAnyMethod)

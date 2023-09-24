@@ -11,17 +11,21 @@ import (
 )
 
 type QualityWorkData struct {
-	AverageDailySalary         float32 `json:"average_daily_salary"`
-	WorkingHours               float32 `json:"working_hours"`
-	CommutingHours             float32 `json:"commuting_hours"`
-	IdleDuration               float32 `json:"idle_duration"`
-	EducationCoefficient       float32 `json:"education_coefficient"`
-	WorkEnvironmentCoefficient float32 `json:"work_environment_coefficient"`
+	AverageDailySalary         float32 `json:"average_daily_salary" orm:"description(平均日薪酬)"`
+	WorkingHours               float32 `json:"working_hours" orm:"description(工作时长)"`
+	CommutingHours             float32 `json:"commuting_hours" orm:"description(通勤时长)"`
+	IdleDuration               float32 `json:"idle_duration" orm:"description(摸鱼时长)"`
+	EducationCoefficient       float32 `json:"education_coefficient" orm:"description(学历系数)"`
+	WorkEnvironmentCoefficient float32 `json:"work_environment_coefficient" orm:"description(工作环境系数)"`
+	OppositeSex                float32 `json:"opposite_sex" orm:"description(异性环境系数)"`
+	ColleagueEnvironment       float32 `json:"colleague_environment" orm:"description(同事环境系数)"`
+	ProfessionalQualifications float32 `json:"professional_qualifications" orm:"description(职业资格系数)"`
+	WorkTime                   float32 `json:"work_time" orm:"description(是否8:30前上班)"`
 }
 
 type QualityWork struct {
-	Id        int64     `orm:"auto"`
-	Name      string    `orm:"size(128)"`
+	Id int64 `orm:"auto" json:"id"`
+	QualityWorkData
 	CreatedAt time.Time `orm:"auto_now_add;type(datetime)" json:"createdAt"` // 注册时间
 	UpdatedAt time.Time `orm:"auto_now;type(datetime)" json:"updatedAt"`     // 更新时间
 }

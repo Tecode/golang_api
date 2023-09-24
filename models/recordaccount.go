@@ -13,7 +13,7 @@ type RecordFiled struct {
 }
 
 type RecordAccount struct {
-	Id     int64 `orm:"auto_now_add" json:"id"` // id
+	Id     int64 `orm:"auto" json:"id"` // id
 	UserId int64 `json:"userId"`
 	RecordFiled
 	Valid     bool      `orm:"default(true)"`

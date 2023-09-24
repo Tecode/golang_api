@@ -2,6 +2,112 @@ swagger: "2.0"
 info: {}
 basePath: /api
 paths:
+  /v1/:
+    get:
+      tags:
+      - v1
+      description: |-
+        get QualityWorkController
+        <br>
+      operationId: QualityWorkController.GetAll
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.QualityWorkController'
+        "403":
+          description: ""
+  /v1/{id}:
+    get:
+      tags:
+      - v1
+      description: |-
+        get QualityWorkController by id
+        <br>
+      operationId: QualityWorkController.GetOne
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.QualityWorkController'
+        "403":
+          description: :id is empty
+    put:
+      tags:
+      - v1
+      description: |-
+        update the QualityWorkController
+        <br>
+      operationId: QualityWorkController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for QualityWorkController content
+        required: true
+        schema:
+          $ref: '#/definitions/models.QualityWorkController'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.QualityWorkController'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+      - v1
+      description: |-
+        delete the QualityWorkController
+        <br>
+      operationId: QualityWorkController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: id is empty
   /v1/login:
     post:
       tags:
@@ -162,6 +268,28 @@ paths:
       responses:
         "200":
           description: 获取图片成功
+  /v1/quality-work:
+    post:
+      tags:
+      - v1
+      description: |-
+        create QualityWorkController
+        <br>
+      operationId: QualityWorkController.Create
+      parameters:
+      - in: body
+        name: body
+        description: body for QualityWorkController content
+        required: true
+        schema:
+          $ref: '#/definitions/models.QualityWorkData'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.QualityWorkController'
+        "403":
+          description: body is empty
   /v1/record-account:
     post:
       tags:
@@ -434,6 +562,43 @@ definitions:
   models.MockController:
     title: MockController
     type: object
+  models.QualityWorkController:
+    title: QualityWorkController
+    type: object
+  models.QualityWorkData:
+    title: QualityWorkData
+    type: object
+    properties:
+      average_daily_salary:
+        type: number
+        format: float
+      colleague_environment:
+        type: number
+        format: float
+      commuting_hours:
+        type: number
+        format: float
+      education_coefficient:
+        type: number
+        format: float
+      idle_duration:
+        type: number
+        format: float
+      opposite_sex:
+        type: number
+        format: float
+      professional_qualifications:
+        type: number
+        format: float
+      work_environment_coefficient:
+        type: number
+        format: float
+      work_time:
+        type: number
+        format: float
+      working_hours:
+        type: number
+        format: float
   models.RegisterUser:
     title: RegisterUser
     type: object
@@ -479,6 +644,9 @@ tags:
 - name: v1
   description: |
     CommonController operations for Common
+- name: v1
+  description: |
+    QualityWorkController operations for QualityWorkController
 - name: v1/user
   description: |
     UserController operations for UserController

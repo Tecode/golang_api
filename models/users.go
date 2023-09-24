@@ -20,7 +20,7 @@ type UserFiled struct {
 
 // Users 用户基本信息
 type Users struct {
-	Id int64 `orm:"auto_now_add" json:"id"` // id
+	Id int64 `orm:"auto" json:"id"` // id
 	UserFiled
 	CreatedAt time.Time `orm:"auto_now_add;type(datetime)" json:"createdAt"` // 注册时间
 	UpdatedAt time.Time `orm:"auto_now;type(datetime)" json:"updatedAt"`     // 更新时间
