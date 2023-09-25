@@ -5,9 +5,50 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="这B班上的值不值测算版">
+    <link rel="shortcut icon" href="/static/chats/assets/images/logo.svg">
     <title>这B班上的值不值测算版</title>
 </head>
 <body>
 这B班上的值不值测算版，2023-09-24开发中
+<h1 id="percent"></h1>
+<h2 id="result"></h2>
+<div>
+    <button id="submit">立即查看</button>
+</div>
 </body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<!--====== Bootstrap ======-->
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $("#submit").click(function () {
+            $.ajax({
+                url: "/api/v1/quality-work",
+                type: "POST",
+                data: JSON.stringify({
+                    "average_daily_salary": 850,
+                    "colleague_environment": 1.05,
+                    "commuting_hours": 1.5,
+                    "education_coefficient": 1.2,
+                    "idle_duration": 1,
+                    "opposite_sex": 1.3,
+                    "professional_qualifications": 1,
+                    "work_environment_coefficient": 0.8,
+                    "work_time": 0.95,
+                    "working_hours": 6.0
+                }),
+                dateType: "json",
+                error: function (error) {
+                    // $.toast(error.responseJSON.message)
+                },
+                success: function (data) {
+                    $("#percent").text(data.data.percent)
+                    $("#result").text(data.data.result)
+                },
+                complete: function () {
+                }
+            })
+        })
+    })
+</script>
 </html>

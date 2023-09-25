@@ -7,10 +7,12 @@ import (
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/server/web/context"
 	"github.com/dgrijalva/jwt-go"
+	"math"
 	"math/rand"
 	"mime/multipart"
 	"net/http"
 	"regexp"
+	"strconv"
 	"time"
 )
 
@@ -237,4 +239,12 @@ func GetFileExtension(fileHeader *multipart.FileHeader) string {
 		}
 		return ""
 	}
+}
+
+// RoundToTwoDecimal 四舍五入保留2位小数
+func RoundToTwoDecimal(value float64) float64 {
+	rounded := math.Round(value*100) / 100
+	formatted := fmt.Sprintf("%.2f", rounded)
+	result, _ := strconv.ParseFloat(formatted, 64)
+	return result
 }

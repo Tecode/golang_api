@@ -3,11 +3,11 @@ package controllers
 import (
 	"fmt"
 	"github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/core/validation"
 	beego "github.com/beego/beego/v2/server/web"
 	"golang_apiv2/models"
 	"golang_apiv2/utils"
 	"math"
-	"strconv"
 )
 
 // QualityWorkController operations for QualityWorkController
@@ -42,13 +42,40 @@ func (c *QualityWorkController) Post() {
 	if jsonErr := c.BindJSON(&r); jsonErr != nil {
 		logs.Error(jsonErr.Error())
 	}
+	// 数据验证
+	valid := validation.Validation{}
+	b, err := valid.Valid(&r)
+	if err != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, err.Error())
+		return
+	}
+	if !b {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, valid.Errors[0].Error())
+		return
+	}
 	//综合环境系数
 	coefficient := r.WorkEnvironmentCoefficient * r.OppositeSex * r.ColleagueEnvironment
 	//	工作性价比 = （平均日薪 x 综合环境系数）/ 35*（通勤时长 - 0.5*摸鱼时长） x 学历系数
 	price := (r.AverageDailySalary * coefficient) / ((35 * (r.WorkingHours + r.CommutingHours - 0.5*r.IdleDuration)) * r.EducationCoefficient) * r.WorkTime
-	result := strconv.FormatFloat(math.Round(float64(price)), 'f', 2, 64)
+	result := math.Round(float64(price*100)) / 100
 	fmt.Println(result)
-	utils.RequestOutInput(c.Ctx, 200, 200200, result, "OK")
+	if result == 0 {
+		utils.RequestOutInput(c.Ctx, 200, 200200, result, "太惨了")
+		return
+	}
+	percent, insertErr := models.AddQualityWork(&r, float32(result))
+	if insertErr != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, insertErr.Error())
+		return
+	}
+	utils.RequestOutInput(
+		c.Ctx, 200, 200200,
+		map[string]any{
+			"percent": utils.RoundToTwoDecimal(float64(percent)),
+			"result":  result,
+		},
+		"OK",
+	)
 }
 
 // GetOne ...

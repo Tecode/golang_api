@@ -11,38 +11,54 @@ import (
 )
 
 type QualityWorkData struct {
-	AverageDailySalary         float32 `json:"average_daily_salary" orm:"description(平均日薪酬)"`
-	WorkingHours               float32 `json:"working_hours" orm:"description(工作时长)"`
-	CommutingHours             float32 `json:"commuting_hours" orm:"description(通勤时长)"`
-	IdleDuration               float32 `json:"idle_duration" orm:"description(摸鱼时长)"`
-	EducationCoefficient       float32 `json:"education_coefficient" orm:"description(学历系数)"`
-	WorkEnvironmentCoefficient float32 `json:"work_environment_coefficient" orm:"description(工作环境系数)"`
-	OppositeSex                float32 `json:"opposite_sex" orm:"description(异性环境系数)"`
-	ColleagueEnvironment       float32 `json:"colleague_environment" orm:"description(同事环境系数)"`
-	ProfessionalQualifications float32 `json:"professional_qualifications" orm:"description(职业资格系数)"`
-	WorkTime                   float32 `json:"work_time" orm:"description(是否8:30前上班)"`
+	AverageDailySalary         float32 `json:"average_daily_salary" valid:"Required" orm:"description(平均日薪酬)"`
+	WorkingHours               float32 `json:"working_hours" valid:"Required" orm:"description(工作时长)"`
+	CommutingHours             float32 `json:"commuting_hours" valid:"Required" orm:"description(通勤时长)"`
+	IdleDuration               float32 `json:"idle_duration" valid:"Required" orm:"description(摸鱼时长)"`
+	EducationCoefficient       float32 `json:"education_coefficient" valid:"Required" orm:"description(学历系数)"`
+	WorkEnvironmentCoefficient float32 `json:"work_environment_coefficient" valid:"Required" orm:"description(工作环境系数)"`
+	OppositeSex                float32 `json:"opposite_sex" valid:"Required" orm:"description(异性环境系数)"`
+	ColleagueEnvironment       float32 `json:"colleague_environment" valid:"Required" orm:"description(同事环境系数)"`
+	ProfessionalQualifications float32 `json:"professional_qualifications" valid:"Required" orm:"description(职业资格系数)"`
+	WorkTime                   float32 `json:"work_time" valid:"Required" orm:"description(是否8:30前上班)"`
 }
 
 type QualityWork struct {
 	Id int64 `orm:"auto" json:"id"`
 	QualityWorkData
+	WorkScore float32   `json:"work_score" orm:"description(工作性价比)"`
 	CreatedAt time.Time `orm:"auto_now_add;type(datetime)" json:"createdAt"` // 注册时间
 	UpdatedAt time.Time `orm:"auto_now;type(datetime)" json:"updatedAt"`     // 更新时间
 }
 
-func init() {
-	orm.RegisterModel(new(QualityWork))
-}
-
 // AddQualityWork insert a new QualityWork into database and returns
 // last inserted I'd on success.
-func AddQualityWork(m *QualityWork) (id int64, err error) {
+func AddQualityWork(m *QualityWorkData, workScore float32) (id float32, err error) {
 	o := orm.NewOrm()
-	id, err = o.Insert(m)
-	return
+	table := o.QueryTable(new(QualityWork))
+	total, _ := table.Count()
+	count, queryErr := table.Filter("WorkScore__lt", workScore).Count()
+	if queryErr != nil {
+		return 0, errors.New("查询失败")
+	}
+	var data QualityWork
+	data.AverageDailySalary = m.AverageDailySalary
+	data.WorkingHours = m.WorkingHours
+	data.CommutingHours = m.CommutingHours
+	data.IdleDuration = m.IdleDuration
+	data.EducationCoefficient = m.EducationCoefficient
+	data.WorkEnvironmentCoefficient = m.WorkEnvironmentCoefficient
+	data.OppositeSex = m.OppositeSex
+	data.ColleagueEnvironment = m.ColleagueEnvironment
+	data.ProfessionalQualifications = m.ProfessionalQualifications
+	data.WorkTime = m.WorkTime
+	data.WorkScore = workScore
+	_, err = o.Insert(&data)
+	result := float32(count) / float32(total)
+	return result, err
 }
 
-// GetQualityWorkById retrieves QualityWork by Id. Returns error if
+// GetQualityWorkById retrieves QualityWork by id. Returns error if
 // Id doesn't exist
 func GetQualityWorkById(id int64) (v *QualityWork, err error) {
 	o := orm.NewOrm()

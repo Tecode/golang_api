@@ -46,6 +46,7 @@ func init() {
 	orm.RegisterModel(new(Users))
 	orm.RegisterModel(new(RecordAccount))
 	orm.RegisterModel(new(Mock))
+	orm.RegisterModel(new(QualityWork))
 	if utils.GetAppConfigValue("createtable") == "true" {
 		err := orm.RunSyncdb("default", false, true)
 		if err != nil {
