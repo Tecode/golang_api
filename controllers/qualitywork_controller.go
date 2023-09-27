@@ -68,10 +68,26 @@ func (c *QualityWorkController) Post() {
 		utils.RequestOutInput(c.Ctx, 400, 400400, nil, insertErr.Error())
 		return
 	}
+	// 给出对应的说明
+	var value string
+	switch {
+	case percent < 0.8:
+		value = "很惨"
+		break
+	case percent > 1.5 && percent < 2.0:
+		value = "很爽"
+		break
+	case percent >= 2.0:
+		value = "爽到爆"
+		break
+	default:
+		value = "一般"
+	}
 	utils.RequestOutInput(
 		c.Ctx, 200, 200200,
 		map[string]any{
 			"percent": utils.RoundToTwoDecimal(float64(percent)),
+			"value":   value,
 			"result":  result,
 		},
 		"OK",
