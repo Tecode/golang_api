@@ -71,13 +71,13 @@ func (c *QualityWorkController) Post() {
 	// 给出对应的说明
 	var value string
 	switch {
-	case percent < 0.8:
+	case result < 0.8:
 		value = "很惨"
 		break
-	case percent > 1.5 && percent < 2.0:
+	case result > 1.5 && result < 2.0:
 		value = "很爽"
 		break
-	case percent >= 2.0:
+	case result >= 2.0:
 		value = "爽到爆"
 		break
 	default:
