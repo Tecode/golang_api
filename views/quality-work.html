@@ -1,353 +1,268 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="zh">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">-->
-<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
-<!--    <meta name="description" content="这B班上的值不值测算版">-->
-<!--    <link rel="shortcut icon" href="/static/chats/assets/images/logo.svg">-->
-<!--    <title>这B班上的值不值测算版</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--这B班上的值不值测算版，2023-09-24开发中-->
-<!--<h1 id="percent"></h1>-->
-<!--<h2 id="result"></h2>-->
-<!--<div>-->
-<!--    <button id="submit">立即查看</button>-->
-<!--</div>-->
-<!--</body>-->
-<!--<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>-->
-<!--&lt;!&ndash;====== Bootstrap ======&ndash;&gt;-->
-<!--<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>-->
-<!--<script>-->
-<!--    $(function () {-->
-<!--        $("#submit").click(function () {-->
-<!--            $.ajax({-->
-<!--                url: "/api/v1/quality-work",-->
-<!--                type: "POST",-->
-<!--                data: JSON.stringify({-->
-<!--                    "average_daily_salary": 850,-->
-<!--                    "colleague_environment": 1.05,-->
-<!--                    "commuting_hours": 1.5,-->
-<!--                    "education_coefficient": 1.2,-->
-<!--                    "idle_duration": 1,-->
-<!--                    "opposite_sex": 1.3,-->
-<!--                    "professional_qualifications": 1,-->
-<!--                    "work_environment_coefficient": 0.8,-->
-<!--                    "work_time": 0.95,-->
-<!--                    "working_hours": 6.0-->
-<!--                }),-->
-<!--                dateType: "json",-->
-<!--                error: function (error) {-->
-<!--                    // $.toast(error.responseJSON.message)-->
-<!--                },-->
-<!--                success: function (data) {-->
-<!--                    $("#percent").text(data.data.percent)-->
-<!--                    $("#result").text(data.data.result)-->
-<!--                },-->
-<!--                complete: function () {-->
-<!--                }-->
-<!--            })-->
-<!--        })-->
-<!--    })-->
-<!--</script>-->
-<!--</html>-->
-
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="这B班上的值不值测算版">
     <link rel="shortcut icon" href="/static/chats/assets/images/logo.svg">
-    <title>这B班上的值不值测算版</title>
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/animate.min.css">
-    <link rel="stylesheet" href="/static/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/spacing.min.css">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/responsive.css">
+    <title>这B班上的值不值测算版</title>
 </head>
+<!--https://www.zcool.com.cn/work/ZNjU5MDM1NjQ=.html-->
+<style>
+    .container {
+        max-width: 1280px;
+        margin: 0 1rem;
+        padding-bottom: 8rem;
+    }
 
-<body class="app-landing-page">
+    .top-title {
+        color: rgb(99, 55, 18);
+    }
 
-<div id="preloader" style="display: none;">
-    <img class="preloader-image" width="60" src="/static/picture/preloader-logo.png" alt="preloader">
+    .submit-button {
+        font-size: 1rem;
+        font-weight: bold;
+        width: 100%;
+        height: 44px;
+        border-radius: 8px;
+        margin-top: 4rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    ul, li, body, h1, h2, h3, input {
+        padding: 0;
+        margin: 0;
+    }
+
+    ul li {
+        list-style: none;
+    }
+
+    .content-box .check-list .wow {
+        font-size: 1rem;
+        padding: 0.7rem 0.8rem;
+        margin-top: 0.6rem;
+        color: #777777;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 600ms;
+        border: 1px solid #dedede;
+    }
+
+
+    .container .check-list .active {
+        color: #333333;
+        font-weight: bold;
+        background-color: rgba(254, 201, 9, 0.8);
+        border-color: #fec909;
+    }
+
+    .content-box .title {
+        color: #333333;
+        font-size: 1.2rem;
+        padding-top: 1rem;
+    }
+
+    .container .input-box {
+        margin-bottom: 1rem;
+    }
+
+    .container .input-box label {
+        font-weight: bold;
+    }
+
+    .container .input-box input {
+        margin-top: 0.4rem;
+        color: #333333;
+        font-size: 1rem;
+        font-weight: bold;
+        height: 40px;
+        border-radius: 8px;
+        outline: none;
+        width: 100%;
+        text-indent: 0.8rem;
+        box-sizing: border-box;
+        transition: all 600ms;
+        border: 1px solid #dedede;
+    }
+
+    .input-box input:focus {
+        border-color: #fec909;
+    }
+</style>
+<body>
+<div class="container">
+    <h2 class="top-title">这班上的值不值测算版</h2>
+    <p class="subtitle">Calculation version of whether the people in work are worth it</p>
+    <h1 id="percent"></h1>
+    <h2 id="result"></h2>
+    <div class="input-box">
+        <label for="day-money">平均日薪酬（元）</label>
+        <input id="day-money" placeholder=""/>
+    </div>
+    <div class="input-box">
+        <label for="work-hour">工作时长（下班时间-上班时间）</label>
+        <input id="work-hour" placeholder=""/>
+    </div>
+
+    <div class="input-box">
+        <label for="commute">通勤时长（小时）</label>
+        <input id="commute" placeholder=""/>
+    </div>
+
+    <div class="input-box">
+        <label for="ide-hour">摸鱼时长（不干活+吃饭+午休）</label>
+        <input id="ide-hour" placeholder=""/>
+    </div>
+    <div class="content-box">
+        <h2 class="title">学历</h2>
+        <ul class="check-list">
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="0.8">专科及以下</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1">普通本科</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.2">高级本科</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.4">普通硕士</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.6">高级硕士</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.8">普通博士</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="2.0">高级博士</span>
+            </li>
+        </ul>
+    </div>
+    <div class="content-box">
+        <h2 class="title">工作环境</h2>
+        <ul class="check-list">
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="0.8">偏僻地区</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="0.9">工厂户外</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.0">普通</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.1">体制内</span>
+            </li>
+        </ul>
+    </div>
+    <div class="content-box">
+        <h2 class="title">异性环境</h2>
+        <ul class="check-list">
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="0.9">没有</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.0">不多不少</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.1">很多</span>
+            </li>
+        </ul>
+    </div>
+    <div class="content-box">
+        <h2 class="title">同事环境</h2>
+        <ul class="check-list">
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="0.95">SB很多</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.0">普通很多</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.05">优秀很多</span>
+            </li>
+        </ul>
+    </div>
+    <div class="content-box">
+        <h2 class="title">职业资格</h2>
+        <ul class="check-list">
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.0">无要求、二级</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.05">建造、造价、监理</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.1">建筑岩土结构</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.15">主任医师、教授</span>
+            </li>
+        </ul>
+    </div>
+    <div class="content-box">
+        <h2 class="title">是否8:30前上班</h2>
+        <ul class="check-list">
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="0.95">是</span>
+            </li>
+            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                <span class="list-inner" data-value="1.0">否</span>
+            </li>
+        </ul>
+    </div>
+    <button class="submit-button">开始测算</button>
 </div>
-
-
-<section class="hero-area-v3">
-    <div class="container">
-        <div class="row align-items-end justify-content-lg-between justify-content-center">
-            <div class="col-lg-6 col-md-8">
-                <div class="hero-content">
-                    <h1 class="hero-title wow fadeInLeft" data-wow-delay="0.3s"
-                        style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
-                        这班 <br> 值不值得上 <br> <span>测算版</span> 。
-                    </h1>
-                    <p class="wow fadeInLeft" data-wow-delay="0.4s"
-                       style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
-                        This shift is not worth the mountain calculation version.
-                    </p>
-                    <ul class="hero-btns d-flex align-items-center wow fadeInLeft" data-wow-delay="0.5s"
-                        style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInLeft;">
-                        <li>
-                            <a href="services.html" class="template-btn secondary-2-bg shadow-none">
-                                开始测评
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-8 d-none d-sm-block">
-                <div class="hero-img wow fadeInUp animated" data-wow-delay="0.5s"
-                     style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
-                    <img src="static/picture/hero-mobile-on-hand.png" alt="Hero">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="hero-particle">
-        <img src="static/picture/particle-8.png" alt="#" class="particle-1 animate-rotate-me">
-        <img src="static/picture/particle-9.png" alt="#" class="particle-2 animate-zoom-fade">
-    </div>
-</section>
-
-
-<section class="collaborate-section bg-grey-color section-one-third-right-map">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10">
-                <div class="sign-in-up-wrapper">
-                        <div class="form-groups">
-                            <h4 class="form-title">Log In To Your Account</h4>
-                            <div class="field-group">
-                                <input type="text" placeholder="Username">
-                            </div>
-                            <div class="field-group">
-                                <input type="number" placeholder="Password">
-                            </div>
-                            <div class="field-group">
-                                <button type="submit">Log In</button>
-                            </div>
-                        </div>
-                        <div class="form-note">
-                            <p>New to Landio? <a href="sign-up.html">Sign Up</a></p>
-                        </div>
-                </div>
-            </div>
-        </div>
-        <div class="row align-items-end justify-content-lg-between justify-content-center">
-
-            <div class="col-xl-5 col-lg-6 col-md-9 col-sm-11 offset-xl-1">
-                <div class="m-b-60">
-                    <div class="common-heading title-line-bottom">
-                        <h2 class="title">学历&ZeroWidthSpace;&ZeroWidthSpace;</h2>
-                        <img src="static/picture/title-line-2.png" alt="Image" class="Line">
-                    </div>
-
-                    <ul class="fancy-check-list-v2 color-heading-3 m-t-20">
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="0.8">专科及以下</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1">普通本科</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.2">高级本科</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.4">普通硕士</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.6">高级硕士</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.8">普通博士</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="2.0">高级博士</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-xl-5 col-lg-6 col-md-9 col-sm-11 offset-xl-1">
-                <div class="m-b-60">
-                    <div class="common-heading title-line-bottom">
-                        <h2 class="title">工作环境&ZeroWidthSpace;&ZeroWidthSpace;</h2>
-                        <img src="static/picture/title-line-2.png" alt="Image" class="Line">
-                    </div>
-                    <ul class="fancy-check-list-v2 color-heading-3 m-t-20">
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="0.8">偏僻地区</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="0.9">工厂户外</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.0">普通</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.1">体制内</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-xl-5 col-lg-6 col-md-9 col-sm-11 offset-xl-1">
-                <div class="m-b-60">
-                    <div class="common-heading title-line-bottom">
-                        <h2 class="title">异性环境系数&ZeroWidthSpace;&ZeroWidthSpace;</h2>
-                        <img src="static/picture/title-line-2.png" alt="Image" class="Line">
-                    </div>
-                    <ul class="fancy-check-list-v2 color-heading-3 m-t-20">
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="0.9">没有</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.0">不多不少</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.1">很多</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-xl-5 col-lg-6 col-md-9 col-sm-11 offset-xl-1">
-                <div class="m-b-60">
-                    <div class="common-heading title-line-bottom">
-                        <h2 class="title">同事环境&ZeroWidthSpace;&ZeroWidthSpace;</h2>
-                        <img src="static/picture/title-line-2.png" alt="Image" class="Line">
-                    </div>
-                    <ul class="fancy-check-list-v2 color-heading-3 m-t-20">
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="0.95">SB很多</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.0">普通很多</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.05">优秀很多</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-xl-5 col-lg-6 col-md-9 col-sm-11 offset-xl-1">
-                <div class="m-b-60">
-                    <div class="common-heading title-line-bottom">
-                        <h2 class="title">职业资格&ZeroWidthSpace;&ZeroWidthSpace;</h2>
-                        <img src="static/picture/title-line-2.png" alt="Image" class="Line">
-                    </div>
-                    <ul class="fancy-check-list-v2 color-heading-3 m-t-20">
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.0">无要求、二级</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.05">建造、造价、监理</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.1">建筑岩土结构</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.15">主任医师、教授</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-xl-5 col-lg-6 col-md-9 col-sm-11 offset-xl-1">
-                <div class="m-b-60">
-                    <div class="common-heading title-line-bottom">
-                        <h2 class="title">是否8:30前上班&ZeroWidthSpace;&ZeroWidthSpace;</h2>
-                        <img src="static/picture/title-line-2.png" alt="Image" class="Line">
-                    </div>
-                    <ul class="fancy-check-list-v2 color-heading-3 m-t-20">
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="0.95">是</span>
-                        </li>
-                        <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                            <span class="list-inner" data-value="1.0">否</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="pricing-area p-t-130 p-b-130">
-    <div class="container">
-        <div class="row justify-content-lg-between justify-content-center">
-            <div class="col-xl-4 col-lg-5 col-md-8">
-                <div class="common-heading m-b-30">
-                    <h2 class="title">Choose The Best Package For Your Applications</h2>
-                    <img src="static/picture/title-line-2.png" alt="Image" class="Line">
-                </div>
-
-                <p>
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremq ue laudante
-                    totam rem aperiam
-                </p>
-
-                <div class="row counter-items-v2 m-b-md-60">
-                    <div class="col-md-6">
-                        <div class="counter-item m-t-60 wow fadeInUp" data-wow-delay="0.3s"
-                             style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
-                            <div class="counter-wrap">
-                                <span class="counter">35</span>
-                                <span class="suffix"><i class="far fa-plus"></i></span>
-                            </div>
-                            <p class="title">
-                                Download Apps
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="counter-item m-t-60 wow fadeInUp" data-wow-delay="0.3s"
-                             style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
-                            <div class="counter-wrap">
-                                <span class="counter">75</span>
-                                <span class="suffix"><i class="far fa-plus"></i></span>
-                            </div>
-                            <p class="title">
-                                Project Complete
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-
-<a href="#" class="back-to-top" id="scroll-top">
-    <i class="far fa-angle-up"></i>
-</a>
-
-
-<script src="static/js/jquery-3.6.0.min.js"></script>
-
-<script src="static/js/bootstrap.min.js"></script>
-
-<script src="static/js/slick.min.js"></script>
-
-<script src="static/js/jquery.magnific-popup.min.js"></script>
-
-<script src="static/js/isotope.pkgd.min.js"></script>
-
-<script src="static/js/jquery.inview.min.js"></script>
-
-<script src="static/js/jquery.nice-select.min.js"></script>
-
-<script src="static/js/wow.min.js"></script>
-
-<script src="static/js/main.js"></script>
-
-
 </body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<!--====== Bootstrap ======-->
+<script>
+    $(function () {
+        $(".content-box .check-list .wow").click(function () {
+            console.log($(this).siblings())
+            if ($(this).hasClass("active")) {
+                $(this).removeClass("active")
+                return
+            }
+            $(this).addClass("active")
+            console.log(this, '-e')
+        })
+        $("#submit").click(function () {
+            $.ajax({
+                url: "/api/v1/quality-work",
+                type: "POST",
+                data: JSON.stringify({
+                    "average_daily_salary": 850,
+                    "colleague_environment": 1.05,
+                    "commuting_hours": 1.5,
+                    "education_coefficient": 1.2,
+                    "idle_duration": 1,
+                    "opposite_sex": 1.3,
+                    "professional_qualifications": 1,
+                    "work_environment_coefficient": 0.8,
+                    "work_time": 0.95,
+                    "working_hours": 6.0
+                }),
+                dateType: "json",
+                error: function (error) {
+                    // $.toast(error.responseJSON.message)
+                },
+                success: function (data) {
+                    $("#percent").text(data.data.percent)
+                    $("#result").text(data.data.result)
+                },
+                complete: function () {
+                }
+            })
+        })
+    })
+</script>
 </html>
