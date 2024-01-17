@@ -217,6 +217,27 @@ paths:
             $ref: '#/definitions/{}'
         "403":
           description: body is empty
+  /v1/mock/getByPath:
+    get:
+      tags:
+      - v1/mock
+      description: |-
+        获取mock 接口详情
+        <br>
+      operationId: MockController.跟据path获取mock 接口详情
+      parameters:
+      - in: query
+        name: path
+        description: 要查詢的path
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.MockController'
+        "403":
+          description: :id is empty
   /v1/mock/getList:
     get:
       tags:

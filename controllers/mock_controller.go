@@ -99,6 +99,27 @@ func (c *MockController) GetOne() {
 	utils.RequestOutInput(c.Ctx, 200, 200200, *data, "查找成功")
 }
 
+// GetByPath ...
+// @Title 跟据path获取mock 接口详情
+// @Description 获取mock 接口详情
+// @Param	path		query 	string	true		"要查詢的path"
+// @Success 200 {object} models.MockController
+// @Failure 403 :id is empty
+// @router /getByPath [get]
+func (c *MockController) GetByPath() {
+	path := c.Ctx.Input.Query("path")
+	if len(path) == 0 {
+		utils.RequestOutInput(c.Ctx, 400, 400400, "path不能為空", "参数错误")
+		return
+	}
+	data, findError := models.GetMockByPath(path)
+	if findError != nil {
+		utils.RequestOutInput(c.Ctx, 400, 400400, nil, findError.Error())
+		return
+	}
+	utils.RequestOutInput(c.Ctx, 200, 200200, *data, "查找成功")
+}
+
 // GetAll ...
 // @Title 获取全部的mock api 接口
 // @Description get MockController

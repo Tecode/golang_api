@@ -99,6 +99,15 @@ func init() {
 
 	beego.GlobalControllerRouter["golang_apiv2/controllers:MockController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:MockController"],
 		beego.ControllerComments{
+			Method:           "GetByPath",
+			Router:           `/getByPath`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["golang_apiv2/controllers:MockController"] = append(beego.GlobalControllerRouter["golang_apiv2/controllers:MockController"],
+		beego.ControllerComments{
 			Method:           "GetAll",
 			Router:           `/getList`,
 			AllowHTTPMethods: []string{"get"},
