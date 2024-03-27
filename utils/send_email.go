@@ -36,7 +36,7 @@ func SendCaptchaCode(email string, ip string) error {
 // SendEmail 发送邮件
 func SendEmail(email string, emailHeader string, emailContent string) error {
 	m := gomail.NewMessage()
-	m.SetHeader("From", "283731869@qq.com")
+	m.SetHeader("From", "haoxuan1009@foxmail.com")
 	m.SetHeader("To", email)
 	m.SetHeader("Subject", emailHeader)
 	m.SetBody("text/html", emailContent)
